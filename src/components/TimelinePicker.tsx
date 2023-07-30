@@ -1,5 +1,6 @@
 import type { TimelineItem, TimelineOptions } from 'vis-timeline/types';
 import Timeline from 'react-lms-vis-timeline';
+import { useEffect, useRef } from 'react';
 
 const TimelinePicker = () => {
   const items: TimelineItem[] = [{
@@ -24,32 +25,39 @@ const TimelinePicker = () => {
     duration,
     1000 * 60 * 60 * 24, // 1 day
   );
-  const min = new Date(firstInteraction.getTime() - clampedDuration * 0.02);
-  const max = new Date(lastInteraction.getTime() + clampedDuration * 0.02);
+  const min = new Date(firstInteraction.getTime() - clampedDuration * 0.05);
+  const max = new Date(Date.now() + clampedDuration * 0.05);
 
   const options: TimelineOptions = {
     min,
     max,
     width: '100%',
-    // height: '60px',
-    // stack: false,
+    height: '150px',
     showMajorLabels: true,
     showCurrentTime: true,
     zoomMin: 10000000,
-    // type: 'background',
     format: {
       minorLabels: {
         minute: 'h:mma',
         hour: 'ha'
       }
-    }
+    },
+    onAdd: (item) => console.log(item)
   }
+
+  const timelineRef = useRef<Timeline>(null)
+
+  useEffect(() => {
+    setTimeout(() => {
+      timelineRef.current?.forceUpdate()
+    }, 5000);
+  }, [timelineRef])
 
   return (
     <div className='w-[800px]'>
       <Timeline
+        ref={timelineRef}
         initialItems={items}
-        currentTime={Date.now()}
         options={options}
       />
     </div>

@@ -4,10 +4,11 @@ import { Timeline, type TimelineItem, type TimelineOptions } from 'vis-timeline/
 import 'vis-timeline/styles/vis-timeline-graph2d.css';
 import './TimelinePicker.css'
 
-const MAX_ITEMS = 1_000;
+const MAX_ITEMS = 500;
 
 interface Props {
   items: TimelineItem[],
+  line?: Date,
   onSelect?: (item?: number) => void,
   onDeselect?: () => void,
 }
@@ -77,23 +78,37 @@ const TimelinePicker = (props: Props) => {
       end: Date,
       byUser: boolean,
     }
+    const itemCount = items.length
+    const globalRatio = itemCount / MAX_ITEMS
     const trimRange = (properties: RangeChangedProperties) => {
       // console.log('trimming range', properties)
       const { start, end, byUser } = properties;
       if (!byUser) return;
+
+      const beforeRangeItemsFiltered = items.filter((item, i) => {
+        const itemStartTime = (item.start as Date).getTime()
+        return itemStartTime < start.getTime() && i % Math.ceil(globalRatio) === 0;
+      });
       const inRangeItems = items.filter((item) => {
         const itemStartTime = (item.start as Date).getTime()
         return itemStartTime >= start.getTime() && itemStartTime <= end.getTime();
       });
-      const inRangeCount = inRangeItems.length
+      const inRangeCount = inRangeItems.length;
+      const afterRangeItemsFiltered = items.filter((item, i) => {
+        const itemStartTime = (item.start as Date).getTime()
+        return itemStartTime > end.getTime() && i % Math.ceil(globalRatio) === 0;
+      });
+      
+      const inRangeRatio = inRangeCount / MAX_ITEMS
       if (inRangeCount > MAX_ITEMS) {
-        const ratio = inRangeCount / MAX_ITEMS
-        const filteredItems = inRangeItems.filter((_, i) => i % Math.ceil(ratio) === 0)
-        timeline.setItems(filteredItems)
-        console.log('filtered items', filteredItems.length, inRangeCount)
+        const filteredItems = inRangeItems.filter((_, i) => i % Math.ceil(inRangeRatio) === 0)
+        const renderItems = [...beforeRangeItemsFiltered, ...filteredItems, ...afterRangeItemsFiltered]
+        timeline.setItems(renderItems)
+        console.log('filtered items', renderItems.length, inRangeCount)
       } else {
-        timeline.setItems(items)
-        console.log('all items', items.length, inRangeCount)
+        const renderItems = [...beforeRangeItemsFiltered, ...inRangeItems, ...afterRangeItemsFiltered]
+        timeline.setItems(renderItems)
+        console.log('all items', renderItems.length, inRangeCount)
       }
     }
     trimRange({
@@ -102,7 +117,7 @@ const TimelinePicker = (props: Props) => {
       byUser: true,
     })
     timeline.fit()
-    timeline.on('rangechanged', debounce(trimRange, 20))
+    timeline.on('rangechanged', trimRange)
     setTimeline(timeline)
     
     console.log('setup complete')

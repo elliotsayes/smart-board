@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { throttle } from 'throttle-debounce'
 import { Timeline, type TimelineItem, type TimelineOptions } from 'vis-timeline/esnext';
 import 'vis-timeline/styles/vis-timeline-graph2d.css';
 import './TimelinePicker.css'
@@ -7,7 +8,7 @@ const MAX_ITEMS = 500;
 
 interface Props {
   items: TimelineItem[],
-  line?: Date,
+  // line?: Date,
   onSelect?: (item?: number) => void,
   onDeselect?: () => void,
 }
@@ -61,6 +62,7 @@ const TimelinePicker = (props: Props) => {
     console.log('setting up')
 
     const timeline = new Timeline(timelineDivRef.current!, [], options)
+
     type SelectProperties = {
       items: number[];
     }
@@ -116,7 +118,8 @@ const TimelinePicker = (props: Props) => {
       byUser: true,
     })
     timeline.fit()
-    timeline.on('rangechanged', trimRange)
+    // timeline.on('rangechanged', trimRange)
+    timeline.on('rangechange', throttle(500, trimRange, { noTrailing: false }))
     setTimeline(timeline)
     
     console.log('setup complete')

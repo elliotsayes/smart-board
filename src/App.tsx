@@ -4,7 +4,7 @@ import TimelinePicker from './components/TimelinePicker'
 
 const items10k = Array.from({ length: 1_000 }, (_, i) => ({
   id: i,
-  start: new Date(1800 + Math.floor(i / (12 * 28)), (i * 28) % (12), 1 + i % 28),
+  start: new Date(2020 + Math.floor(i / (12 * 28)), (i / 28) % (12), 1 + i % 28),
   content: "",
   selectable: true,
   type: "point",

@@ -55,9 +55,8 @@ const TimelinePicker = () => {
   useEffect(() => {
     setTimeout(() => {
       timelineRef.current?.timeline.zoomOut(1)
-      timelineRef.current?.timeline.setItems(items);
-      timelineRef.current?.timeline.redraw()
-      
+      timelineRef.current?.timeline.setItems(items)
+      timelineRef.current?.timeline.redraw()  
     }, 0);
   }, [timelineRef])
 

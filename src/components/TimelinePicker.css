@@ -1,0 +1,15 @@
+.vis-item {
+  border: 0;
+}
+
+.vis-item-content {
+  display: none;
+}
+
+.vis-dot {
+  height: 6em;
+  transform: none;
+  top: -64px !important;
+  border-radius: 2px;
+  color: #4e26c9;
+}

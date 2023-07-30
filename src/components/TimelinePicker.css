@@ -11,8 +11,9 @@
   transform: none;
   top: -64px !important;
   border-radius: 2px !important;
-  border-width: 2px !important;
-  border-color: #5839b5;
+  border-width: 3px !important;
+  border-color: #8058f7;
+  opacity: 0.6;
 }
 
 .vis-selected {

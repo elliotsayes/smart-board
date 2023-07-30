@@ -89,7 +89,7 @@ const TimelinePicker = (props: Props) => {
       const selection: IdType | undefined = timeline.getSelection()[0];
       const beforeRangeItemsFiltered = items.filter((item, i) => {
         const itemStartTime = (item.start as Date).getTime()
-        return item.id == selection || (itemStartTime < start.getTime() && i % Math.ceil(globalRatio) === 0);
+        return itemStartTime < start.getTime() && (i % Math.ceil(globalRatio) === 0 || item.id == selection);
       });
       const inRangeItems = items.filter((item) => {
         const itemStartTime = (item.start as Date).getTime()
@@ -98,12 +98,12 @@ const TimelinePicker = (props: Props) => {
       const inRangeCount = inRangeItems.length;
       const afterRangeItemsFiltered = items.filter((item, i) => {
         const itemStartTime = (item.start as Date).getTime()
-        return item.id == selection || (itemStartTime > end.getTime() && i % Math.ceil(globalRatio) === 0);
+        return itemStartTime > end.getTime() && (i % Math.ceil(globalRatio) === 0 || item.id == selection);
       });
       
-      const inRangeRatio = inRangeCount / MAX_ITEMS
       if (inRangeCount > MAX_ITEMS) {
-        const filteredItems = inRangeItems.filter((item, i) => item.id == selection || (i % Math.ceil(inRangeRatio) === 0))
+        const inRangeRatio = inRangeCount / MAX_ITEMS
+        const filteredItems = inRangeItems.filter((item, i) => (i % Math.ceil(inRangeRatio) === 0) || item.id == selection)
         const renderItems = [...beforeRangeItemsFiltered, ...filteredItems, ...afterRangeItemsFiltered]
         timeline.setItems(renderItems)
         console.log('filtered items', renderItems.length, inRangeCount)

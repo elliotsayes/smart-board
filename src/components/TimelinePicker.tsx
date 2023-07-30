@@ -49,12 +49,14 @@ const TimelinePicker = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      timelineRef.current?.forceUpdate()
-    }, 5000);
+      // timelineRef.current?.forceUpdate()
+      timelineRef.current?.timeline.redraw()
+      // timelineRef.current?.timeline.fit()
+    }, 0);
   }, [timelineRef])
 
   return (
-    <div className='w-[800px]'>
+    <div className={`w-[800px] delay-75 animate-fadeIn`}>
       <Timeline
         ref={timelineRef}
         initialItems={items}

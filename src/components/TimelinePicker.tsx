@@ -4,20 +4,22 @@ import Timeline from 'react-lms-vis-timeline';
 import 'vis-timeline/styles/vis-timeline-graph2d.css';
 import './TimelinePicker.css'
 
+
+const items: TimelineItem[] = [{
+  id: 0,
+  start: new Date(2020, 0, 0),
+  content: 'Trajectory A',
+  selectable: true,
+  type: 'point',
+}, {
+  id: 1,
+  start: new Date(2023, 0, 0),
+  content: 'Trajectory B',
+  selectable: true,
+  type: 'point',
+}]
+
 const TimelinePicker = () => {
-  const items: TimelineItem[] = [{
-    id: 0,
-    start: new Date(2020, 0, 0),
-    content: 'Trajectory A',
-    selectable: true,
-    type: 'point',
-  }, {
-    id: 1,
-    start: new Date(2023, 0, 0),
-    content: 'Trajectory B',
-    selectable: true,
-    type: 'point',
-  }]
 
   const nowMs = Date.now()
   const firstInteraction = items[0].start! as Date
@@ -52,16 +54,17 @@ const TimelinePicker = () => {
 
   useEffect(() => {
     setTimeout(() => {
+      timelineRef.current?.timeline.zoomOut(1)
+      timelineRef.current?.timeline.setItems(items);
       timelineRef.current?.timeline.redraw()
-      // timelineRef.current?.forceUpdate()
-      // timelineRef.current?.timeline.redraw()
-    }, 100);
+      
+    }, 0);
   }, [timelineRef])
 
   return (
     <div className="w-[800px] delay-75 animate-fadeIn relative">
-      <div className='absolute z-50 left-0 top-0 bottom-0 w-[10%] bg-gradient-to-r from-gray-900/20 bg-blend-overlay' />
-      <div className='absolute z-50 right-0 top-0 bottom-0 w-[10%] bg-gradient-to-l from-gray-900/20 bg-blend-overlay' />
+      <div className='absolute z-50 left-0 top-0 bottom-0 w-[10%] bg-gradient-to-r from-gray-900/20 bg-blend-overlay pointer-events-none' />
+      <div className='absolute z-50 right-0 top-0 bottom-0 w-[10%] bg-gradient-to-l from-gray-900/20 bg-blend-overlay pointer-events-none' />
       <Timeline
         ref={timelineRef}
         initialItems={items}

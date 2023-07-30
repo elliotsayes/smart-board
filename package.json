@@ -15,8 +15,8 @@
     "@xstate/react": "^3.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-lms-vis-timeline": "^3.0.1",
-    "vis-timeline": "^7.7.2",
+    "react-lms-vis-timeline": "github:elliotsayes/react-vis-timeline#npm/master",
+    "vis-timeline": "7.7.2",
     "warp-contracts": "github:elliotsayes/warp#npm/history-import",
     "xstate": "^4.38.2"
   },

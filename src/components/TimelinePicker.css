@@ -17,5 +17,6 @@
 }
 
 .vis-selected {
-  border-color: #8c77cd !important;
+  border-color: #9f8adc !important;
+  opacity: 1 !important;
 }

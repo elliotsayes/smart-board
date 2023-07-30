@@ -1,61 +1,52 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Timeline, type TimelineItem, type TimelineOptions } from 'vis-timeline/esnext';
 import 'vis-timeline/styles/vis-timeline-graph2d.css';
 import './TimelinePicker.css'
 
-const items: TimelineItem[] = [{
-  id: 0,
-  start: new Date(2020, 0, 0),
-  content: '',
-  selectable: true,
-  type: 'point',
-}, {
-  id: 1,
-  start: new Date(2023, 0, 0),
-  content: '',
-  selectable: true,
-  type: 'point',
-}]
-
-const nowMs = Date.now()
-const firstInteraction = items[0].start! as Date
-// const lastInteraction = (items[items.length - 1].end ?? items[items.length - 1].start) as Date
-const duration = nowMs - firstInteraction.getTime()
-const clampedDuration = Math.max(
-  duration,
-  1000 * 60 * 60 * 24, // 1 day
-);
-const min = new Date(firstInteraction.getTime() - clampedDuration * 0.05);
-const max = new Date(nowMs + clampedDuration * 0.05);
-const options: TimelineOptions = {
-  min,
-  max,
-  width: '800px',
-  height: '150px',
-  showMajorLabels: true,
-  showCurrentTime: true,
-  zoomMin: 10000000,
-  format: {
-    minorLabels: {
-      minute: 'h:mma',
-      hour: 'ha'
-    }
-  },
-  onAdd: (item) => console.log(item),
-  zoomFriction: 5,
-}
-
 interface Props {
+  items: TimelineItem[],
   onSelect?: (item?: number) => void,
   onDeselect?: () => void,
 }
 
 const TimelinePicker = (props: Props) => {
-  const { onSelect, onDeselect } = props;
+  const { items, onSelect, onDeselect } = props;
+
+  const options: TimelineOptions = useMemo(() => {
+    const nowMs = Date.now()
+    const firstInteraction = items[0].start! as Date
+    // const lastInteraction = (items[items.length - 1].end ?? items[items.length - 1].start) as Date
+    const duration = nowMs - firstInteraction.getTime()
+    const clampedDuration = Math.max(
+      duration,
+      1000 * 60 * 60 * 24, // 1 day
+    );
+    const min = new Date(firstInteraction.getTime() - clampedDuration * 0.05);
+    const max = new Date(nowMs + clampedDuration * 0.05);
+    return {
+      min,
+      max,
+      stack: false,
+      width: '100%',
+      height: '150px',
+      showMajorLabels: true,
+      showCurrentTime: true,
+      zoomMin: 10000000,
+      format: {
+        minorLabels: {
+          minute: 'h:mma',
+          hour: 'ha'
+        }
+      },
+      onAdd: (item) => console.log(item),
+      zoomFriction: 5,
+    }
+  }, [items]);
 
   const timelineDivRef = useRef<HTMLDivElement>(null);
   const loadRef = useRef(false);
   const setupRef = useRef(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setTimeline] = useState<Timeline | null>(null)
 
   useEffect(() => {
@@ -92,10 +83,10 @@ const TimelinePicker = (props: Props) => {
       timeline.destroy()
       setupRef.current = false
     }
-  }, [onSelect, onDeselect])
+  }, [items, options, onSelect, onDeselect])
 
   return (
-    <div className="w-[800px] delay-75 animate-fadeIn relative">
+    <div className="w-[1000px] delay-75 animate-fadeIn relative">
       <div className='absolute z-50 left-0 top-0 bottom-0 w-[10%] bg-gradient-to-r from-gray-900/20 bg-blend-overlay pointer-events-none' />
       <div className='absolute z-50 right-0 top-0 bottom-0 w-[10%] bg-gradient-to-l from-gray-900/20 bg-blend-overlay pointer-events-none' />
       <div ref={timelineDivRef} />

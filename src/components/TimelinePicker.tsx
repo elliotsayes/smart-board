@@ -69,6 +69,7 @@ const TimelinePicker = (props: Props) => {
       }
     })
     timeline.fit()
+    // timeline.getVisibleItems()
     setTimeline(timeline)
     // timeline.zoomOut(1)
     // timeline.redraw()

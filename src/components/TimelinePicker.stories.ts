@@ -22,6 +22,29 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+// More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
+export const ZeroItems: Story = {
+  args: {
+    items: [],
+  },
+};
+
+const oneItem: TimelineItem[] = [
+  {
+    id: 0,
+    start: new Date(2012, 0, 1),
+    content: "",
+    type: "point",
+  },
+];
+
+// More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
+export const OneItem: Story = {
+  args: {
+    items: oneItem,
+  },
+};
+
 const items100: TimelineItem[] = Array.from({ length: 100 }, (_, i) => ({
   id: i,
   start: new Date(2010 + Math.floor(i / 12), i % 12, 1),

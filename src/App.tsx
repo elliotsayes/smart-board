@@ -1,10 +1,12 @@
+import { TimelineItem } from 'vis-timeline';
 import './App.css'
 import TimelinePicker from './components/TimelinePicker'
+import { ardrive } from './fixtures/timestamps';
 // import TimelineTest from './components/TimelineTest'
 
-const items10k = Array.from({ length: 1_000 }, (_, i) => ({
+const itemsArdrive: TimelineItem[] = ardrive.map((ts, i) => ({
   id: i,
-  start: new Date(2020 + Math.floor(i / (12 * 28)), (i / 28) % (12), 1 + i % 28),
+  start: new Date(ts * 1000),
   content: "",
   selectable: true,
   type: "point",
@@ -14,7 +16,7 @@ function App() {
   return (
     <div>
       <TimelinePicker
-        items={items10k}
+        items={itemsArdrive}
         onSelect={(i) => console.log('Selected', i)}
         onDeselect={() => console.log('Deselected')}
       />

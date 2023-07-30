@@ -89,7 +89,7 @@ const TimelinePicker = (props: Props) => {
       const selection: IdType | undefined = timeline.getSelection()[0];
       const beforeRangeItemsFiltered = items.filter((item, i) => {
         const itemStartTime = (item.start as Date).getTime()
-        return itemStartTime < start.getTime() && (i % Math.ceil(globalRatio) === 0 || item.id == selection);
+        return itemStartTime < start.getTime() && (i % Math.ceil(globalRatio) === 0)// || item.id == selection);
       });
       const inRangeItems = items.filter((item) => {
         const itemStartTime = (item.start as Date).getTime()
@@ -98,12 +98,12 @@ const TimelinePicker = (props: Props) => {
       const inRangeCount = inRangeItems.length;
       const afterRangeItemsFiltered = items.filter((item, i) => {
         const itemStartTime = (item.start as Date).getTime()
-        return itemStartTime > end.getTime() && (i % Math.ceil(globalRatio) === 0 || item.id == selection);
+        return itemStartTime > end.getTime() && (i % Math.ceil(globalRatio) === 0)// || item.id == selection);
       });
-      
+
       if (inRangeCount > MAX_ITEMS) {
         const inRangeRatio = inRangeCount / MAX_ITEMS
-        const filteredItems = inRangeItems.filter((item, i) => (i % Math.ceil(inRangeRatio) === 0) || item.id == selection)
+        const filteredItems = inRangeItems.filter((item, i) => (i % Math.ceil(inRangeRatio) === 0))// || item.id == selection)
         const renderItems = [...beforeRangeItemsFiltered, ...filteredItems, ...afterRangeItemsFiltered]
         timeline.setItems(renderItems)
         console.log('filtered items', renderItems.length, inRangeCount)
@@ -120,7 +120,7 @@ const TimelinePicker = (props: Props) => {
     })
     timeline.fit()
     // timeline.on('rangechanged', trimRange)
-    timeline.on('rangechange', throttle(500, trimRange, { noTrailing: false }))
+    timeline.on('rangechange', throttle(250, trimRange, { noTrailing: false }))
     setTimeline(timeline)
     
     console.log('setup complete')
@@ -129,6 +129,7 @@ const TimelinePicker = (props: Props) => {
 
     return () => {
       console.log('destroying')
+      timeline.off('rangechange')
       timeline.off('select')
       timeline.destroy()
       setupRef.current = false

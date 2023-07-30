@@ -14,7 +14,6 @@
   "dependencies": {
     "@types/debounce": "^1.2.1",
     "@xstate/react": "^3.2.2",
-    "debounce": "^1.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "vis-timeline": "^7.7.2",

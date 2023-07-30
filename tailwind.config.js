@@ -7,11 +7,12 @@ export default {
   theme: {
     extend: {
       animation: {
-        fadeIn: "fadeIn 1s ease-in-out",
+        "fade-in": "fade-in 2s ease-in-out",
       },
       keyframes: {
-        fadeIn: {
+        "fade-in": {
           "0%": { opacity: 0 },
+          "25%": { opacity: 0 },
           "100%": { opacity: 1 },
         },
       },

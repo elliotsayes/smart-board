@@ -1,7 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import debounce from 'debounce';
 import { Timeline, type TimelineItem, type TimelineOptions } from 'vis-timeline/esnext';
 import 'vis-timeline/styles/vis-timeline-graph2d.css';
 import './TimelinePicker.css'
+
+const MAX_ITEMS = 1_000;
 
 interface Props {
   items: TimelineItem[],
@@ -57,7 +60,7 @@ const TimelinePicker = (props: Props) => {
     loadRef.current = true;
     console.log('setting up')
 
-    const timeline = new Timeline(timelineDivRef.current!, items, options)
+    const timeline = new Timeline(timelineDivRef.current!, [], options)
     type SelectProperties = {
       items: number[];
     }
@@ -68,11 +71,39 @@ const TimelinePicker = (props: Props) => {
         onSelect?.(properties.items[0])
       }
     })
+
+    type RangeChangedProperties = {
+      start: Date,
+      end: Date,
+      byUser: boolean,
+    }
+    const trimRange = (properties: RangeChangedProperties) => {
+      // console.log('trimming range', properties)
+      const { start, end, byUser } = properties;
+      if (!byUser) return;
+      const inRangeItems = items.filter((item) => {
+        const itemStartTime = (item.start as Date).getTime()
+        return itemStartTime >= start.getTime() && itemStartTime <= end.getTime();
+      });
+      const inRangeCount = inRangeItems.length
+      if (inRangeCount > MAX_ITEMS) {
+        const ratio = inRangeCount / MAX_ITEMS
+        const filteredItems = inRangeItems.filter((_, i) => i % Math.ceil(ratio) === 0)
+        timeline.setItems(filteredItems)
+        console.log('filtered items', filteredItems.length, inRangeCount)
+      } else {
+        timeline.setItems(items)
+        console.log('all items', items.length, inRangeCount)
+      }
+    }
+    trimRange({
+      start: options.min as Date,
+      end: options.max as Date,
+      byUser: true,
+    })
     timeline.fit()
-    // timeline.getVisibleItems()
+    timeline.on('rangechanged', debounce(trimRange, 20))
     setTimeline(timeline)
-    // timeline.zoomOut(1)
-    // timeline.redraw()
     
     console.log('setup complete')
     setupRef.current = true;
@@ -87,7 +118,7 @@ const TimelinePicker = (props: Props) => {
   }, [items, options, onSelect, onDeselect])
 
   return (
-    <div className="w-[1000px] delay-75 animate-fadeIn relative">
+    <div className="w-[1000px] animate-fade-in relative">
       <div className='absolute z-50 left-0 top-0 bottom-0 w-[10%] bg-gradient-to-r from-gray-900/20 bg-blend-overlay pointer-events-none' />
       <div className='absolute z-50 right-0 top-0 bottom-0 w-[10%] bg-gradient-to-l from-gray-900/20 bg-blend-overlay pointer-events-none' />
       <div ref={timelineDivRef} />

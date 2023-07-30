@@ -9,10 +9,11 @@ type Props = Pick<
   'src'
 >
 
-const ContractHeader = ({txId, srcTxId, contractType, src}: Props) => {
+const ContractHeader = ({owner, txId, srcTxId, contractType, src}: Props) => {
   return (
     <div className='border-2 border-gray-500 p-4'>
       <h1>Contract</h1>
+      <p>owner: {owner}</p>
       <p>txId: {txId}</p>
       <p>srcTxId: {srcTxId}</p>
       <p>contractType: {contractType}</p>

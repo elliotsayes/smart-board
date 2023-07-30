@@ -1,4 +1,4 @@
-.vis-item {
+.vis-point {
   border: 0;
 }
 
@@ -10,6 +10,11 @@
   height: 6em;
   transform: none;
   top: -64px !important;
-  border-radius: 2px;
-  color: #4e26c9;
+  border-radius: 2px !important;
+  border-width: 2px !important;
+  border-color: #5839b5;
+}
+
+.vis-selected {
+  border-color: #8c77cd !important;
 }

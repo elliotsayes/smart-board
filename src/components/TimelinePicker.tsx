@@ -92,7 +92,7 @@ const TimelinePicker = (props: Props) => {
       timeline.destroy()
       setupRef.current = false
     }
-  }, [])
+  }, [onSelect, onDeselect])
 
   return (
     <div className="w-[800px] delay-75 animate-fadeIn relative">

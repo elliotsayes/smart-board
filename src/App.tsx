@@ -5,7 +5,10 @@ import TimelinePicker from './components/TimelinePicker'
 function App() {
   return (
     <div>
-      <TimelinePicker onSelect={(i) => console.log('Selected', i)} />
+      <TimelinePicker
+        onSelect={(i) => console.log('Selected', i)}
+        onDeselect={() => console.log('Deselected')}
+      />
     </div>
   )
 }

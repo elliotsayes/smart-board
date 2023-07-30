@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { throttle } from 'throttle-debounce'
-import { Timeline, type TimelineItem, type TimelineOptions } from 'vis-timeline/esnext';
+import { IdType, Timeline, type TimelineItem, type TimelineOptions } from 'vis-timeline/esnext';
 import 'vis-timeline/styles/vis-timeline-graph2d.css';
 import './TimelinePicker.css'
 
@@ -86,9 +86,10 @@ const TimelinePicker = (props: Props) => {
       const { start, end, byUser } = properties;
       if (!byUser) return;
 
+      const selection: IdType | undefined = timeline.getSelection()[0];
       const beforeRangeItemsFiltered = items.filter((item, i) => {
         const itemStartTime = (item.start as Date).getTime()
-        return itemStartTime < start.getTime() && i % Math.ceil(globalRatio) === 0;
+        return item.id == selection || (itemStartTime < start.getTime() && i % Math.ceil(globalRatio) === 0);
       });
       const inRangeItems = items.filter((item) => {
         const itemStartTime = (item.start as Date).getTime()
@@ -97,12 +98,12 @@ const TimelinePicker = (props: Props) => {
       const inRangeCount = inRangeItems.length;
       const afterRangeItemsFiltered = items.filter((item, i) => {
         const itemStartTime = (item.start as Date).getTime()
-        return itemStartTime > end.getTime() && i % Math.ceil(globalRatio) === 0;
+        return item.id == selection || (itemStartTime > end.getTime() && i % Math.ceil(globalRatio) === 0);
       });
       
       const inRangeRatio = inRangeCount / MAX_ITEMS
       if (inRangeCount > MAX_ITEMS) {
-        const filteredItems = inRangeItems.filter((_, i) => i % Math.ceil(inRangeRatio) === 0)
+        const filteredItems = inRangeItems.filter((item, i) => item.id == selection || (i % Math.ceil(inRangeRatio) === 0))
         const renderItems = [...beforeRangeItemsFiltered, ...filteredItems, ...afterRangeItemsFiltered]
         timeline.setItems(renderItems)
         console.log('filtered items', renderItems.length, inRangeCount)

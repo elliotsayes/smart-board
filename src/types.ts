@@ -17,3 +17,11 @@ export type ContractStateHistory = ContractState[];
 export type ContractInteraction = GQLNodeInterface;
 
 export type ContractInteractionHistory = ContractInteraction[];
+
+export type ContractDataFull = {
+  meta: ContractMeta;
+  intialState: ContractState;
+  latestState: ContractState;
+  interactionHistory: ContractInteractionHistory;
+  stateHistory: ContractStateHistory;
+};

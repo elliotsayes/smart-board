@@ -1,14 +1,10 @@
 import { createMachine, assign } from "xstate";
-import {
-  ContractInteractionHistory,
-  ContractMeta,
-  ContractState,
-  ContractStateHistory,
-} from "../types";
+import { ContractDataFull } from "../types";
 
 type Context = {
   initialContractId?: string;
   selectedContractId?: string;
+  contractData: Partial<ContractDataFull>;
 };
 
 type Events =
@@ -26,13 +22,7 @@ type Events =
     }
   | {
       type: "Data Available";
-      data: {
-        meta?: ContractMeta;
-        initialState?: ContractState;
-        currentState?: ContractState;
-        interactionHistory?: ContractInteractionHistory;
-        stateHistory?: ContractStateHistory;
-      };
+      data: Partial<ContractDataFull>;
     };
 
 export const contractManagerMachine = (initialContractId?: string) =>
@@ -52,6 +42,7 @@ export const contractManagerMachine = (initialContractId?: string) =>
       context: {
         initialContractId,
         selectedContractId: undefined,
+        contractData: {},
       },
 
       initial: "Initial",

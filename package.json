@@ -18,7 +18,7 @@
     "react-dom": "^18.2.0",
     "throttle-debounce": "^5.0.0",
     "vis-timeline": "^7.7.2",
-    "warp-contracts": "github:elliotsayes/warp#npm/history-import",
+    "warp-contracts": "github:elliotsayes/warp#npm/history-fix",
     "xstate": "^4.38.2"
   },
   "devDependencies": {

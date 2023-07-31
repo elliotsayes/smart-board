@@ -24,8 +24,8 @@ dependencies:
     specifier: ^7.7.2
     version: 7.7.2(@egjs/hammerjs@2.0.17)(component-emitter@1.3.0)(keycharm@0.4.0)(moment@2.29.4)(propagating-hammerjs@2.0.1)(uuid@9.0.0)(vis-data@7.1.6)(vis-util@5.0.3)(xss@1.0.14)
   warp-contracts:
-    specifier: github:elliotsayes/warp#npm/history-import
-    version: github.com/elliotsayes/warp/edd6b2698796b0628d3b6ac9709947bd9157335d
+    specifier: github:elliotsayes/warp#npm/history-fix
+    version: github.com/elliotsayes/warp/c29c528374310ad519da23dcddd264c2c342a8d6
   xstate:
     specifier: ^4.38.2
     version: 4.38.2
@@ -9028,8 +9028,8 @@ packages:
       readable-stream: 3.6.2
     dev: false
 
-  github.com/elliotsayes/warp/edd6b2698796b0628d3b6ac9709947bd9157335d:
-    resolution: {tarball: https://codeload.github.com/elliotsayes/warp/tar.gz/edd6b2698796b0628d3b6ac9709947bd9157335d}
+  github.com/elliotsayes/warp/c29c528374310ad519da23dcddd264c2c342a8d6:
+    resolution: {tarball: https://codeload.github.com/elliotsayes/warp/tar.gz/c29c528374310ad519da23dcddd264c2c342a8d6}
     name: warp-contracts
     version: 1.4.14
     engines: {node: '>=16.8'}

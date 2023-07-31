@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { throttle } from 'throttle-debounce'
-import { IdType, Timeline, type TimelineItem, type TimelineOptions } from 'vis-timeline/esnext';
+import { DateType, IdType, Timeline, type TimelineItem, type TimelineOptions } from 'vis-timeline/esnext';
+import { utcMs } from '../utils/time';
 import Moment from 'moment';
 import 'vis-timeline/styles/vis-timeline-graph2d.css';
 import './TimelinePicker.css'
@@ -19,23 +20,22 @@ const TimelinePicker = (props: Props) => {
 
   const options: TimelineOptions = useMemo(() => {
     const nowMs = Date.now()
-    const firstInteraction = items[0].start! as Date
+    const firstInteractionMs = items[0].start! as number
     // const lastInteraction = (items[items.length - 1].end ?? items[items.length - 1].start) as Date
-    const duration = nowMs - firstInteraction.getTime()
-    const clampedDuration = Math.max(
-      duration,
+    const durationMs = nowMs - firstInteractionMs
+    const clampedDurationMs = Math.max(
+      durationMs,
       1000 * 60 * 60 * 24, // 1 day
     );
-    const min = new Date(firstInteraction.getTime() - clampedDuration * 0.05);
-    const max = new Date(nowMs + clampedDuration * 0.05);
+    const min = firstInteractionMs - clampedDurationMs * 0.05;
+    const max = nowMs + clampedDurationMs * 0.05;
     return {
-      min,
-      max,
+      min: min,
+      max: max,
       stack: false,
       width: '100%',
       height: '150px',
       showMajorLabels: true,
-      showCurrentTime: true,
       zoomMin: 10000000,
       format: {
         minorLabels: {
@@ -45,6 +45,7 @@ const TimelinePicker = (props: Props) => {
       },
       onAdd: (item) => console.log(item),
       zoomFriction: 5,
+      showCurrentTime: true,
       // TODO: Check that this is correct
       moment: function (date: Moment.MomentInput) {
         return Moment(date).utc();
@@ -75,6 +76,7 @@ const TimelinePicker = (props: Props) => {
     console.log('setting up')
 
     const timeline = new Timeline(timelineDivRef.current!, [], options)
+    timeline.setCurrentTime(new Date().toUTCString())
 
     type SelectProperties = {
       items: number[];
@@ -89,20 +91,20 @@ const TimelinePicker = (props: Props) => {
     })
 
     type RangeChangedProperties = {
-      start: Date,
-      end: Date,
+      start: DateType,
+      end: DateType,
       byUser: boolean,
     }
     const trimRange = (properties: RangeChangedProperties) => {
       // console.log('trimming range', properties)
-      const { start, end, byUser } = properties;
+      const { start: rangeStart, end: rangeEnd } = properties;
 
-      const beforeRangeItemsSampled = itemsSampled.filter((item) => (item.start as Date).getTime() < start.getTime());
-      const afterRangeItemsSampled = itemsSampled.filter((item) => (item.start as Date).getTime() > end.getTime());
+      const beforeRangeItemsSampled = itemsSampled.filter((item) => utcMs(item.start) < utcMs(rangeStart));
+      const afterRangeItemsSampled = itemsSampled.filter((item) => utcMs(item.start) > utcMs(rangeEnd));
       
       const inRangeItems = items.filter((item) => {
-        const itemStartTime = (item.start as Date).getTime()
-        return itemStartTime >= start.getTime() && itemStartTime <= end.getTime();
+        const itemStartTime = utcMs(item.start);
+        return itemStartTime >= utcMs(rangeStart) && itemStartTime <= utcMs(rangeEnd);
       });
       const inRangeCount = inRangeItems.length;
 
@@ -121,8 +123,8 @@ const TimelinePicker = (props: Props) => {
       selection && timeline.setSelection([selection]) // Workaround for losing selection
     }
     trimRange({
-      start: options.min as Date,
-      end: options.max as Date,
+      start: options.min!,
+      end: options.max!,
       byUser: false,
     })
     timeline.fit()

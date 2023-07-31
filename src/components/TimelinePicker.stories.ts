@@ -32,7 +32,7 @@ export const ZeroItems: Story = {
 const oneItem: TimelineItem[] = [
   {
     id: 0,
-    start: new Date(2012, 0, 1),
+    start: Date.UTC(2012, 0, 1),
     content: "",
     type: "point",
   },
@@ -47,7 +47,7 @@ export const OneItem: Story = {
 
 const items100: TimelineItem[] = Array.from({ length: 100 }, (_, i) => ({
   id: i,
-  start: new Date(2010 + Math.floor(i / 12), i % 12, 1),
+  start: Date.UTC(2010 + Math.floor(i / 12), i % 12, 1),
   content: "",
   type: "point",
 }));
@@ -61,7 +61,7 @@ export const HundredItems: Story = {
 
 const items1k: TimelineItem[] = Array.from({ length: 1_000 }, (_, i) => ({
   id: i,
-  start: new Date(1900 + Math.floor(i / 12), i % 12, 1),
+  start: Date.UTC(1000 + Math.floor(i / 12), i % 12, 1),
   content: "",
   type: "point",
 }));
@@ -73,17 +73,17 @@ export const ThousandItems: Story = {
   },
 };
 
-// const items10k: TimelineItem[] = Array.from({ length: 10_000 }, (_, i) => ({
-//   id: i,
-//   start: new Date(1900 + Math.floor(i / 12), i % 12, 1),
-//   content: "",
-//   selectable: true,
-//   type: "point",
-// }));
+const items10k: TimelineItem[] = Array.from({ length: 10_000 }, (_, i) => ({
+  id: i,
+  start: Date.UTC(1900 + Math.floor(i / 12), i % 12, 1),
+  content: "",
+  selectable: true,
+  type: "point",
+}));
 
-// // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-// export const TenThousandItems: Story = {
-//   args: {
-//     items: items10k,
-//   },
-// };
+// More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
+export const TenThousandItems: Story = {
+  args: {
+    items: items10k,
+  },
+};

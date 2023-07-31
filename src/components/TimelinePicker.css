@@ -16,7 +16,14 @@
   opacity: 0.6;
 }
 
+.vis-dot-disabled {
+  border-color: #615b74;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
 .vis-selected {
-  border-color: #9f8adc !important;
+  border-width: 4px !important;
+  border-color: #aa8eff !important;
   opacity: 1 !important;
 }

@@ -7,8 +7,9 @@ import { ardrive } from './fixtures/timestamps';
 const itemsArdrive: TimelineItem[] = ardrive.map((ts, i) => ({
   id: i,
   start: new Date(ts * 1000),
+  className: ts % 2 === 1 && "vis-dot-disabled",
   content: "",
-  selectable: true,
+  selectable: ts % 2 === 0,
   type: "point",
 }));
 

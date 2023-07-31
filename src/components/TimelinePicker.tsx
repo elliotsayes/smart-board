@@ -56,7 +56,14 @@ const TimelinePicker = (props: Props) => {
   const loadRef = useRef(false);
   const setupRef = useRef(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, setTimeline] = useState<Timeline | null>(null)
+  const [_, setTimeline] = useState<Timeline | undefined>()
+
+  const itemsSampled = useMemo(() => {
+    console.log('sampling items')
+    const itemCount = items.length
+    const globalRatio = itemCount / MAX_ITEMS
+    return items.filter((_, i) => i % Math.ceil(globalRatio) === 0)
+  }, [items])
 
   useEffect(() => {
     if (loadRef.current || setupRef.current) {
@@ -75,7 +82,8 @@ const TimelinePicker = (props: Props) => {
       if (properties.items.length === 0) {
         onDeselect?.()
       } else {
-        onSelect?.(properties.items[0])
+        const item = properties.items[0]
+        onSelect?.(item)
       }
     })
 
@@ -84,42 +92,33 @@ const TimelinePicker = (props: Props) => {
       end: Date,
       byUser: boolean,
     }
-    const itemCount = items.length
-    const globalRatio = itemCount / MAX_ITEMS
     const trimRange = (properties: RangeChangedProperties) => {
       // console.log('trimming range', properties)
       const { start, end, byUser } = properties;
       if (!byUser) return;
 
-      const selection: IdType | undefined = timeline.getSelection()[0];
-      console.log('selection', selection)
-      const beforeRangeItemsFiltered = items.filter((item, i) => {
-        const itemStartTime = (item.start as Date).getTime()
-        return itemStartTime < start.getTime() && (i % Math.ceil(globalRatio) === 0 || item.id == selection);
-      });
+      const beforeRangeItemsSampled = itemsSampled.filter((item) => (item.start as Date).getTime() < start.getTime());
+      const afterRangeItemsSampled = itemsSampled.filter((item) => (item.start as Date).getTime() > end.getTime());
+      
       const inRangeItems = items.filter((item) => {
         const itemStartTime = (item.start as Date).getTime()
         return itemStartTime >= start.getTime() && itemStartTime <= end.getTime();
       });
       const inRangeCount = inRangeItems.length;
-      const afterRangeItemsFiltered = items.filter((item, i) => {
-        const itemStartTime = (item.start as Date).getTime()
-        return itemStartTime > end.getTime() && (i % Math.ceil(globalRatio) === 0 || item.id == selection);
-      });
 
+      const selection = timeline.getSelection()[0] as IdType | undefined;
+      let renderItems: TimelineItem[];
       if (inRangeCount > MAX_ITEMS) {
         const inRangeRatio = inRangeCount / MAX_ITEMS
         const filteredItems = inRangeItems.filter((item, i) => ((i % Math.ceil(inRangeRatio) === 0) || item.id == selection))
-        const renderItems = [...beforeRangeItemsFiltered, ...filteredItems, ...afterRangeItemsFiltered]
-        timeline.setItems(renderItems)
-        selection && timeline.setSelection([selection]) // Workaround for losing selection
+        renderItems = [...beforeRangeItemsSampled, ...filteredItems, ...afterRangeItemsSampled]
         console.log('filtered items', renderItems.length, inRangeCount)
       } else {
-        const renderItems = [...beforeRangeItemsFiltered, ...inRangeItems, ...afterRangeItemsFiltered]
-        timeline.setItems(renderItems)
-        selection && timeline.setSelection([selection]) // Workaround for losing selection
+        renderItems = [...beforeRangeItemsSampled, ...inRangeItems, ...afterRangeItemsSampled]
         console.log('all items', renderItems.length, inRangeCount)
       }
+      timeline.setItems(renderItems)
+      selection && timeline.setSelection([selection]) // Workaround for losing selection
     }
     trimRange({
       start: options.min as Date,
@@ -142,7 +141,7 @@ const TimelinePicker = (props: Props) => {
       timeline.destroy()
       setupRef.current = false
     }
-  }, [items, options, onSelect, onDeselect])
+  }, [items, itemsSampled, options, onSelect, onDeselect])
 
   return (
     <div className="w-[1000px] animate-fade-in relative">

@@ -87,9 +87,10 @@ const TimelinePicker = (props: Props) => {
       if (!byUser) return;
 
       const selection: IdType | undefined = timeline.getSelection()[0];
+      console.log('selection', selection)
       const beforeRangeItemsFiltered = items.filter((item, i) => {
         const itemStartTime = (item.start as Date).getTime()
-        return itemStartTime < start.getTime() && (i % Math.ceil(globalRatio) === 0)// || item.id == selection);
+        return itemStartTime < start.getTime() && (i % Math.ceil(globalRatio) === 0 || item.id == selection);
       });
       const inRangeItems = items.filter((item) => {
         const itemStartTime = (item.start as Date).getTime()
@@ -98,18 +99,20 @@ const TimelinePicker = (props: Props) => {
       const inRangeCount = inRangeItems.length;
       const afterRangeItemsFiltered = items.filter((item, i) => {
         const itemStartTime = (item.start as Date).getTime()
-        return itemStartTime > end.getTime() && (i % Math.ceil(globalRatio) === 0)// || item.id == selection);
+        return itemStartTime > end.getTime() && (i % Math.ceil(globalRatio) === 0 || item.id == selection);
       });
 
       if (inRangeCount > MAX_ITEMS) {
         const inRangeRatio = inRangeCount / MAX_ITEMS
-        const filteredItems = inRangeItems.filter((item, i) => (i % Math.ceil(inRangeRatio) === 0))// || item.id == selection)
+        const filteredItems = inRangeItems.filter((item, i) => ((i % Math.ceil(inRangeRatio) === 0) || item.id == selection))
         const renderItems = [...beforeRangeItemsFiltered, ...filteredItems, ...afterRangeItemsFiltered]
         timeline.setItems(renderItems)
+        selection && timeline.setSelection([selection]) // Workaround for losing selection
         console.log('filtered items', renderItems.length, inRangeCount)
       } else {
         const renderItems = [...beforeRangeItemsFiltered, ...inRangeItems, ...afterRangeItemsFiltered]
         timeline.setItems(renderItems)
+        selection && timeline.setSelection([selection]) // Workaround for losing selection
         console.log('all items', renderItems.length, inRangeCount)
       }
     }
@@ -120,7 +123,7 @@ const TimelinePicker = (props: Props) => {
     })
     timeline.fit()
     // timeline.on('rangechanged', trimRange)
-    timeline.on('rangechange', throttle(250, trimRange, { noTrailing: false }))
+    timeline.on('rangechange', throttle(250, trimRange, { noLeading: true, noTrailing: false }))
     setTimeline(timeline)
     
     console.log('setup complete')

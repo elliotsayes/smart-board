@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { throttle } from 'throttle-debounce'
 import { IdType, Timeline, type TimelineItem, type TimelineOptions } from 'vis-timeline/esnext';
+import Moment from 'moment';
 import 'vis-timeline/styles/vis-timeline-graph2d.css';
 import './TimelinePicker.css'
 
@@ -44,6 +45,10 @@ const TimelinePicker = (props: Props) => {
       },
       onAdd: (item) => console.log(item),
       zoomFriction: 5,
+      // TODO: Check that this is correct
+      moment: function (date: Moment.MomentInput) {
+        return Moment(date).utc();
+      },
     }
   }, [items]);
 

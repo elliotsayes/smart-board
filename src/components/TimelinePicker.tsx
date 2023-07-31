@@ -75,7 +75,8 @@ const TimelinePicker = (props: Props) => {
     loadRef.current = true;
     console.log('setting up')
 
-    const timeline = new Timeline(timelineDivRef.current!, [], options)
+    const timeline = new Timeline(timelineDivRef.current!, itemsSampled, options)
+    timeline.fit()
     timeline.setCurrentTime(new Date().toUTCString())
 
     type SelectProperties = {
@@ -122,13 +123,6 @@ const TimelinePicker = (props: Props) => {
       timeline.setItems(renderItems)
       selection && timeline.setSelection([selection]) // Workaround for losing selection
     }
-    trimRange({
-      start: options.min!,
-      end: options.max!,
-      byUser: false,
-    })
-    timeline.fit()
-    // timeline.on('rangechanged', trimRange)
     timeline.on('rangechange', throttle(250, trimRange, { noLeading: true, noTrailing: false }))
     setTimeline(timeline)
     

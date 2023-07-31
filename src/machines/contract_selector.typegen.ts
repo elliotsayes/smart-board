@@ -7,35 +7,44 @@ export interface Typegen0 {
     "xstate.init": { type: "xstate.init" };
   };
   invokeSrcNameMap: {
-    spawnContractMachine: "done.invoke.contractSelector.Contract Selected.Spawning Contract Machine:invocation[0]";
+    loadContract: "done.invoke.contractSelector.Contract Selected.Loading Contract Data:invocation[0]";
   };
   missingImplementations: {
-    actions: never;
+    actions: "assignPartialContractData";
     delays: never;
-    guards: "hasInitialContractId";
-    services: "spawnContractMachine";
+    guards: "hasInitialContractId" | "isContractReplacable";
+    services: "loadContract";
   };
   eventsCausingActions: {
     assignFirstContract: "Select First Contract";
     assignInitialToSelected: "";
+    assignPartialContractData: "Data Available";
     assignReplacementContract: "Replace Contract";
   };
   eventsCausingDelays: {};
   eventsCausingGuards: {
     hasInitialContractId: "";
+    isContractReplacable: "Replace Contract";
   };
   eventsCausingServices: {
-    spawnContractMachine: "";
+    loadContract: "";
   };
   matchesStates:
     | "Contract Selected"
-    | "Contract Selected.Idle"
+    | "Contract Selected.Contract Data Loaded"
+    | "Contract Selected.Contract Load Failure"
     | "Contract Selected.Initial"
-    | "Contract Selected.Spawning Contract Machine"
+    | "Contract Selected.Loading Contract Data"
+    | "Contract Selected.Loading Contract Data.Processing"
     | "Idle"
     | "Initial"
     | {
-        "Contract Selected"?: "Idle" | "Initial" | "Spawning Contract Machine";
+        "Contract Selected"?:
+          | "Contract Data Loaded"
+          | "Contract Load Failure"
+          | "Initial"
+          | "Loading Contract Data"
+          | { "Loading Contract Data"?: "Processing" };
       };
   tags: never;
 }

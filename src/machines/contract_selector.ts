@@ -1,4 +1,10 @@
 import { createMachine, assign } from "xstate";
+import {
+  ContractInteractionHistory,
+  ContractMeta,
+  ContractState,
+  ContractStateHistory,
+} from "../types";
 
 type Context = {
   initialContractId?: string;
@@ -17,12 +23,22 @@ type Events =
       data: {
         firstContractId: string;
       };
+    }
+  | {
+      type: "Data Available";
+      data: {
+        meta?: ContractMeta;
+        initialState?: ContractState;
+        currentState?: ContractState;
+        interactionHistory?: ContractInteractionHistory;
+        stateHistory?: ContractStateHistory;
+      };
     };
 
 export const contractSelectorMachine = (initialContractId?: string) =>
   createMachine(
     {
-      /** @xstate-layout N4IgpgJg5mDOIC5QGMD2A7ALgJwIbMwGUwAbMA1bAOgEl0BLTe3EgYgG0AGAXUVAAdUsRvQx8QAD0QA2AExUAzNIAsnaQEZ1y2QA510hQFZlAGhABPREaqdZ6zp0NaFmgOzqAnAF8vZtFjwCYjIKajoRFg51XiQQQWEmMVipBB0PKh1lV2ydPWVtBVcdM0sEdWyqLNdZThdtHU4i5R8-DBx8IlJyTEoqAGE2wMwAAmDuyFoGJkiuGIEhESTQFOkdBRtZaQ8PdVllHUNpDRLEe3WGnV1lQ2y92oUWkH92oK7Q-sGO0bfMCcJ+XAAdwY6CgwwGAS+AFl8AALejoMCsCAYMBUBEAN1QAGs0c8hmN3hCXiNCb8IFR-kCQWDiUNhjDkPDEQhMahkLhEuhZrNxPFFuhxCtbFQtuVHAoFB4NMcLIhZK5OFRNno7HtsuoFAdHviOmTenSvmSJjQIGRWAAlMD8Ej4MDgz4EXmxflcoWIDy1GzSvTlQw6aSuQwnMoGKgeJR7G6yKX7Tg6HWOzohHphM1IsnDABi9GwsBGhqdPD5CzdyXlhnSksMLnjWkD+gUIfVosKRXsHiyu39Pl8IHQqAgcHEuteKcoJYSokF5bKykUKjUmnqjeMIYAtJrXFQzoZOLt96sXK5E5Cx91euFpiRJwL3WVZPJOBGdK5VEdrpkm3KEOvlOkNCKFwPGqDxH28PtR2TC9qELUkfkgW8y2WRBjHUHcDDUAxXE7NYPA3VRFFUPZ1EuWQwOkYxTxJfVYKTb4UxNKZmBvF1S2ne9VnQ1QdkOKU1AUZRpBDLId2uZQjC1TJGmqaRqIJH4DXo40KSpYEEVpejGWZMAkI42d-XSRssMKXCpRDRtlSE7sNEMR8ahPSCk1oj4z3gxiKVNMg9KWSQZADZVJSUXIjjWQ4Q0E+RBOqWQ902I5XAeJy3JcrzdLYqdfJSXZpHDUjn1UQranwn9NnSNI9FcQDOHyLVey8IA */
+      /** @xstate-layout N4IgpgJg5mDOIC5QGMD2A7ALgJwIbMwGUwAbMA1bAOgEl0BLTe3EgYgG0AGAXUVAAdUsRvQx8QAD0QBaACwA2KvIDs82bIBMADjXLlnDQFYANCACeMjQE4qVgMwBGeRpedDnBw9V2Avj9NoWHgExGQU1HQiLBwOvEgggsJMYvFSCM5Usg5ahlYOdoYOHoZZphYITlpUWkZ68loeGgVWGn4BGDj4RKTkmJRUAMIdwZgABKG9kKwASmD8JPhgo0NBXVxxAkIiKaBp9oq5VlacVlp2bs6yZTKGGlSGylaydvJ2yoaG8hdtIIGdIT1woNhl1xoDMJBaAwmNF1uJEtt0OI0u9ZLYXlp7EYHLIrLlrghcbZ8pwVMoXIZHDkfn8RhMgSt-mN6RCIFQADKoXAQejoKDLEEEUYAEVwmFwrAgGDAVF5ADdUABrGW0ros-qMkZgsKsjlcnl8gWrIWi8UIeWoZBi0TodZw+II5JI1KIZQOO7Wd0OEoGb3yEzmRCyW5UZR2HRfc7e8kPGmC7o6-o0CBkVgs0YAMXo2FgY01ax48K2TuRiDsjiUpPcYb07o0wYJ9cMtnkOK0Ok4YfkVjjxoTvQ18e1kzZnO5vP5+ZNYolYGw2H68zFADNKABbKiqgGJ6hT5ngyFjg2Toem3Dm9AKq1Ou2Fh3Fm2lhD2OxUOwuVvhjTOUkE4MOTJPFkLQuzcJxy17Jl1V3IcWUPfUJyNJkRRnKgAAUF2QOBhD5Vgz1GABBOVcHoBYACMyHtTYkkfF0EHbGwCnDTsrGULQFDDRtCkyTgPHbd4TjdFo-H8EB0FQCA4HELd+3CIsaJ2SQZCeJRVHUbRdH0IwCWkFxlHuasQJyYp2MgulwSTaFmBIeTESfTF7k4BoCicepZF4gNymkexqm-VxnPyYMtDMtULJgvthwISBbJLOjXgOL5clqBojE8mQcU4Kgq08DQcpyJ5gtEmToOBCK4LZSIYRs+8FOdXZXUpN8HGOBRu1uNSdJxLL61UThnjY8k3hC7cB3C5Dyr1cdDT3FDxRi2j6vSdj7kSloHhSj4CU8RQWiaTReNOECIKK+MSpmiaj0Qmaz3QzDsInebFJRd8VrcNa2IMTbAwQawbH0TQ3k0M4Y2G2S+jGrUJuumdRiPaKarsuLWJbbIPFxE5ng0AlbgA78smeNwskMQr2j7ErkzIR66qUhBpGa0M7CsZwincF5OEcOxGwUe5cvDEpmfUZRZFBs7YIPNkZqPTMSJIABXbAwCpp8Wky4pziZ9HWyx76caoPGTnLVj-W9ESfCAA */
       id: "contractSelector",
 
       predictableActionArguments: true,
@@ -47,6 +63,7 @@ export const contractSelectorMachine = (initialContractId?: string) =>
               target: "#contractSelector.Contract Selected",
               cond: "hasInitialContractId",
               actions: "assignInitialToSelected",
+              description: `This is for when the Contract ID is supplied as an argument to the machine before it has started, e.g. from a URL query parameter`,
             },
             "Idle",
           ],
@@ -55,25 +72,46 @@ export const contractSelectorMachine = (initialContractId?: string) =>
         "Contract Selected": {
           states: {
             Initial: {
-              always: "Spawning Contract Machine",
+              always: "Loading Contract Data",
             },
-            "Spawning Contract Machine": {
+
+            "Loading Contract Data": {
               invoke: {
-                src: "spawnContractMachine",
-                onDone: "Idle",
+                src: "loadContract",
+                onDone: "Contract Data Loaded",
+                onError: "Contract Load Failure",
               },
-            },
-            Idle: {
-              on: {
-                "Replace Contract": {
-                  target: "#contractSelector.Contract Selected",
-                  actions: "assignReplacementContract",
+
+              states: {
+                Processing: {
+                  on: {
+                    "Data Available": {
+                      target: "Processing",
+                      actions: "assignPartialContractData",
+                      internal: true,
+                      description: `New data is assigned to this machine's context as it is generated`,
+                    },
+                  },
                 },
               },
+
+              initial: "Processing",
             },
+
+            "Contract Data Loaded": {},
+            "Contract Load Failure": {},
           },
 
           initial: "Initial",
+
+          on: {
+            "Replace Contract": {
+              target: ".Initial",
+              actions: "assignReplacementContract",
+              description: `When a new Contract ID has been selected`,
+              cond: "isContractReplacable",
+            },
+          },
         },
         Idle: {
           on: {
@@ -82,6 +120,8 @@ export const contractSelectorMachine = (initialContractId?: string) =>
               actions: "assignFirstContract",
             },
           },
+
+          description: `Waiting for the first Contract ID to be entered`,
         },
       },
     },

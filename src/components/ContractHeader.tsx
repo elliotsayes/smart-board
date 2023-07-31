@@ -1,13 +1,6 @@
-import { ContractDefinition } from 'warp-contracts';
+import { ContractMeta } from "../types"
 
-type Props = Pick<
-  ContractDefinition<unknown>, 
-  'owner' |
-  'txId' | 
-  'srcTxId' |
-  'contractType' | 
-  'src'
->
+type Props = ContractMeta
 
 const ContractHeader = ({owner, txId, srcTxId, contractType, src}: Props) => {
   return (

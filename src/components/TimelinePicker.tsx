@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { throttle } from 'throttle-debounce'
 import { DateType, IdType, Timeline, type TimelineItem, type TimelineOptions } from 'vis-timeline/esnext';
 import { utcMs } from '../utils/time';
@@ -13,10 +13,11 @@ interface Props {
   // line?: Date,
   onSelect?: (item?: number) => void,
   onDeselect?: () => void,
+  onTimeline?: (timeline: Timeline) => void,
 }
 
 const TimelinePicker = (props: Props) => {
-  const { items, onSelect, onDeselect } = props;
+  const { items, onSelect, onDeselect, onTimeline } = props;
 
   const options: TimelineOptions = useMemo(() => {
     const nowMs = Date.now()
@@ -56,8 +57,6 @@ const TimelinePicker = (props: Props) => {
   const timelineDivRef = useRef<HTMLDivElement>(null);
   const loadRef = useRef(false);
   const setupRef = useRef(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, setTimeline] = useState<Timeline | undefined>()
 
   const itemsSampled = useMemo(() => {
     console.log('sampling items')
@@ -124,11 +123,12 @@ const TimelinePicker = (props: Props) => {
       selection && timeline.setSelection([selection]) // Workaround for losing selection
     }
     timeline.on('rangechange', throttle(250, trimRange, { noLeading: true, noTrailing: false }))
-    setTimeline(timeline)
     
     console.log('setup complete')
     setupRef.current = true;
     loadRef.current = false;
+
+    onTimeline?.(timeline)
 
     return () => {
       console.log('destroying')
@@ -137,7 +137,7 @@ const TimelinePicker = (props: Props) => {
       timeline.destroy()
       setupRef.current = false
     }
-  }, [items, itemsSampled, options, onSelect, onDeselect])
+  }, [items, itemsSampled, options, onSelect, onDeselect, onTimeline])
 
   return (
     <div className="w-[1000px] animate-fade-in relative">

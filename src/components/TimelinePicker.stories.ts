@@ -61,7 +61,7 @@ export const HundredItems: Story = {
 
 const items1k: TimelineItem[] = Array.from({ length: 1_000 }, (_, i) => ({
   id: i,
-  start: Date.UTC(1000 + Math.floor(i / 12), i % 12, 1),
+  start: Date.UTC(1900 + Math.floor(i / 12), i % 12, 1),
   content: "",
   type: "point",
 }));
@@ -75,7 +75,7 @@ export const ThousandItems: Story = {
 
 const items10k: TimelineItem[] = Array.from({ length: 10_000 }, (_, i) => ({
   id: i,
-  start: Date.UTC(1900 + Math.floor(i / 12), i % 12, 1),
+  start: Date.UTC(1000 + Math.floor(i / 12), i % 12, 1),
   content: "",
   selectable: true,
   type: "point",

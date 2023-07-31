@@ -61,6 +61,7 @@ const TimelinePicker = (props: Props) => {
   const itemsSampled = useMemo(() => {
     console.log('sampling items')
     const itemCount = items.length
+    if (itemCount <= MAX_ITEMS) return items;
     const globalRatio = itemCount / MAX_ITEMS
     return items.filter((_, i) => i % Math.ceil(globalRatio) === 0)
   }, [items])
@@ -95,7 +96,6 @@ const TimelinePicker = (props: Props) => {
     const trimRange = (properties: RangeChangedProperties) => {
       // console.log('trimming range', properties)
       const { start, end, byUser } = properties;
-      if (!byUser) return;
 
       const beforeRangeItemsSampled = itemsSampled.filter((item) => (item.start as Date).getTime() < start.getTime());
       const afterRangeItemsSampled = itemsSampled.filter((item) => (item.start as Date).getTime() > end.getTime());
@@ -123,7 +123,7 @@ const TimelinePicker = (props: Props) => {
     trimRange({
       start: options.min as Date,
       end: options.max as Date,
-      byUser: true,
+      byUser: false,
     })
     timeline.fit()
     // timeline.on('rangechanged', trimRange)

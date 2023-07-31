@@ -38,7 +38,7 @@ type Events =
 export const contractSelectorMachine = (initialContractId?: string) =>
   createMachine(
     {
-      /** @xstate-layout N4IgpgJg5mDOIC5QGMD2A7ALgJwIbMwGUwAbMA1bAOgEl0BLTe3EgYgG0AGAXUVAAdUsRvQx8QAD0QBaACwA2KvIDs82bIBMADjXLlnDQFYANCACeMjQE4qVgMwBGeRpedDnBw9V2Avj9NoWHgExGQU1HQiLBwOvEgggsJMYvFSCM5Usg5ahlYOdoYOHoZZphYITlpUWkZ68loeGgVWGn4BGDj4RKTkmJRUAMIdwZgABKG9kKwASmD8JPhgo0NBXVxxAkIiKaBp9oq5VlacVlp2bs6yZTKGGlSGylaydvJ2yoaG8hdtIIGdIT1woNhl1xoDMJBaAwmNF1uJEtt0OI0u9ZLYXlp7EYHLIrLlrghcbZ8pwVMoXIZHDkfn8RhMgSt-mN6RCIFQADKoXAQejoKDLEEEUYAEVwmFwrAgGDAVF5ADdUABrGW0ros-qMkZgsKsjlcnl8gWrIWi8UIeWoZBi0TodZw+II5JI1KIZQOO7Wd0OEoGb3yEzmRCyW5UZR2HRfc7e8kPGmC7o6-o0CBkVgs0YAMXo2FgY01ax48K2TuRiDsjiUpPcYb07o0wYJ9cMtnkOK0Ok4YfkVjjxoTvQ18e1kzZnO5vP5+ZNYolYGw2H68zFADNKABbKiqgGJ6hT5ngyFjg2Toem3Dm9AKq1Ou2Fh3Fm2lhD2OxUOwuVvhjTOUkE4MOTJPFkLQuzcJxy17Jl1V3IcWUPfUJyNJkRRnKgAAUF2QOBhD5Vgz1GABBOVcHoBYACMyHtTYkkfF0EHbGwCnDTsrGULQFDDRtCkyTgPHbd4TjdFo-H8EB0FQCA4HELd+3CIsaJ2SQZCeJRVHUbRdH0IwCWkFxlHuasQJyYp2MgulwSTaFmBIeTESfTF7k4BoCicepZF4gNymkexqm-VxnPyYMtDMtULJgvthwISBbJLOjXgOL5clqBojE8mQcU4Kgq08DQcpyJ5gtEmToOBCK4LZSIYRs+8FOdXZXUpN8HGOBRu1uNSdJxLL61UThnjY8k3hC7cB3C5Dyr1cdDT3FDxRi2j6vSdj7kSloHhSj4CU8RQWiaTReNOECIKK+MSpmiaj0Qmaz3QzDsInebFJRd8VrcNa2IMTbAwQawbH0TQ3k0M4Y2G2S+jGrUJuumdRiPaKarsuLWJbbIPFxE5ng0AlbgA78smeNwskMQr2j7ErkzIR66qUhBpGa0M7CsZwincF5OEcOxGwUe5cvDEpmfUZRZFBs7YIPNkZqPTMSJIABXbAwCpp8Wky4pziZ9HWyx76caoPGTnLVj-W9ESfCAA */
+      /** @xstate-layout N4IgpgJg5mDOIC5QGMD2A7ALgJwIbMwGUwAbMA1bAOgEl0BLTe3EgYgG0AGAXUVAAdUsRvQx8QAD0QBaACwA2KvIDs82bIBMADjXLlnDQFYANCACeMjQE4qVgMwBGeRpedDnBw9V2Avj9NoWHgExGQU1HQiLBwOvEgggsJMYvFSCM5Usg5ahlYOdoYOHoZZphYITlpUWkZ68loeGgVWGn4BGDj4RKTkmJRUAMIdwZgABKG9kKwASmD8JPhgo0NBXVxxAkIiKaBp9oq5VlacVlp2bs6yZTKGGlSGylaydvJ2yoaG8hdtIIGdIT1woNhl1xoDMJBaAwmNF1uJEtt0OI0u9ZLYXlp7EYHLIrLlrghcbZ8pwVMoXIZHDkfn8RhMgSt-mN6RCIFQADKoXAQejoKDLEEEUYAEVwmFwrAgGDAVF5ADdUABrGW0ros-qMkZgsKsjlcnl8gWrIWi8UIeWoZBi0TodZw+II5JI1KIckOTKuFraM75K7mRCyW5UZR2HRfc4OB5GGmC7o6-o0CBkVgs0YAMXo2FgY01ax48K2TuRiDsjiUpPcIb0DhcgYJGkDtnkOK0Ok4IfkVhjxrjvQ1se1kzZnO5vP5uZNYolYGw2H68zFADNKABbKiqgHx6gT5ngyEjg3jgem3Dm9AKq1Ou35h2Fm3FhBWepUOwaV6UkqqY7yAmBmyvTEtFxWRMU4N5uyZdVtwHFl931McjSZEUpyoAAFOdkDgYQ+VYE9RgAQTlXB6AWAAjMh7U2JJ7xdBBWxsApQ3bKxlCAlQ7HrQpMk4DxW3eE5lAcFo-H8EB0FQCA4HEDde3CAtqJ2SQZCeJRVHUbRdH0IwCWkFxlHuSstFY9xIyAiC6XBBNoWYEh5MRB9MXuTgGgKJx6lkHiTH9BBpHsao31cFzfUMLRzLVSzoJ7QcCEgOyi1o14Di+XJagaIwvPKaQcU4KgK08DR8pyJ5QtEmSoOBKLYLZSIYVs28FOdXZXUpF8hM4BRO1uNSdJxXKG1Udq3iMpplDCzc+0ipCqr1UdDR3ZDxTimimvSID7mSloHjSj4CU8RQvTsTQeNOIzSzG2S+kmrVpoPBD5pPNCMKwsclsUlFX3WtxNtYgwdu86wbH0TQ3k0M5yUMc7yvm6b5oPAUV3mMAIVexqlPSFim2yDxcROZ4NAJW53TfLJnjcLIQshiLaCTMAUYfLLAbsJ8CrcMDw3yesFHuArQxKZwcVkZRZEprcKqmvc2Vh-V02IkgAFdsFp+r7NovFDFytrcTeMnmwJwTg1xI4QMjLx5HkESfCAA */
       id: "contractSelector",
 
       predictableActionArguments: true,
@@ -78,8 +78,11 @@ export const contractSelectorMachine = (initialContractId?: string) =>
             "Loading Contract Data": {
               invoke: {
                 src: "loadContract",
-                onDone: "Contract Data Loaded",
-                onError: "Contract Load Failure",
+                onDone: "Contract Load Complete",
+                onError: {
+                  target: "Contract Load Failure",
+                  actions: "assignErrorInfo",
+                },
               },
 
               states: {
@@ -98,7 +101,7 @@ export const contractSelectorMachine = (initialContractId?: string) =>
               initial: "Processing",
             },
 
-            "Contract Data Loaded": {},
+            "Contract Load Complete": {},
             "Contract Load Failure": {},
           },
 

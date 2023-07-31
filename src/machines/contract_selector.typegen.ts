@@ -4,18 +4,23 @@ export interface Typegen0 {
   "@@xstate/typegen": true;
   internalEvents: {
     "": { type: "" };
+    "error.platform.contractSelector.Contract Selected.Loading Contract Data:invocation[0]": {
+      type: "error.platform.contractSelector.Contract Selected.Loading Contract Data:invocation[0]";
+      data: unknown;
+    };
     "xstate.init": { type: "xstate.init" };
   };
   invokeSrcNameMap: {
     loadContract: "done.invoke.contractSelector.Contract Selected.Loading Contract Data:invocation[0]";
   };
   missingImplementations: {
-    actions: "assignPartialContractData";
+    actions: "assignErrorInfo" | "assignPartialContractData";
     delays: never;
     guards: "hasInitialContractId" | "isContractReplacable";
     services: "loadContract";
   };
   eventsCausingActions: {
+    assignErrorInfo: "error.platform.contractSelector.Contract Selected.Loading Contract Data:invocation[0]";
     assignFirstContract: "Select First Contract";
     assignInitialToSelected: "";
     assignPartialContractData: "Data Available";
@@ -31,7 +36,7 @@ export interface Typegen0 {
   };
   matchesStates:
     | "Contract Selected"
-    | "Contract Selected.Contract Data Loaded"
+    | "Contract Selected.Contract Load Complete"
     | "Contract Selected.Contract Load Failure"
     | "Contract Selected.Initial"
     | "Contract Selected.Loading Contract Data"
@@ -40,7 +45,7 @@ export interface Typegen0 {
     | "Initial"
     | {
         "Contract Selected"?:
-          | "Contract Data Loaded"
+          | "Contract Load Complete"
           | "Contract Load Failure"
           | "Initial"
           | "Loading Contract Data"

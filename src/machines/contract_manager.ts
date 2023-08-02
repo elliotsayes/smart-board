@@ -1,5 +1,5 @@
 import { createMachine, assign } from "xstate";
-import { ContractDataFull } from "../types";
+import { ContractDataFull } from "../types/contract";
 
 type Context = {
   initialContractId?: string;

@@ -1,4 +1,4 @@
-import { ContractMeta } from "../types"
+import { ContractMeta } from "../types/contract"
 
 type Props = ContractMeta
 

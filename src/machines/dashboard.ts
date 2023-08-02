@@ -1,5 +1,5 @@
 import { createMachine } from "xstate";
-import { ContractDataFull } from "../types";
+import { ContractDataFull } from "../types/contract";
 
 type Context = {
   contractData: Partial<ContractDataFull>;

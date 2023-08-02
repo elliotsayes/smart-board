@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { ContractDataFull } from "../types"
+import { ContractDataFull } from "../types/contract"
 import { useMachine } from "@xstate/react"
 import { dashboardMachine } from "../machines/dashboard"
 import TimelinePicker from "./TimelinePicker"

@@ -20,7 +20,7 @@ export type ContractInteractionHistory = ContractInteraction[];
 
 export type ContractDataFull = {
   meta: ContractMeta;
-  intialState: ContractState;
+  initialState: ContractState;
   latestState: ContractState;
   interactionHistory: ContractInteractionHistory;
   stateHistory: ContractStateHistory;

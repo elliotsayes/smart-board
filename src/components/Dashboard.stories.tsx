@@ -21,47 +21,52 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+const generateFakeInteractions = (n: number) => 
+  Array.from(
+    { length: n }, 
+    (_, i) => ({
+      id: i.toString(),
+      anchor: '123',
+      signature: '123',
+      recipient: '123',
+      owner: {
+        key: '123',
+        address: 'abc123'
+      },
+      fee: {
+        winston: '0',
+        ar: '0'
+      },
+      quantity: {
+        winston: '0',
+        ar: '0'
+      },
+      data: {
+        size: 0,
+        type: '',
+      },
+      tags: [],
+      block: {
+        id: '0',
+        height: 0,
+        timestamp: 0 + i * 24 * 60 * 60 * 1000,
+        previous: '0'
+      },
+      parent: {
+        id: '122',
+      },
+      bundledIn: {
+        id: '',
+      }
+    })
+  );
+
+
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Default: Story = {
   args: {
     contractData: {
-      interactionHistory: [
-        {
-          id: '123',
-          anchor: '123',
-          signature: '123',
-          recipient: '123',
-          owner: {
-            key: '123',
-            address: 'abc123'
-          },
-          fee: {
-            winston: '0',
-            ar: '0'
-          },
-          quantity: {
-            winston: '0',
-            ar: '0'
-          },
-          data: {
-            size: 0,
-            type: '',
-          },
-          tags: [],
-          block: {
-            id: '0',
-            height: 0,
-            timestamp: 0,
-            previous: '0'
-          },
-          parent: {
-            id: '122',
-          },
-          bundledIn: {
-            id: '',
-          }
-        },
-      ]
+      interactionHistory: generateFakeInteractions(2),
     }
   },
 };

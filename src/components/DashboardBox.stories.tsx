@@ -26,7 +26,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     loading: false,
-    padding: "default",
+    padding: true,
     children: <MouseTester />,
   },
 };

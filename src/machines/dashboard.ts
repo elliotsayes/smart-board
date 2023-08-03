@@ -47,7 +47,7 @@ type Event =
   | {
       type: "Timeline Interaction Selection";
       data: {
-        selectedInteractionIndex: number;
+        selectedInteractionIndex?: number;
       };
     }
   | {

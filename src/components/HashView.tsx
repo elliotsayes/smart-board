@@ -22,7 +22,12 @@ const HashView = ({hash, copy, viewblock, warpSonar}: Props) => {
 
   return (
     <div className="flex flex-row items-baseline">
-      <code className="bg-gray-200/10 pt-1 px-2 rounded-md">
+      <Tooltip id="hash" delayShow={250} />
+      <code
+        className="bg-gray-200/10 pt-1 px-2 rounded-md"
+        data-tooltip-id="hash"
+        data-tooltip-content={hash}
+      >
         {shortHash}
       </code>
       <div className="pl-2 flex flex-row">

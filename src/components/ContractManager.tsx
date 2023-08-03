@@ -22,10 +22,11 @@ import { contractManagerMachine } from "../machines/contract_manager";
 
 interface Props {
   initialContractId?: string;
+  children?: React.ReactNode;
 }
 
 const ContractManager = (props: Props) => {
-  const { initialContractId } = props;
+  const { initialContractId, children } = props;
 
   const [current] = useMachine(
     () => contractManagerMachine(initialContractId), 
@@ -34,9 +35,19 @@ const ContractManager = (props: Props) => {
 
   return (
     <>
-      <div>{JSON.stringify(current.value)}</div>
-      <pre>Interactions: {current.context.contractData.interactionHistory?.length.toString()}</pre>
-      <pre>States: {current.context.contractData.stateHistory?.length.toString()}</pre>
+      {
+        children ? (
+          <>
+            {children}
+          </>
+        ) : (
+          <>
+            <div>{JSON.stringify(current.value)}</div>
+            <pre>Interactions: {current.context.contractData.interactionHistory?.length.toString()}</pre>
+            <pre>States: {current.context.contractData.stateHistory?.length.toString()}</pre>
+          </>
+        )
+      }
     </>
   )
 }

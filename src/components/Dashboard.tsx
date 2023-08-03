@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { ContractDataFull } from "../types/contract"
 import { useMachine } from "@xstate/react"
 import { dashboardMachine } from "../machines/dashboard"
@@ -48,6 +48,13 @@ const Dashboard = (props: Props) => {
     [contractDataProp],
   )
 
+  const onSelectTimeline = useCallback((selectedInteractionIndex?: number) => {
+    send({
+      type: 'Timeline Interaction Selection',
+      data: {selectedInteractionIndex} 
+    })
+  }, [send])
+
   // const contextLite = {
   //   ...current.context,
   //   contractData: undefined,
@@ -82,11 +89,7 @@ const Dashboard = (props: Props) => {
         <TimelinePicker
           items={timelineItems}
           onTimeline={setTimeline}
-          onSelect={
-            (selectedInteractionIndex) => send({
-              type: 'Timeline Interaction Selection',
-              data: {selectedInteractionIndex} 
-            })}
+          onSelect={onSelectTimeline}
         />
       </DashboardBox>
     </div>

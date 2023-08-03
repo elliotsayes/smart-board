@@ -1,10 +1,12 @@
-import { useEffect, useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { ContractDataFull } from "../types/contract"
 import { useMachine } from "@xstate/react"
 import { dashboardMachine } from "../machines/dashboard"
 import TimelinePicker from "./TimelinePicker"
 import DashboardBox from "./DashboardBox"
 import ContractHeader from "./ContractHeader"
+import { ContractContext } from "./ContractManager"
+import { Timeline } from "vis-timeline"
 
 interface Props {
   contractData: Partial<ContractDataFull>
@@ -13,9 +15,18 @@ interface Props {
 const Dashboard = (props: Props) => {
   const { contractData: contractDataProp } = props;
 
+  const [timeline, setTimeline] = useState<Timeline>();
+
   const [current, send] = useMachine(
     () => dashboardMachine(),
-    { devTools: true },
+    {
+      devTools: import.meta.env.DEV,
+      actions: {
+        selectTimelineInteraction: (_, event) => {
+          timeline?.setSelection(event.data.selectedInteractionIndex)
+        },
+      }
+    },
   );
 
   useEffect(() => {
@@ -37,13 +48,18 @@ const Dashboard = (props: Props) => {
     [contractDataProp],
   )
 
+  const contextLite = {
+    ...current.context,
+    contractData: undefined,
+  }
+
   return (
-    <>
     <div className="flex flex-col gap-2">
+      <p>{JSON.stringify(contextLite)}</p>
       <DashboardBox
-        loading={current.context.contractData.meta === undefined}
+        loading={contractDataProp.meta === undefined}
       >
-        <ContractHeader {...current.context.contractData.meta!} />
+        <ContractHeader {...contractDataProp.meta!} />
       </DashboardBox>
       <DashboardBox
         loading={contractDataProp.interactionHistory === undefined}
@@ -51,11 +67,7 @@ const Dashboard = (props: Props) => {
       >
         <TimelinePicker
           items={timelineItems}
-          onTimeline={
-            (timeline) => send({
-              type: 'Set Timeline',
-              data: {timeline}
-            })}
+          onTimeline={(timeline) => setTimeline(timeline)}
           onSelect={
             (selectedInteractionIndex) => send({
               type: 'Timeline Interaction Selection',
@@ -69,7 +81,6 @@ const Dashboard = (props: Props) => {
         />
       </DashboardBox>
     </div>
-    </>
   )
 }
 

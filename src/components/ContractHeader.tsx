@@ -10,7 +10,7 @@ const ContractHeader = ({owner, txId, srcTxId, contractType, src}: Props) => {
       <p>txId: {txId}</p>
       <p>srcTxId: {srcTxId}</p>
       <p>contractType: {contractType}</p>
-      <p>src: </p><pre>{src}</pre>
+      {/* <p>src: </p><pre>{src}</pre> */}
     </div>
   )
 }

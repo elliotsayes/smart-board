@@ -1,13 +1,11 @@
 import { assign, createMachine } from "xstate";
 import { ContractDataFull, ContractResult } from "../types/contract";
-import { Timeline } from "vis-timeline";
 
 type Context = {
   contractData: Partial<ContractDataFull>;
   viewportTab: number;
   viewportInteractionShowDiff: boolean;
   selectedInteractionIndex?: number;
-  timeline?: Timeline;
   filter: {
     functions?: Set<string>;
     results?: Set<ContractResult>;
@@ -24,12 +22,6 @@ type Event =
       type: "Update Contract Data";
       data: {
         contractData: Partial<ContractDataFull>;
-      };
-    }
-  | {
-      type: "Set Timeline";
-      data: {
-        timeline: Timeline;
       };
     }
   | {
@@ -60,7 +52,7 @@ type Event =
 export const dashboardMachine = () =>
   createMachine(
     {
-      /** @xstate-layout N4IgpgJg5mDOIC5QQIawBYCMD2KBOEAdAJIB2AlgC7koA2AxANoAMAuoqAA7axXnakOIAB6IALAE5CANgCMAdgAcYgKwqxs2dJXyJAGhABPRACZmKwrOYBmJc0WKV1rRIC+rg6gw58RACJoWLgEhABq5GAA7tx4lIQAypQolGAABOFR9GQpeCgAxtQCqQAqKJgs7Egg3LyFglWiCPIqUswm1nKKEszaYiayBsYIqlISEqry0oq2JvLyYu6egT4hAd7BRBnR2LEkpDn5dekRkfSJyWml5WxCNXwCQo1zUlaKJmKTsorMX4qDiNIxGJCCpZBJfspvrIVIsQF4gr5CGsESEtjE4tkwLkCvxSMdMvEwJRUpjsUc-OQAGaUiq3Hj3eqgRqaVSECTyZjsxRyd7aEz-BAqQGEZjNZrKZjmQGKWHwlb+ZYbJHJFAkCC0MD0ACqnFQKVSAGEBJQyakAklaVU7nVHogwdYQVZpLN2t1umIBSp+pYWuDzGJuWJrCZZYrEcj5YRiuQALZgWjkUhgQgACTQJVj8cTmujcYTSZJ+yxh1xqUJGpxAktXHpNoa4nabJMZhs1m5b201gF3VkMms6lFkxs0IWHjhYdWE6IuazSdT6Zn+c1ABlyLBiaSS0Vy2BK6Rq9Va7jbQhrBJFDIVG0xJKev1mx6jHaevIfV7pOCxvIzKOlutw1OhCruuaoavQwEbkWZKljue4Htax71gg3QOmo7RONYHTDl2T7IcGbLWH0EigtyEgmBI1ihv+k7UdOmZLmcRIZnm2bwUeDxIWCvb9Josg3r88x-LhDjMIQkyKNCfE9OCfHuGOpDYBAcBCHKGx0rUiFMogAC07xiR8H7stIzpntynrSI6QbvA4mEoVoVEokQZB8HQ6kMieAYCnxv7jrRyq0W5dZaQgjYmF61iSu0tjSD8j5DCYyiEIo8iaMwqhdJM7I+apAF+WiOyUIFmkiOIShicGYI3ilsgtjhQwzCC9g9t+PTSHMDmRhGSr5bs5z6lsRUccF77lf04yipo-K4V6va6NoOhtm05HZYBXWIj1GJQVueIDVa7GMiVCAOMCNXKByoImMZnrenNOgqNy-bsvIHVKmtk5JINB2NNMbIOJ+-SSGF0gCg1-ZtboHLSLY4wvbljnKkkoFgJ9J6yM4v1dGCANkUKAojElfSqAGzbnuCsM0fDABi5C0DkKOcbMFizG0HLjFDUx1Yg3wWc0UzfkC0xkbI5MKn5i7ZvTwUpYQYXtJFmFDnxAq6A6CXvJILQ-JjIv+fD4tzsQ6rI3tGlDYdmhSLLEVtArMVK7hVg9IQZ5eglNVmM0IZjjlFORvryZprAzGzsbNam19pjkUlXQdN8ujpfoDuSr2XxTBIHOAsGOtvUQEGS4dzSjKn0xepMHxCUMuiieMdjQo4NUdNngEQUj+ffaKbLF-2syAkoArJReQb9jY-HKC0cmuEAA */
+      /** @xstate-layout N4IgpgJg5mDOIC5QQIawBYCMD2KBOEAdAJIB2AlgC7koA2AxANoAMAuoqAA7axXnakOIAB6IALAE5CANgCMAdgAcYgKwqxs2dJXyJAGhABPRACZmKwrOYBmJc0WKV1rRIC+rg6gw58RACJoWLgEhABq5GAA7tx4lIQAypQolGAABOFR9GQpeCgAxtQCqQAqKJgs7Egg3LyFglWiCPLyJoRi0mYmzYrM8mJiBsYIqtKEEg7SztrSzePW7p6BPiEB3sFEGdHYsSSkOfl16RGR9InJaaXlbEI1fAJCjbqt6tLTkiYf9oOI0hqEKrJrCYxNZXvIAX0FiAvEFfIRVrCQpsYnFsmBcgV+KQjpl4mBKKk0RjDn5yAAzMkVG48O71UCNTQqKRiZgSayKPqKV4zWTfBAqOSEZjScaAz7C+TzDzQpbreGyuEBJIkCC0MD0ACqnFQKVSAGEBJRiaklSgqVVbnUHqZhWNJDY5GKJCZrCo+QDFJYnBJtKDFLJVPIoTDlv4FSFiuQALZgWjkUhgFVq+iRmNxhOEvbog5Y1J4tWYgTmrg0q0NUyqf5WfoONlieTMExuoyILnyIW9FQmKyNnvSYPhsNrOGp2PxxPEVXqgAy5FgBKJOaK+bAhdIxeqpax1oQwNG0kbYkc1hBINkjj5ViBhGsJ8c3eUKnsKgHw5Wg8Is-nSZnc4XWeJXMVzXDdLW3csEAkLQxgkXoOm7RtbxMPlnSkZ1FFdZgsN+KZ3GlUhsAgOAhBDdZqVqcD6UQZh3VGAEQRMaRFEYpsQSlRY3yIMg+DocjaR3I9L36V9ESHUS+LLKjhmZLogR6RQoK6dQ+RMf1CC5ejQQ6MQzBfaVSMVD9kW2SgJMokRxGdSwGwPEwJFUIFkJbBBQSkJ87PZRxmFUYT9I-BFQzCY4UQSJJdU2Mz7gg9RmGs4VG3spwPndc9CF0YVZG7CQJElWQ3D8zj5UK4ydkXNccUiSK6QshAFPbAUmN0dkmI6FLPXSyZhQwntZBEwKArlU0qp3HK2lk1T7EU8EBmc1ybyff0mNBLQ5HYmVCoGwzlUnNVhoggMLB0yUJoUzLpr5EZ1NBJ8fR0yRZHUPrBo-AAxchaByPapMyhw0vsGZxl0htrD5HprDSm6ukYpR7LEJ7DMK0d0zAL6asBds2Ps2wHrZUE+Vmf4H3rZiMPUfKONEorKaR8cf1RhlHDaW8sfkHHb2kFC+kIF1VDqmZtC7eH30Kr9TItLcoqk5pwddBtnRZc9JHkfGOTtPKT2Z+sgwKynNpCUW6fFijJZq5jZHmuXgWYRWctB8ExvBFRmO7O84bwoA */
       id: "dashboard",
       predictableActionArguments: true,
       tsTypes: {} as import("./dashboard.typegen").Typegen0,
@@ -75,7 +67,7 @@ export const dashboardMachine = () =>
         selectedInteractionIndex: undefined,
         filter: {},
       },
-      initial: "Initial",
+      initial: "Dashboard",
       states: {
         Initial: {
           always: "Dashboard",
@@ -131,18 +123,16 @@ export const dashboardMachine = () =>
 
             Timeline: {
               states: {
-                Idle: {},
-
-                "Has Timeline": {
+                Idle: {
                   on: {
                     "Timeline Interaction Selection": {
-                      target: "Has Timeline",
+                      target: "Idle",
                       internal: true,
                       actions: "assignSelectedInteraction",
                     },
 
                     "List Interaction Selection": {
-                      target: "Has Timeline",
+                      target: "Idle",
                       internal: true,
                       actions: "selectTimelineInteraction",
                     },
@@ -151,13 +141,6 @@ export const dashboardMachine = () =>
               },
 
               initial: "Idle",
-
-              on: {
-                "Set Timeline": {
-                  target: ".Has Timeline",
-                  actions: "assignTimeline",
-                },
-              },
             },
 
             List: {
@@ -200,12 +183,6 @@ export const dashboardMachine = () =>
           selectedInteractionIndex: (_, event) =>
             event.data.selectedInteractionIndex,
         }),
-        assignTimeline: assign({
-          timeline: (_, event) => event.data.timeline,
-        }),
-        selectTimelineInteraction: (context, event) => {
-          context.timeline?.setSelection(event.data.selectedInteractionIndex);
-        },
       },
     }
   );

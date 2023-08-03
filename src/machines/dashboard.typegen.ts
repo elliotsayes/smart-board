@@ -8,7 +8,7 @@ export interface Typegen0 {
   };
   invokeSrcNameMap: {};
   missingImplementations: {
-    actions: never;
+    actions: "selectTimelineInteraction";
     delays: never;
     guards: never;
     services: never;
@@ -19,8 +19,7 @@ export interface Typegen0 {
     assignSelectedInteraction:
       | "List Interaction Selection"
       | "Timeline Interaction Selection";
-    assignTimeline: "Set Timeline";
-    assignViewportTab0: "" | "State Tab";
+    assignViewportTab0: "" | "State Tab" | "xstate.init";
     assignViewportTab1: "Interaction Tab" | "Set Interaction Diff";
     selectTimelineInteraction: "List Interaction Selection";
   };
@@ -35,7 +34,6 @@ export interface Typegen0 {
     | "Dashboard.List"
     | "Dashboard.List.Idle"
     | "Dashboard.Timeline"
-    | "Dashboard.Timeline.Has Timeline"
     | "Dashboard.Timeline.Idle"
     | "Dashboard.Viewport"
     | "Dashboard.Viewport.Interaction View"
@@ -51,7 +49,7 @@ export interface Typegen0 {
           | {
               Data?: "Idle";
               List?: "Idle";
-              Timeline?: "Has Timeline" | "Idle";
+              Timeline?: "Idle";
               Viewport?: "Interaction View" | "State View";
             };
       };

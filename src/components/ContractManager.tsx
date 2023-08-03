@@ -1,5 +1,6 @@
 import { useMachine } from "@xstate/react";
 import { contractManagerMachine } from "../machines/contract_manager";
+import Dashboard from "./Dashboard";
 
 // import { fromWorker } from 'observable-webworker';
 // import { of } from 'rxjs';
@@ -22,32 +23,21 @@ import { contractManagerMachine } from "../machines/contract_manager";
 
 interface Props {
   initialContractId?: string;
-  children?: React.ReactNode;
 }
 
 const ContractManager = (props: Props) => {
-  const { initialContractId, children } = props;
+  const { initialContractId } = props;
 
   const [current] = useMachine(
     () => contractManagerMachine(initialContractId), 
-    { devTools: true },
+    { 
+      devTools: import.meta.env.DEV,
+    },
   );
 
   return (
     <>
-      {
-        children ? (
-          <>
-            {children}
-          </>
-        ) : (
-          <>
-            <div>{JSON.stringify(current.value)}</div>
-            <pre>Interactions: {current.context.contractData.interactionHistory?.length.toString()}</pre>
-            <pre>States: {current.context.contractData.stateHistory?.length.toString()}</pre>
-          </>
-        )
-      }
+      <Dashboard contractData={current.context.contractData} />
     </>
   )
 }

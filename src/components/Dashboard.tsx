@@ -5,7 +5,6 @@ import { dashboardMachine } from "../machines/dashboard"
 import TimelinePicker from "./TimelinePicker"
 import DashboardBox from "./DashboardBox"
 import ContractHeader from "./ContractHeader"
-import { ContractContext } from "./ContractManager"
 import { Timeline } from "vis-timeline"
 
 interface Props {
@@ -67,16 +66,11 @@ const Dashboard = (props: Props) => {
       >
         <TimelinePicker
           items={timelineItems}
-          onTimeline={(timeline) => setTimeline(timeline)}
+          onTimeline={setTimeline}
           onSelect={
             (selectedInteractionIndex) => send({
               type: 'Timeline Interaction Selection',
               data: {selectedInteractionIndex} 
-            })}
-          onDeselect={
-            () => send({
-              type: 'Timeline Interaction Selection',
-              data: {selectedInteractionIndex: undefined}
             })}
         />
       </DashboardBox>

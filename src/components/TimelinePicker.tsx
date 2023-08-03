@@ -12,12 +12,11 @@ interface Props {
   items: TimelineItem[],
   // line?: Date,
   onSelect?: (item?: number) => void,
-  onDeselect?: () => void,
   onTimeline?: (timeline: Timeline) => void,
 }
 
 const TimelinePicker = (props: Props) => {
-  const { items, onSelect, onDeselect, onTimeline } = props;
+  const { items, onSelect, onTimeline } = props;
 
   const options: TimelineOptions = useMemo(() => {
     const nowMs = Date.now()
@@ -82,12 +81,8 @@ const TimelinePicker = (props: Props) => {
       items: number[];
     }
     timeline.on('select', (properties: SelectProperties) => {
-      if (properties.items.length === 0) {
-        onDeselect?.()
-      } else {
-        const item = properties.items[0]
-        onSelect?.(item)
-      }
+      const item = properties.items[0]
+      onSelect?.(item)
     })
 
     type RangeChangedProperties = {
@@ -138,7 +133,7 @@ const TimelinePicker = (props: Props) => {
       setupRef.current = false
     }
   }, [])
-  // }, [items, itemsSampled, options, onSelect, onDeselect, onTimeline])
+  // }, [items, itemsSampled, options, onSelect, onTimeline])
 
   return (
     <div className="w-[1000px] animate-fade-in relative">

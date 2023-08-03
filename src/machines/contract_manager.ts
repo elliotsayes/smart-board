@@ -26,12 +26,15 @@ type Events =
   | {
       type: "Data Available";
       data: Partial<ContractDataFull>;
+    }
+  | {
+      type: "Data Loaded";
     };
 
 export const contractManagerMachine = (initialContractId?: string) =>
   createMachine(
     {
-      /** @xstate-layout N4IgpgJg5mDOIC5QGMD2A7ALgJwIbMwGUwAbMA1bAOgEl0BLTe3EgYgG0AGAXUVAAdUsRvQx8QAD0QBaACwA2KvIDs82bIBMADjXLlnDQFYANCACeMjQE4qVgMwBGeRpedDnBw9V2Avj9NoWHgExGQU1HQiLBwOvEgggsJMYvFSCM5Usg5ahlYOdoYOHoZZphYITlpUWkZ68loeGgVWGn4BGDj4RKTkmJRUAMIdwZgABKG9kKwASmD8JPhgo0NBXVxxAkIiKaBp9oq5VlacVlp2bs6yZTKGGlSGylaydvJ2yoaG8hdtIIGdIT1woNhl1xoDMJBaAwmNF1uJEtt0OI0u9ZLYXlp7EYHLIrLlrghcbZ8pwVMoXIZHDkfn8RhMgSt-mN6RCIFQADKoXAQejoKDLEEEUYAEVwmFwrAgGDAVF5ADdUABrGW0ros-qMkZgsKsjlcnl8gWrIWi8UIeWoZBi0TodZw+II5JI1KIckOTKuFraM75K7mRCyW5UZR2HRfc4OB5GGmC7o6-o0CBkVgs0YAMXo2FgY01ax48K2TuRiDsjiUpPcIb0DhcgYJGkDtnkOK0Ok4IfkVhjxrjvQ1se1kzZnO5vP5uZNYolYGw2H68zFADNKABbKiqgHx6gT5ngyEjg3jgem3Dm9AKq1Ou35h2Fm3FhBWepUOwaV6UkqqY7yAmBmyvTEtFxWRMU4N5uyZdVtwHFl931McjSZEUpyoAAFOdkDgYQ+VYE9RgAQTlXB6AWAAjMh7U2JJ7xdBBWxsApQ3bKxlCAlQ7HrQpMk4DxW3eE5lAcFo-H8EB0FQCA4HEDde3CAtqJ2SQZCeJRVHUbRdH0IwCWkFxlHuSstFY9xIyAiC6XBBNoWYEh5MRB9MXuTgGgKJx6lkHiTH9BBpHsao31cFzfUMLRzLVSzoJ7QcCEgOyi1o14Di+XJagaIwvPKaQcU4KgK08DR8pyJ5QtEmSoOBKLYLZSIYVs28FOdXZXUpF8hM4BRO1uNSdJxXKG1Udq3iMpplDCzc+0ipCqr1UdDR3ZDxTimimvSID7mSloHjSj4CU8RQvTsTQeNOIzSzG2S+kmrVpoPBD5pPNCMKwsclsUlFX3WtxNtYgwdu86wbH0TQ3k0M5yUMc7yvm6b5oPAUV3mMAIVexqlPSFim2yDxcROZ4NAJW53TfLJnjcLIQshiLaCTMAUYfLLAbsJ8CrcMDw3yesFHuArQxKZwcVkZRZEprcKqmvc2Vh-V02IkgAFdsFp+r7NovFDFytrcTeMnmwJwTg1xI4QMjLx5HkESfCAA */
+      /** @xstate-layout N4IgpgJg5mDOIC5QGMD2A7ALgJwIbMwGUwAbMA1bAOgEl0BLTe3EgYgG0AGAXUVAAdUsRvQx8QAD0QBaACwA2KvIDs82bIBMADjXLlnDQFYANCACeMjQE4qVgMwBGeRpedDnBw9V2Avj9NoWHgExGQU1HQiLBwOvEgggsJMYvFSCM5Usg5ahlYOdoYOHoZZphYITlpUWkZ68loeGgVWGn4BGDj4RKTkmJRUAMIdwZgABKG9kKwASmD8JPhgo0NBXVxxAkIiKaBp9oq5VlacVlp2bs6yZTKGGlSGylaydvJ2yoaG8hdtIIGdIT1woNhl1xoDMJBaAwmNF1uJEtt0OI0u9ZLYXlp7EYHLIrLlrghcbZ8pwVMoXIZHDkfn8RhMgSt-mN6RCIFQADKoXAQejoKDLEEEUYAEVwmFwrAgGDAVF5ADdUABrGW0ros-qMkZgsKsjlcnl8gWrIWi8UIeWoZBi0TodZw+II5JI1KIckOTKuFraM75K7mRCyW5UZR2HRfc4OB5GGmC7o6jWx7WTNmc7m8-ma0GmiVgbDYfrzMUAM0oAFsqKqAfHqJmhSzIamDRnE9nzegFVanXaePCtk7kYhPEVMnY8WcsucFPICQpOJktG6vEY7LIPDHjXHegmN0mCA39emjUyRWLcFQAAr55BwYR81jZ0YAQTluHoCwARmR7ZskjaBwgtExKgClDThHmULQFBDAlsUyTgPEA94TmUBwWnXJl1QiCAyFYFlRgAMXobBYDGWtMG-BI+z-F0EDsRwlFJdwQz0BwXEDGDA1seQcUAr4Q3kKx0LpcFt2PesUwPQ0yJPcV71PUZG0gCjHWo3ZEHsQxqiOQoNHgtQ7A0ZQZ0KKgmgaThzlHewLL8fwQHQVAIDgcRK03cJe1-HZJBkJ4lFUdRtF0fQjAJaQXGUe4mNUE5AM4VdDCEtURIiaFmBIDzEX-ID3AaAonHqVc3FC+xqg0ZxdNy31DC0RKqy3GtE3EjL+xo14Di+XJagaIwTH9BBpBxOdGKKZw3myJparcvoGp3cSoSidKHSoryUUpYDULi+QBNufzQpxKgDFkaLngg8k3kmzDgVm8F9zTKSW1PZrVO89JIPuDqWgebqPgJTxFC9RxZC0SMag0Z4LuSq6xJuiS7ubHdswvK8b3TJ6VtdAz3rcT6IIMH6+usGx9E0N5NDOckErs1zLukubpMbAVS3mMAITR501PSKwIqsbiGhxY4ngMglbndMqsmeNwsmqiHqyhrU6cTBn8NfEgAFdsDANn-yKLmqHycKWmaAwNGF8l7lOFxIzybjfCp2NLpobDNaWzz2ZegaidHZwincF4LPyDiDg0fIcgUYP1GUWRbJ8IA */
       id: "contractSelector",
 
       predictableActionArguments: true,
@@ -92,6 +95,10 @@ export const contractManagerMachine = (initialContractId?: string) =>
               },
 
               initial: "Processing",
+
+              on: {
+                "Data Loaded": "Contract Load Complete",
+              },
             },
 
             "Contract Load Complete": {},
@@ -158,6 +165,9 @@ export const contractManagerMachine = (initialContractId?: string) =>
           function processNext() {
             contractDataStreamReader.read().then(({ done, value }) => {
               if (done) {
+                send({
+                  type: "Data Loaded",
+                });
                 return;
               }
 

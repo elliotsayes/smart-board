@@ -47,12 +47,21 @@ type Event =
       data: {
         selectedInteractionIndex: number;
       };
+    }
+  | {
+      type: "Filter Time Range";
+      data: {
+        timeRange: {
+          start: number;
+          end: number;
+        };
+      };
     };
 
 export const dashboardMachine = () =>
   createMachine(
     {
-      /** @xstate-layout N4IgpgJg5mDOIC5QQIawBYCMD2KBOEAdAJIB2AlgC7koA2AxANoAMAuoqAA7axXnakOIAB6IALAE5CANgCMAdgAcYgKwqxs2dJXyJAGhABPRACZmKwrOYBmJc0WKV1rRIC+rg6gw58RACJoWLgEhABq5GAA7tx4lIQAypQolGAABOFR9GQpeCgAxtQCqQAqKJgs7Egg3LyFglWiCPLyJoRi0mYmzYrM8mJiBsYIqtKEEg7SztrSzePW7p6BPiEB3sFEGdHYsSSkOfl16RGR9InJaaXlbEI1fAJCjbqt6tLTkiYf9oOI0hqEKrJrCYxNZXvIAX0FiAvEFfIRVrCQpsYnFsmBcgV+KQjpl4mBKKk0RjDn5yAAzMkVG48O71UCNTQqKRiZgSayKPqKV4zWTfBAqOSEZjScaAz7C+TzDzQpbreGyuEBJIkCC0MD0ACqnFQKVSAGEBJRiaklSgqVVbnUHqZhWNJDY5GKJCZrCo+QDFJYnBJtKDFLJVPIoTDlv4FSFiuQALZgWjkUhgFVq+iRmNxhOEvbog5Y1J4tWYgTmrg0q0NUyqf5WfoONlieTMExuoyILnyIW9FQmKyNnvSYPhsNrOGp2PxxPEVXqgAy5FgBKJOaK+bAhdIxeqpax1oQwNG0kbYkc1hBINkjj5ViBhGsJ8c3eUKnsKgHw5Wg8Is-nSZnc4XWeJXMVzXDdLW3csEAkLQxgkXoOm7RtbxMPlnSkZ1FFdZgsN+KZ3GlUhsAgOAhBDdZqVqcD6UQZh3VGAEQRMaRFEYpsQSlRY3yIMg+DocjaR3I9L36V9ESHUS+LLKjhmZLogR6RQoK6dQ+RMf1CC5ejQQ6MQzBfaVSMVD9kW2SgJMokRxGdSwGwPEwJFUIFkJbBBQSkJ87PZRxmFUYT9I-BFQzCY4UQSJJdU2Mz7gg9RmGs4VG3spwPndc9CF0YVZG7CQJElWQ3D8zj5UK4ydkXNccUiSK6QshAFPbAUmN0dkmI6FLPXSyZhQwntZBEwKArlU0qp3HK2lk1T7EU8EBmc1ybyff0mNBLQ5HYmVCoGwzlUnNVhoggMLB0yUJoUzLpr5EZ1NBJ8fR0yRZHUPrBo-AAxchaByPapMyhw0vsGZxl0htrD5HprDSm6ukYpR7LEJ7DMK0d0zAL6asBds2Ps2wHrZUE+Vmf4H3rZiMPUfKONEorKaR8cf1RhlHDaW8sfkHHb2kFC+kIF1VDqmZtC7eH30Kr9TItLcoqk5pwddBtnRZc9JHkfGOTtPKT2Z+sgwKynNpCUW6fFijJZq5jZHmuXgWYRWctB8ExvBFRmO7O84bwoA */
+      /** @xstate-layout N4IgpgJg5mDOIC5QQIawBYCMD2KBOEAdAJIB2AlgC7koA2AxANoAMAuoqAA7axXnakOIAB6IALAE5CANgCMAdgAcYgKwqxs2dJXyJAGhABPRACZmKwrOYBmJc0WKV1rRIC+rg6gw58RACJoWLgEhABq5GAA7tx4lIQAypQolGAABOFR9GQpeCgAxtQCqQAqKJgs7Egg3LyFglWiCPLyJoRi0mYmzYrM8mJiBsYIqtKEEg7SztrSzePW7p6BPiEB3sFEGdHYsSSkOfl16RGR9InJaaXlbEI1fAJCjbqt6tLTkiYf9oOI0hqEKrJrCYxNZXvIAX0FiAvEFfIRVrCQpsYnFsmBcgV+KQjpl4mBKKk0RjDn5yAAzMkVG48O71UCNTQqKRiZgSayKPqKV4zWTfBAqOSEZjScaAz7C+TzDzQpbreGyuEBJIkCC0MD0ACqnFQKVSAGEBJRiaklSgqVVbnUHqZhWNJDY5GKJCZrCo+QDFJYnBJtKDFLJVPIoTDlv4FSEAGLkWg5FVq+hRmPokrkAC2aQASihSDBzVwaVaGohNLIpBJxhKxCY1OW+WyLKy5MD5DYW+Dg+Gw2s4cU02BaORSGA4+re+mB0PCXt0Qcsak8WrMQI89UC1jrQgzLJCKDVM7tFZrBIBkZEI5PapNE3m+CVB3uytO4Qx-3B8PiKr1QAZciwAlE2cigXMAl1IFdLXXItN2YVoRg6CQrCsZheVPBArBdQhuneFl5FkRRrDEe9ES7YjCB-P8R3ocj-2nYk52A0DwLXe4oJFUYuXZMRJQkZpwRPIYEKkI92RglQuSQqVpVIbAIDgIQQ3Walakg+lEAAWlaXDS1kasTF+Hjq0Ud1RgBEFJFBNktG0O9pQUuEyD4OglNpDcxCM1CA0I2ynwRUNnMLVThgsEwHHsPpJRUGC+j5ELty5UyJAFLRFC6aQiNDeUHw2Y4UX8lSRHEZ1LBbaQYOPJwPj5Cz-jKgUekmPSunSuVfLlZFtjiM5dU2PKWMC9RmGK4UytUIETHdPDMIkYUdNLHjnDcbyssy0j2p2ADQJxSJerpAqEEUHj-leDk2S5LlxtQj0puFaxhXwpDZGaxUfOSFAdo3Q6q0lEL7AQrp1CqkUd0ilL+lm3cnsfZbTRHd6oIDCwvqBHoDp0vi+RGQh8O0Rsq0kWR1EhkiMsTHI4cCpD5DaJwbAUaa8OBPlZh3V0nA6f1hXGImVpJ6NYw-NVyb2qw1Gp27nF0ZDQb5Ll2JMWbNGcFQXRsxZoafF8JzAIXGjZQgQpR8LXSi-jEGaQafXUDi+iBUtudans+y12GLWY3aGT+A2wq442ulNhBLZkJQPnLabrFux6ltIh2QmonXEDUax9Yj5oxLZQSmeaNpenDplIoFAj7afaiXfzZS+r20rtxdZDU4Oo9Sxl34sbZZD7DbhR3HcIA */
       id: "dashboard",
       predictableActionArguments: true,
       tsTypes: {} as import("./dashboard.typegen").Typegen0,
@@ -67,7 +76,7 @@ export const dashboardMachine = () =>
         selectedInteractionIndex: undefined,
         filter: {},
       },
-      initial: "Dashboard",
+      initial: "Initial",
       states: {
         Initial: {
           always: "Dashboard",
@@ -119,7 +128,21 @@ export const dashboardMachine = () =>
               initial: "Idle",
             },
 
-            Filter: {},
+            Filter: {
+              states: {
+                Idle: {
+                  on: {
+                    "Filter Time Range": {
+                      target: "Idle",
+                      internal: true,
+                      actions: "assignFilterUpdate",
+                    },
+                  },
+                },
+              },
+
+              initial: "Idle",
+            },
 
             Timeline: {
               states: {
@@ -182,6 +205,12 @@ export const dashboardMachine = () =>
         assignSelectedInteraction: assign({
           selectedInteractionIndex: (_, event) =>
             event.data.selectedInteractionIndex,
+        }),
+        assignFilterUpdate: assign({
+          filter: (context, event) => ({
+            ...context.filter,
+            ...event.data,
+          }),
         }),
       },
     }

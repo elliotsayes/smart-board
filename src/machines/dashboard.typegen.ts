@@ -15,11 +15,12 @@ export interface Typegen0 {
   };
   eventsCausingActions: {
     assignContractData: "Update Contract Data";
+    assignFilterUpdate: "Filter Time Range";
     assignInteractionDiff: "Set Interaction Diff";
     assignSelectedInteraction:
       | "List Interaction Selection"
       | "Timeline Interaction Selection";
-    assignViewportTab0: "" | "State Tab" | "xstate.init";
+    assignViewportTab0: "" | "State Tab";
     assignViewportTab1: "Interaction Tab" | "Set Interaction Diff";
     selectTimelineInteraction: "List Interaction Selection";
   };
@@ -31,6 +32,7 @@ export interface Typegen0 {
     | "Dashboard.Data"
     | "Dashboard.Data.Idle"
     | "Dashboard.Filter"
+    | "Dashboard.Filter.Idle"
     | "Dashboard.List"
     | "Dashboard.List.Idle"
     | "Dashboard.Timeline"
@@ -48,6 +50,7 @@ export interface Typegen0 {
           | "Viewport"
           | {
               Data?: "Idle";
+              Filter?: "Idle";
               List?: "Idle";
               Timeline?: "Idle";
               Viewport?: "Interaction View" | "State View";

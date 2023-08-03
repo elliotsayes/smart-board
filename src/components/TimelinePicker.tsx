@@ -11,12 +11,13 @@ const MAX_ITEMS = 500;
 interface Props {
   items: TimelineItem[],
   // line?: Date,
-  onSelect?: (item?: number) => void,
   onTimeline?: (timeline: Timeline) => void,
+  onSelect?: (item?: number) => void,
+  onRangeChanged?: (range: [number, number]) => void,
 }
 
 const TimelinePicker = (props: Props) => {
-  const { items, onSelect, onTimeline } = props;
+  const { items, onTimeline, onSelect, onRangeChanged } = props;
 
   const options: TimelineOptions = useMemo(() => {
     const nowMs = Date.now()
@@ -118,7 +119,12 @@ const TimelinePicker = (props: Props) => {
       selection && timeline.setSelection([selection]) // Workaround for losing selection
     }
     timeline.on('rangechange', throttle(250, trimRange, { noLeading: true, noTrailing: false }))
-    
+    timeline.on('rangechanged', (properties: RangeChangedProperties) => 
+      onRangeChanged?.([
+        utcMs(properties.start),
+        utcMs(properties.end)
+      ]))
+
     console.log('setup complete')
     setupRef.current = true;
     loadRef.current = false;
@@ -132,7 +138,7 @@ const TimelinePicker = (props: Props) => {
       timeline.destroy()
       setupRef.current = false
     }
-  }, [items, itemsSampled, options, onTimeline, onSelect])
+  }, [items, itemsSampled, options, onTimeline, onSelect, onRangeChanged])
 
   return (
     <div className="w-[1000px] animate-fade-in relative">

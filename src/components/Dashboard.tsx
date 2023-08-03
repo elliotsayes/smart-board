@@ -55,14 +55,26 @@ const Dashboard = (props: Props) => {
     })
   }, [send])
 
-  // const contextLite = {
-  //   ...current.context,
-  //   contractData: undefined,
-  // }
+  const onRangeChanged = useCallback((range: [number, number]) => {
+    send({
+      type: 'Filter Time Range',
+      data: {
+        timeRange: {
+          start: range[0],
+          end: range[1],
+        }
+      }
+    })
+  }, [send])
+
+  const contextLite = {
+    ...current.context,
+    contractData: undefined,
+  }
 
   return (
     <div className="flex flex-col gap-2">
-      {/* <p>{JSON.stringify(contextLite)}</p> */}
+      <p>{JSON.stringify(contextLite)}</p>
       <DashboardBox
         loading={contractDataProp.meta === undefined}
       >
@@ -91,6 +103,7 @@ const Dashboard = (props: Props) => {
           items={timelineItems}
           onTimeline={setTimeline}
           onSelect={onSelectTimeline}
+          onRangeChanged={onRangeChanged}
         />
       </DashboardBox>
     </div>

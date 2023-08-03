@@ -19,9 +19,10 @@ export interface Typegen0 {
     assignSelectedInteraction:
       | "List Interaction Selection"
       | "Timeline Interaction Selection";
+    assignTimeline: "Set Timeline";
     assignViewportTab0: "" | "State Tab";
     assignViewportTab1: "Interaction Tab" | "Set Interaction Diff";
-    setTimelineInteraction: "List Interaction Selection";
+    selectTimelineInteraction: "List Interaction Selection";
   };
   eventsCausingDelays: {};
   eventsCausingGuards: {};

@@ -60,7 +60,7 @@ type Event =
 export const dashboardMachine = () =>
   createMachine(
     {
-      /** @xstate-layout N4IgpgJg5mDOIC5QQIawBYCMD2KBOEAdAJIB2AlgC7koA2AxANoAMAuoqAA7axXnakOIAB6IALAE5CANgCMAdgAcYgKwqxs2dJXyJAGhABPRACZmKwrOYBmJc0WKV1rRIC+rg6gw58RACJoWLgEhAGUKCQQtGD0AKqcqJRgAAQAwgKUeCgAxpTJYSgs7Egg3LzUAkKiCLIS1oQqVtIm8ibWEswdYgbGCComspYqEhJW6orSYtYm7p6BPiEB3sFEACrkALZgtOSkMQDKYHnrWzt7RUJlfJUl1bLWioRmEorWzGJTJhoKPYiK8vUHBIVIoBh8VO9rLMQF4gr5QvMVoQAGrkMAAd24eEohH24SSyVRGPoZCSWVy-FIyVWKEwFxKVwqgluiHkw0IzDackUHW0YgGvwQqikI1U8mkr1a8nkYmhsIW-kR8KJmOw2JIpDJOSZhLR6PoeJQBJpdLYlx412ZoGq0qkVlBYnFskUzGdikFkzEDVqbuULtkKjlSsWwaIKqxONJYHJOpVBqOySjMcp+XIADM0-SuBamVVEJpVIQJPJOko5F9tCZBSpJhy2WzlMxzJNFEHlvClnCQidtrswIQABJoambXt7eg9s4pJPalOHaIUgRZ0o5yl5oXWCzyTQBkFibnyQWjEwNdpfNSyR2NWUeGGhhHtkIAGXIsEjURiL7fic10dnAmSecwEXUhl0ZNcWQQDp6jUNonGsaxpBse4j2mItrH5YFnWkCQTDqNsu0VR81lHKdB2HSc+3oL88hnEDAO2YCmTA1cbmtcQrEIKY6lw-c1ClQUrCUDlhiaYENBrKFoVIbAIDgIR5RWc1ygg9iEAAWlkE9gUcR03glXQHirIxEBrb0pmdBRagGEwZlvRT4TIPg6GUy11zEd0TJqD4CIVB9CNc3NIM3DkNFUEwcOcMxmkFExlEIf4rBeV0WmmANfKRTs-PDNVKEC1SRHEYSAQGCQxGYbctKbaxBVsE8IQcVpmGkBDeRvOZiP8vyCnytjCoQV4iyBazL1wmtataQhN2kW1G0UJKpI6wiusyo0ImID9eqtfr7kGF4eRGyQTHGrzhQS-lVA82yXlGDKO3vAAxchaDJLb1y051CBlAMOgGJRxW6LzdHkItajUS6nDMOylu6+9KL2N7IMG95L36SKqpioGJi4mxcJLCYnA8u6Q06+H+w26JEbU3bQtRiK6gx4zeisBQnhGZqQXFRotOJojlpy9VDQJFUqf6tGvrSsqKs0JnTIGL6JG0HQHk5PD2rvTqsqRAXI1-ZMAJFhlWO26oHC9LTlBLRoIukat5d0bQGxa4ZpV5lb4TJ8jYBHU4+1F6ovkGGbHDMJwHFqB5BJSjkOgBYV7AlN2tfhGj-dZdlRgmV5+gBpRBV0PbuLR9p60Dez72T59X3fSmjZUvrTYq0Gs83FpJjzrz-keKZNxscrnWFdx3CAA */
+      /** @xstate-layout N4IgpgJg5mDOIC5QQIawBYCMD2KBOEAdAJIB2AlgC7koA2AxANoAMAuoqAA7axXnakOIAB6IALAE5CANgCMAdgAcYgKwqxs2dJXyJAGhABPRACZmKwrOYBmJc0WKV1rRIC+rg6gw58RACJoWLgEhABq5GAA7tx4lIQAypQolGAABOFR9GQpeCgAxtQCqQAqKJgs7Egg3LyFglWiCPIqUswm1nKKEszaYiayBsYIqlISEqry0oq2JvLyYu6egT4hAd7BRBnR2LEkpDn5dekRkfSJyWml5WxCNXwCQo1zUlaKJmKTsorMX4qDiNIxGJCCpZBJfspvrIVIsQF4gr5CGsESEtjE4tkwLkCvxSMdMvEwJRUpjsUc-OQAGaUiq3Hj3eqgRqaVSECTyZjsxRyd7aEz-BAqQGEZjNZrKZjmQGKWHwlb+ZYbJHJFAkCC0MD0ACqnFQKVSAGEBJQyakAklaVU7nVHogwdYQVZpLN2t1umIBSp+pYWuDzGJuWJrCZZYrEcj5YRiuQALZgWjkUhgQgACTQJVj8cTmujcYTSZJ+yxh1xqUJGpxAktXHpNoa4nabJMZhs1m5b201gF3VkMms6lFkxs0IWHjhYdWE6IuazSdT6Zn+c1ABlyLBiaSS0Vy2BK6Rq9Va7jbQhrBJFDIVG0xJKev1mx6jHaevIfV7pOCxvIzKOlutw1OhCruuaoavQwEbkWZKljue4Htax71gg3QOmo7RONYHTDl2T7IcGbLWH0EigtyEgmBI1ihv+k7UdOmZLmcRIZnm2bwUeDxIWCvb9Josg3r88x-LhDjMIQkyKNCfE9OCfHuGOpDYBAcBCHKGx0rUiFMogAC07xiR8H7stIzpntynrSI6QbvA4mEoVoVEokQZB8HQ6kMieAYCnxv7jrRyq0W5dZaQgjYmF61iSu0tjSD8j5DCYyiEIo8iaMwqhdJM7I+apAF+WiOyUIFmkiOIShicGYI3ilsgtjhQwzCC9g9t+PTSHMDmRhGSr5bs5z6lsRUccF77lf04yipo-K4V6va6NoOhtm05HZYBXWIj1GJQVueIDVa7GMiVCAOMCNXKByoImMZnrenNOgqNy-bsvIHVKmtk5JINB2NNMbIOJ+-SSGF0gCg1-ZtboHLSLY4wvbljnKkkoFgJ9J6yM4v1dGCANkUKAojElfSqAGzbnuCsM0fDABi5C0DkKOcbMFizG0HLjFDUx1Yg3wWc0UzfkC0xkbI5MKn5i7ZvTwUpYQYXtJFmFDnxAq6A6CXvJILQ-JjIv+fD4tzsQ6rI3tGlDYdmhSLLEVtArMVK7hVg9IQZ5eglNVmM0IZjjlFORvryZprAzGzsbNam19pjkUlXQdN8ujpfoDuSr2XxTBIHOAsGOtvUQEGS4dzSjKn0xepMHxCUMuiieMdjQo4NUdNngEQUj+ffaKbLF-2syAkoArJReQb9jY-HKC0cmuEAA */
       id: "dashboard",
       predictableActionArguments: true,
       tsTypes: {} as import("./dashboard.typegen").Typegen0,
@@ -144,13 +144,20 @@ export const dashboardMachine = () =>
                     "List Interaction Selection": {
                       target: "Has Timeline",
                       internal: true,
-                      actions: "setTimelineInteraction",
+                      actions: "selectTimelineInteraction",
                     },
                   },
                 },
               },
 
               initial: "Idle",
+
+              on: {
+                "Set Timeline": {
+                  target: ".Has Timeline",
+                  actions: "assignTimeline",
+                },
+              },
             },
 
             List: {
@@ -193,7 +200,10 @@ export const dashboardMachine = () =>
           selectedInteractionIndex: (_, event) =>
             event.data.selectedInteractionIndex,
         }),
-        setTimelineInteraction: (context, event) => {
+        assignTimeline: assign({
+          timeline: (_, event) => event.data.timeline,
+        }),
+        selectTimelineInteraction: (context, event) => {
           context.timeline?.setSelection(event.data.selectedInteractionIndex);
         },
       },

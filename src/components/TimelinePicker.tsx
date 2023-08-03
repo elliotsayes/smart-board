@@ -21,7 +21,7 @@ const TimelinePicker = (props: Props) => {
 
   const options: TimelineOptions = useMemo(() => {
     const nowMs = Date.now()
-    const firstInteractionMs = items[0].start! as number
+    const firstInteractionMs = utcMs(items[0]?.start ?? Date.now())
     // const lastInteraction = (items[items.length - 1].end ?? items[items.length - 1].start) as Date
     const durationMs = nowMs - firstInteractionMs
     const clampedDurationMs = Math.max(

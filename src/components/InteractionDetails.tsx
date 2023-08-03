@@ -20,6 +20,7 @@ const InteractionDetails = ({interactionIndex, interaction}: Props) => {
   return (
     <div>
       <p>#{interactionIndex}: <HashView hash={interaction.id} viewblock="tx" warpSonar="interaction" /></p>
+      <p>Block <HashView hash={interaction.block.height.toString()} viewblock="block" /></p>
       <p>{interactionBlockDate.toISOString()}</p>
       <p>function: {inputFunction}</p>
       <p>tags: {Object.keys(otherTagsRecord).join(', ')}</p>

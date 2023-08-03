@@ -22,10 +22,22 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const Default: Story = {
+export const WalletAddress: Story = {
   args: {
     // My personal wallet address
     hash: "0cQJ5Hd4oCaL57CWP-Pqe5_e0D4_ZDWuxKBgR9ke1SI",
     copy: true,
+    viewblock: "address",
+    warpSonar: "creator",
+  },
+};
+
+// More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
+export const Block: Story = {
+  args: {
+    // My personal wallet address
+    hash: "123456",
+    copy: false,
+    viewblock: "block",
   },
 };

@@ -1,10 +1,13 @@
 import { createMachine, assign } from "xstate";
 import { ContractDataFull } from "../types/contract";
+import { WarpFactory } from "warp-contracts";
+import { loadContractData } from "../services/contract_load";
 
 type Context = {
   initialContractId?: string;
   selectedContractId?: string;
   contractData: Partial<ContractDataFull>;
+  error?: object;
 };
 
 type Events =
@@ -41,7 +44,6 @@ export const contractManagerMachine = (initialContractId?: string) =>
 
       context: {
         initialContractId,
-        selectedContractId: undefined,
         contractData: {},
       },
 
@@ -130,6 +132,46 @@ export const contractManagerMachine = (initialContractId?: string) =>
         assignReplacementContract: assign({
           selectedContractId: (_, event) => event.data.replacementContractId,
         }),
+        assignErrorInfo: assign({
+          error: (_, event) => event.data,
+        }),
+        assignPartialContractData: assign({
+          contractData: (context, event) => ({
+            ...context.contractData,
+            ...event.data,
+          }),
+        }),
+      },
+      guards: {
+        hasInitialContractId: (context) =>
+          context.initialContractId !== undefined,
+        isContractReplacable: () => true, // TODO
+      },
+      services: {
+        loadContract: (context) => (send) => {
+          const { selectedContractId: contractId } = context;
+
+          const warp = WarpFactory.forMainnet();
+          const contractDataStream = loadContractData(warp, contractId!);
+          const contractDataStreamReader = contractDataStream.getReader();
+
+          function processNext() {
+            contractDataStreamReader.read().then(({ done, value }) => {
+              if (done) {
+                return;
+              }
+
+              send({
+                type: "Data Available",
+                data: value,
+              });
+
+              processNext();
+            });
+          }
+
+          processNext();
+        },
       },
     }
   );

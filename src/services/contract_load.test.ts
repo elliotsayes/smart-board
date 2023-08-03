@@ -1,4 +1,3 @@
-// sum.test.js
 import { test, expect } from "vitest";
 import { WarpFactory } from "warp-contracts";
 import { loadContractData } from "./contract_load";

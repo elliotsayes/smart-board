@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
 import TimelinePicker from "./TimelinePicker";
-import { TimelineItem } from "vis-timeline/esnext";
+import { ardrive } from "../fixtures/timestamps";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
@@ -29,61 +29,66 @@ export const ZeroItems: Story = {
   },
 };
 
-const oneItem: TimelineItem[] = [
-  {
-    id: 0,
-    start: Date.UTC(2012, 0, 1),
-    content: "",
-    type: "point",
-  },
-];
-
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const OneItem: Story = {
   args: {
-    items: oneItem,
+    items: [
+      {
+        id: 0,
+        start: Date.UTC(2012, 0, 1),
+        content: "",
+        type: "point",
+      },
+    ],
   },
 };
-
-const items100: TimelineItem[] = Array.from({ length: 100 }, (_, i) => ({
-  id: i,
-  start: Date.UTC(2010 + Math.floor(i / 12), i % 12, 1),
-  content: "",
-  type: "point",
-}));
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const HundredItems: Story = {
   args: {
-    items: items100,
+    items: Array.from({ length: 100 }, (_, i) => ({
+      id: i,
+      start: Date.UTC(2010 + Math.floor(i / 12), i % 12, 1),
+      content: "",
+      type: "point",
+    })),
   },
 };
-
-const items1k: TimelineItem[] = Array.from({ length: 1_000 }, (_, i) => ({
-  id: i,
-  start: Date.UTC(1900 + Math.floor(i / 12), i % 12, 1),
-  content: "",
-  type: "point",
-}));
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const ThousandItems: Story = {
   args: {
-    items: items1k,
+    items: Array.from({ length: 1_000 }, (_, i) => ({
+      id: i,
+      start: Date.UTC(1900 + Math.floor(i / 12), i % 12, 1),
+      content: "",
+      type: "point",
+    })),
   },
 };
-
-const items10k: TimelineItem[] = Array.from({ length: 10_000 }, (_, i) => ({
-  id: i,
-  start: Date.UTC(1000 + Math.floor(i / 12), i % 12, 1),
-  content: "",
-  selectable: true,
-  type: "point",
-}));
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const TenThousandItems: Story = {
   args: {
-    items: items10k,
+    items: Array.from({ length: 10_000 }, (_, i) => ({
+      id: i,
+      start: Date.UTC(1000 + Math.floor(i / 12), i % 12, 1),
+      content: "",
+      selectable: true,
+      type: "point",
+    })),
+  },
+};
+
+export const ArdriveContract: Story = {
+  args: {
+    items: ardrive.map((ts, i) => ({
+      id: i,
+      start: new Date(ts * 1000),
+      className: ts % 2 === 1 ? "vis-dot-disabled" : undefined,
+      content: "",
+      selectable: ts % 2 === 0,
+      type: "point",
+    })),
   },
 };

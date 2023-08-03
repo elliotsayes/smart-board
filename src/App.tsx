@@ -1,26 +1,12 @@
-import { TimelineItem } from 'vis-timeline';
 import './App.css'
-import TimelinePicker from './components/TimelinePicker'
-import { ardrive } from './fixtures/timestamps';
-// import TimelineTest from './components/TimelineTest'
-
-const itemsArdrive: TimelineItem[] = ardrive.map((ts, i) => ({
-  id: i,
-  start: new Date(ts * 1000),
-  className: ts % 2 === 1 ? "vis-dot-disabled" : undefined,
-  content: "",
-  selectable: ts % 2 === 0,
-  type: "point",
-}));
+import ContractManager from './components/ContractManager';
+import MouseTester from './components/MouseTester';
 
 function App() {
   return (
     <div>
-      <TimelinePicker
-        items={itemsArdrive}
-        onSelect={(i) => console.log('Selected', i)}
-        onDeselect={() => console.log('Deselected')}
-      />
+      <MouseTester />
+      <ContractManager initialContractId='-8A6RexFkpfWwuyVO98wzSFZh0d6VJuI-buTJvlwOJQ' />
     </div>
   )
 }

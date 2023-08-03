@@ -14,10 +14,10 @@ export interface Typegen0 {
     loadContract: "done.invoke.contractSelector.Contract Selected.Loading Contract Data:invocation[0]";
   };
   missingImplementations: {
-    actions: "assignErrorInfo" | "assignPartialContractData";
+    actions: never;
     delays: never;
-    guards: "hasInitialContractId" | "isContractReplacable";
-    services: "loadContract";
+    guards: never;
+    services: never;
   };
   eventsCausingActions: {
     assignErrorInfo: "error.platform.contractSelector.Contract Selected.Loading Contract Data:invocation[0]";

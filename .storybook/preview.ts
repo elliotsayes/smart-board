@@ -13,6 +13,9 @@ const preview: Preview = {
         date: /Date$/,
       },
     },
+    xstate: {
+      height: "400px",
+    },
   },
   decorators: [
     // Adds theme switching support.

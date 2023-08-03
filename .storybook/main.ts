@@ -11,6 +11,7 @@ const config: StorybookConfig = {
       name: "@storybook/addon-styling",
       options: {},
     },
+    "storybook-xstate-addon/preset",
   ],
   framework: {
     name: "@storybook/react-vite",

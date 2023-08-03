@@ -35,7 +35,7 @@ const TimelinePicker = (props: Props) => {
       max: max,
       stack: false,
       width: '100%',
-      height: '150px',
+      height: '120px',
       showMajorLabels: true,
       zoomMin: 10000000,
       format: {

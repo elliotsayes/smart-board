@@ -2,6 +2,7 @@ import { ContractInteraction } from "../types/contract";
 
 interface Props {
   interactionIndex: number;
+  interactionCount: number;
   interaction: ContractInteraction;
 }
 

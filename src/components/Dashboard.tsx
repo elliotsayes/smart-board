@@ -76,7 +76,8 @@ const Dashboard = (props: Props) => {
             <p>Select an interaction below.</p>
           ) : (
             <InteractionDetails
-              interactionIndex={current.context.selectedInteractionIndex!} 
+              interactionIndex={current.context.selectedInteractionIndex!}
+              interactionCount={contractDataProp.interactionHistory!.length}
               interaction={contractDataProp.interactionHistory![current.context.selectedInteractionIndex!]}
             />
           )

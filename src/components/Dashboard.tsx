@@ -1,11 +1,11 @@
-import { useEffect, useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import { ContractDataFull } from "../types/contract"
 import { useMachine } from "@xstate/react"
 import { dashboardMachine } from "../machines/dashboard"
 import TimelinePicker from "./TimelinePicker"
 import DashboardBox from "./DashboardBox"
 import ContractHeader from "./ContractHeader"
-import { Timeline } from "vis-timeline"
+import { Timeline, TimelineItem } from "vis-timeline"
 
 interface Props {
   contractData: Partial<ContractDataFull>
@@ -28,22 +28,22 @@ const Dashboard = (props: Props) => {
     },
   );
 
-  useEffect(() => {
-    send({
-      type: 'Update Contract Data',
-      data: { contractData: contractDataProp },
-    })
-  }, [contractDataProp, send])
+  // useEffect(() => {
+  //   send({
+  //     type: 'Update Contract Data',
+  //     data: { contractData: contractDataProp },
+  //   })
+  // }, [contractDataProp, send])
 
-  const timelineItems = useMemo(() => 
+  const timelineItems: TimelineItem[] = useMemo(() => 
     contractDataProp.interactionHistory?.map(
-      (interaction) => ({
-        id: interaction.id,
+      (interaction, index) => ({
+        id: index,
         content: '',
-        start: interaction.block.timestamp,
+        start: interaction.block.timestamp * 1000,
         type: 'point',
       })
-    ),
+    ) ?? [],
     [contractDataProp],
   )
 

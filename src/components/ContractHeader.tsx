@@ -2,7 +2,7 @@ import { ContractMeta } from "../types/contract"
 
 type Props = ContractMeta
 
-const ContractHeader = ({owner, txId, srcTxId, contractType, src}: Props) => {
+const ContractHeader = ({owner, txId, srcTxId, contractType}: Props) => {
   return (
     <div>
       <h1>Contract</h1>

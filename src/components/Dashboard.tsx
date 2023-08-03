@@ -6,6 +6,7 @@ import TimelinePicker from "./TimelinePicker"
 import DashboardBox from "./DashboardBox"
 import ContractHeader from "./ContractHeader"
 import { Timeline, TimelineItem } from "vis-timeline"
+import InteractionDetails from "./InteractionDetails"
 
 interface Props {
   contractData: Partial<ContractDataFull>
@@ -47,18 +48,32 @@ const Dashboard = (props: Props) => {
     [contractDataProp],
   )
 
-  const contextLite = {
-    ...current.context,
-    contractData: undefined,
-  }
+  // const contextLite = {
+  //   ...current.context,
+  //   contractData: undefined,
+  // }
 
   return (
     <div className="flex flex-col gap-2">
-      <p>{JSON.stringify(contextLite)}</p>
+      {/* <p>{JSON.stringify(contextLite)}</p> */}
       <DashboardBox
         loading={contractDataProp.meta === undefined}
       >
         <ContractHeader {...contractDataProp.meta!} />
+      </DashboardBox>
+      <DashboardBox
+        loading={contractDataProp.interactionHistory === undefined}
+      >
+        {
+          current.context.selectedInteractionIndex === undefined ? (
+            <p>Select an interaction below.</p>
+          ) : (
+            <InteractionDetails
+              interactionIndex={current.context.selectedInteractionIndex!} 
+              interaction={contractDataProp.interactionHistory![current.context.selectedInteractionIndex!]}
+            />
+          )
+        }
       </DashboardBox>
       <DashboardBox
         loading={contractDataProp.interactionHistory === undefined}

@@ -19,6 +19,7 @@
     "observable-webworker": "^4.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-tooltip": "^5.20.0",
     "rxjs": "^7.8.1",
     "throttle-debounce": "^5.0.0",
     "vis-timeline": "^7.7.2",
@@ -26,6 +27,7 @@
     "xstate": "^4.38.2"
   },
   "devDependencies": {
+    "@iconify/json": "^2.2.97",
     "@storybook/addon-essentials": "^7.1.1",
     "@storybook/addon-interactions": "^7.1.1",
     "@storybook/addon-links": "^7.1.1",
@@ -36,6 +38,8 @@
     "@storybook/react": "^7.1.1",
     "@storybook/react-vite": "^7.1.1",
     "@storybook/testing-library": "^0.2.0",
+    "@svgr/core": "^8.0.0",
+    "@svgr/plugin-jsx": "^8.0.1",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@types/throttle-debounce": "^5.0.0",
@@ -53,6 +57,7 @@
     "storybook-xstate-addon": "^2.3.8",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.0.2",
+    "unplugin-icons": "^0.16.5",
     "vite": "^4.4.5",
     "vitest": "^0.34.1"
   }

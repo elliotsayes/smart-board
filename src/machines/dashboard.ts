@@ -1,10 +1,20 @@
 import { createMachine } from "xstate";
-import { ContractDataFull } from "../types/contract";
+import { ContractDataFull, ContractResult } from "../types/contract";
 
 type Context = {
   contractData: Partial<ContractDataFull>;
   viewportTab: number;
+  viewportInteractionShowDiff: boolean;
   selectedInteractionIndex?: number;
+  filter: {
+    functions?: Set<string>;
+    results?: Set<ContractResult>;
+    walletAddresses?: Set<string>;
+    timeRange?: {
+      start: number;
+      end: number;
+    };
+  };
 };
 
 type Event = {
@@ -25,8 +35,11 @@ export const dashboardMachine = () =>
       events: {} as Event,
     },
     context: {
-      viewportTab: 0,
       contractData: {},
+      viewportTab: 0,
+      viewportInteractionShowDiff: false,
+      selectedInteractionIndex: undefined,
+      filter: {},
     },
     initial: "Initial",
     states: {

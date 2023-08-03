@@ -25,3 +25,9 @@ export type ContractDataFull = {
   interactionHistory: ContractInteractionHistory;
   stateHistory: ContractStateHistory;
 };
+
+export enum ContractResult {
+  Update = "update",
+  NoUpdate = "noupdate",
+  Error = "error",
+}

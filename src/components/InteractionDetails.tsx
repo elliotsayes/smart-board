@@ -1,4 +1,5 @@
 import { ContractInteraction } from "../types/contract";
+import HashView from "./HashView";
 
 interface Props {
   interactionIndex: number;
@@ -18,7 +19,7 @@ const InteractionDetails = ({interactionIndex, interaction}: Props) => {
 
   return (
     <div>
-      <p>#{interactionIndex}: <code className="text-xs">{interaction.id}</code></p>
+      <p>#{interactionIndex}: <HashView hash={interaction.id} viewblock="tx" warpSonar="interaction" /></p>
       <p>{interactionBlockDate.toISOString()}</p>
       <p>function: {inputFunction}</p>
       <p>tags: {Object.keys(otherTagsRecord).join(', ')}</p>

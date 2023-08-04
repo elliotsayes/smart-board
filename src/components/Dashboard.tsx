@@ -7,6 +7,7 @@ import DashboardBox from "./DashboardBox"
 import ContractHeader from "./ContractHeader"
 import { Timeline, TimelineItem } from "vis-timeline"
 import InteractionDetails from "./InteractionDetails"
+import DashboardTabs from "./DashboardTabs"
 
 interface Props {
   contractData: Partial<ContractDataFull>
@@ -73,28 +74,47 @@ const Dashboard = (props: Props) => {
   }
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-4">
       <p>{JSON.stringify(contextLite)}</p>
       <DashboardBox
         loading={contractDataProp.meta === undefined}
       >
         <ContractHeader {...contractDataProp.meta!} />
       </DashboardBox>
-      <DashboardBox
-        loading={contractDataProp.interactionHistory === undefined}
+      <DashboardTabs 
+        tabIndex={current.context.viewportTab}
+        titles={['State Overview', 'Interaction Details']}
+        onTabChange={(tabIndex: number) => {
+          if (tabIndex === 0) {
+            send({
+              type: 'State Tab',
+            })
+          } else if (tabIndex === 1) {
+            send({
+              type: 'Interaction Tab',
+            })
+          }
+        }}
       >
-        {
-          current.context.selectedInteractionIndex === undefined ? (
-            <p>Select an interaction below.</p>
-          ) : (
-            <InteractionDetails
-              interactionIndex={current.context.selectedInteractionIndex!}
-              interactionCount={contractDataProp.interactionHistory!.length}
-              interaction={contractDataProp.interactionHistory![current.context.selectedInteractionIndex!]}
-            />
-          )
-        }
-      </DashboardBox>
+        <DashboardBox loading={false} >
+          <p>hi</p>
+        </DashboardBox>
+        <DashboardBox
+          loading={contractDataProp.interactionHistory === undefined}
+        >
+          {
+            current.context.selectedInteractionIndex === undefined ? (
+              <p>Select an interaction below.</p>
+            ) : (
+              <InteractionDetails
+                interactionIndex={current.context.selectedInteractionIndex!}
+                interactionCount={contractDataProp.interactionHistory!.length}
+                interaction={contractDataProp.interactionHistory![current.context.selectedInteractionIndex!]}
+              />
+            )
+          }
+        </DashboardBox>
+      </DashboardTabs>
       <DashboardBox
         loading={contractDataProp.interactionHistory === undefined}
         padding={false}

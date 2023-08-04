@@ -196,7 +196,7 @@ export const dashboardMachine = () =>
           viewportTab: 0,
         }),
         assignViewportTab1: assign({
-          viewportTab: 0,
+          viewportTab: 1,
         }),
         assignInteractionDiff: assign({
           viewportInteractionShowDiff: (_, event) =>

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
 import InteractionDetails from "./InteractionDetails";
+import { ContractState } from "../types/contract";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
@@ -21,46 +22,28 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const BlankInteraction: Story = {
-  args: {
-    interactionIndex: 0,
-    interactionCount: 2,
-    interaction: {
-      id: "",
-      anchor: "",
-      signature: "",
-      recipient: "",
-      owner: {
-        address: "",
-        key: "",
+const exampleState: ContractState = {
+  sortKey:
+    "000000000000,0000000000000,0000000000000000000000000000000000000000000000000000000000000000",
+  cachedValue: {
+    state: {
+      name: "ArDrive OG Logo",
+      owner: "7waR8v4STuwPnTck1zFVkQqJh5K9q9Zik4Y5-5dV7nk",
+      evolve: null,
+      ticker: "ANT-ARDRIVE-OG-LOGO",
+      records: {
+        "@": {
+          ttlSeconds: 1800,
+          transactionId: "xWQ7UmbP0ZHDY7OLCxJsuPCN3wSUk0jCTJvOG1etCRo",
+        },
       },
-      fee: {
-        winston: "",
-        ar: "",
+      balances: {
+        "7waR8v4STuwPnTck1zFVkQqJh5K9q9Zik4Y5-5dV7nk": 1,
       },
-      quantity: {
-        winston: "",
-        ar: "",
-      },
-      data: {
-        size: 0,
-        type: "",
-      },
-      tags: [],
-      block: {
-        id: "",
-        timestamp: 0,
-        height: 0,
-        previous: "",
-      },
-      parent: {
-        id: "",
-      },
-      bundledIn: {
-        id: "",
-      },
+      controller: "7waR8v4STuwPnTck1zFVkQqJh5K9q9Zik4Y5-5dV7nk",
     },
+    validity: {},
+    errorMessages: {},
   },
 };
 
@@ -163,5 +146,8 @@ export const ExampleInteraction: Story = {
         type: "",
       },
     },
+    beforeState: exampleState,
+    afterState: exampleState,
+    preferShowDiff: true,
   },
 };

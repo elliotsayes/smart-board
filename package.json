@@ -18,6 +18,7 @@
     "moment": "2.29.4",
     "observable-webworker": "^4.0.1",
     "react": "^18.2.0",
+    "react-diff-viewer-continued": "^3.2.6",
     "react-dom": "^18.2.0",
     "react-tooltip": "^5.20.0",
     "rxjs": "^7.8.1",

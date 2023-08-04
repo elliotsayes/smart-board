@@ -8,6 +8,7 @@ import ContractHeader from "./ContractHeader"
 import { Timeline, TimelineItem } from "vis-timeline"
 import InteractionDetails from "./InteractionDetails"
 import DashboardTabs from "./DashboardTabs"
+import StateOverview from "./StateOverview"
 
 interface Props {
   contractData: Partial<ContractDataFull>
@@ -101,11 +102,14 @@ const Dashboard = (props: Props) => {
           }
         }}
       >
-        <DashboardBox loading={false} >
-          <p>hi</p>
+        <DashboardBox loading={contractDataProp.initialState === undefined} >
+          <StateOverview
+            initialState={contractDataProp.initialState!}
+            latestState={contractDataProp.latestState}
+          />
         </DashboardBox>
         <DashboardBox
-          loading={contractDataProp.interactionHistory === undefined}
+          loading={contractDataProp.interactionHistory === undefined || contractDataProp.stateHistory === undefined}
         >
           {
             current.context.selectedInteractionIndex === undefined ? (
@@ -115,6 +119,9 @@ const Dashboard = (props: Props) => {
                 interactionIndex={current.context.selectedInteractionIndex!}
                 interactionCount={contractDataProp.interactionHistory!.length}
                 interaction={contractDataProp.interactionHistory![current.context.selectedInteractionIndex!]}
+                beforeState={contractDataProp.stateHistory![current.context.selectedInteractionIndex!]}
+                afterState={contractDataProp.stateHistory![current.context.selectedInteractionIndex! + 1]}
+                preferShowDiff={current.context.viewportInteractionShowDiff}
               />
             )
           }

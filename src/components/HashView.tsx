@@ -37,8 +37,9 @@ const HashView = ({hash, copy, viewblock, warpSonar}: Props) => {
             <button
               onClick={() => {
                 navigator.clipboard.writeText(hash);
+                // Set to copied for 1 second. This will change tooltip text & icon
                 setCopied(true);
-                setTimeout(() => setCopied(false), 2000);
+                setTimeout(() => setCopied(false), 1000);
               }}
               className="group"
               data-tooltip-id="copy"

@@ -25,9 +25,7 @@ interface Props {
   initialContractId?: string;
 }
 
-const ContractManager = (props: Props) => {
-  const { initialContractId } = props;
-
+const ContractManager = ({ initialContractId }: Props) => {
   const [current] = useMachine(
     () => contractManagerMachine(initialContractId), 
     { 

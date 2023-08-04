@@ -1,6 +1,6 @@
 interface Props {
   tabIndex: number;
-  onTabChange?: (index: number) => void;
+  onTabChange: (index: number) => void;
   titles: string[];
   children: React.ReactNode[];
 }

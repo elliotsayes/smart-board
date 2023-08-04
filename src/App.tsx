@@ -1,5 +1,7 @@
+const __DEV__ = import.meta.env.DEV
+
 import { inspect } from '@xstate/inspect'
-if (import.meta.env.DEV) {
+if (__DEV__) {
   inspect({
     iframe: false,
   });
@@ -10,7 +12,7 @@ import ContractManager from './components/ContractManager';
 
 const quiet = 'aeQgDoPgdixT7tjNXC9X4x6NRjGjAmsvUndl3_EHlto'
 const busy = '-8A6RexFkpfWwuyVO98wzSFZh0d6VJuI-buTJvlwOJQ'
-const contractId = import.meta.env.DEV ? quiet : busy;
+const contractId = __DEV__ ? quiet : busy;
 
 function App() {
   return (

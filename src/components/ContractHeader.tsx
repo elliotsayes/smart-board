@@ -8,12 +8,24 @@ const ContractHeader = ({owner, srcTxId, contractType}: Props) => {
   return (
     <div className="flex gap-4 align-middle">
       <Identicon address={owner} />
-      <div/>
-      <p>Creator <HashView hash={owner} viewblock="address" warpSonar="creator" /></p>
+      <div>
+        <p className="text-sm font-semibold pl-2 pb-0.5">
+          Creator
+        </p>
+        <HashView hash={owner} viewblock="address" warpSonar="creator" />
+      </div>
       {/* <p>TxId <HashView hash={txId} viewblock="tx" warpSonar="contract" /></p> */}
-      <p>Source <HashView hash={srcTxId} viewblock="tx" warpSonar="source" /></p>
+      <div>
+        <p className="text-sm font-semibold pl-2 pb-0.5">
+          Source{` `}
+          <span className={` align-text-top font-mono text-xs rounded-sm px-0.5 ${contractType === 'js' ? 'bg-yellow-400/40' : 'bg-purple-400/40'}`}>
+            {contractType.toLocaleUpperCase()}
+          </span>
+        </p>
+        <HashView hash={srcTxId} viewblock="tx" warpSonar="source" />
+      </div>
       <div className="flex items-center">
-        <code className="bg-gray-100/40 px-2 py-1 rounded-md">{contractType.toLocaleUpperCase()}</code>
+        
       </div>
       {/* <p>src: </p><pre>{src}</pre> */}
     </div>

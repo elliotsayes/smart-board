@@ -54,6 +54,11 @@ const Dashboard = (props: Props) => {
       type: 'Timeline Interaction Selection',
       data: {selectedInteractionIndex} 
     })
+    if (selectedInteractionIndex !== undefined) {
+      send({
+        type: 'Interaction Tab',
+      })
+    }
   }, [send])
 
   const onRangeChanged = useCallback((range: [number, number]) => {

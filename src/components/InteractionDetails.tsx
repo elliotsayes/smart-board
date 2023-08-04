@@ -46,7 +46,7 @@ const InteractionDetails = ({interactionIndex, /*interactionCount,*/ interaction
         <div className={`flex ${hasDiff ? '' : 'opacity-50'}`}>
           <p>Diff View</p>
           <Switch
-            onChange={(checked) => onChangePreferShowDiff(checked)}
+            onChange={(checked) => hasDiff && onChangePreferShowDiff(checked)}
             checked={showDiff}
             checkedIcon={false}
             uncheckedIcon={false}

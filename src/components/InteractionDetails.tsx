@@ -11,10 +11,11 @@ interface Props {
   beforeState: ContractState;
   afterState: ContractState;
   preferShowDiff: boolean;
+  onChangeSelectedInteractionIndex: (index: number) => void;
   onChangePreferShowDiff: (preferShowDiff: boolean) => void;
 }
 
-const InteractionDetails = ({interactionIndex, /*interactionCount,*/ interaction, beforeState, afterState, preferShowDiff, onChangePreferShowDiff}: Props) => {
+const InteractionDetails = ({interactionIndex, interactionCount, interaction, beforeState, afterState, preferShowDiff, onChangeSelectedInteractionIndex, onChangePreferShowDiff}: Props) => {
   const interactionBlockDate = new Date(interaction.block.timestamp * 1000)
   
   const inputString = interaction.tags.find((tag) => tag.name == 'Input')?.value;
@@ -34,51 +35,78 @@ const InteractionDetails = ({interactionIndex, /*interactionCount,*/ interaction
   const showDiff = preferShowDiff && hasDiff;
   
   return (
-    <div className="flex">
-      <div>
-        <p>#{interactionIndex}: <HashView hash={interaction.id} viewblock="tx" warpSonar="interaction" /></p>
-        <p>Block <HashView hash={interaction.block.height.toString()} viewblock="block" /></p>
-        <p>{interactionBlockDate.toISOString()}</p>
-        <p>function: {inputFunction}</p>
-        <p>tags: {Object.keys(otherTagsRecord).join(', ')}</p>
+    <div className="flex flex-col">
+      <div className="flex flex-row">
+        <div>
+          <p>#{interactionIndex}: <HashView hash={interaction.id} viewblock="tx" warpSonar="interaction" /></p>
+          <p>Block <HashView hash={interaction.block.height.toString()} viewblock="block" /></p>
+          <p>{interactionBlockDate.toISOString()}</p>
+          <p>function: {inputFunction}</p>
+          <p>tags: {Object.keys(otherTagsRecord).join(', ')}</p>
+        </div>
+        <div className="flex flex-col align-bottom">
+          <div className={`flex ${hasDiff ? '' : 'opacity-50'}`}>
+            <p>Diff View</p>
+            <Switch
+              onChange={(checked) => hasDiff && onChangePreferShowDiff(checked)}
+              checked={showDiff}
+              checkedIcon={false}
+              uncheckedIcon={false}
+              onColor="#D56DFB"
+              className="flex pl-2"
+            />
+          </div>
+          <div className="max-h-96 overflow-x-auto">
+            {
+              showDiff ? (
+                <ReactDiffViewer
+                  oldValue={beforeState.cachedValue.state as object}
+                  newValue={afterState.cachedValue.state as object}
+                  splitView={false}
+                  showDiffOnly={true}
+                  hideLineNumbers={true}
+                  useDarkTheme={true}
+                  compareMethod={DiffMethod.JSON}
+                  styles={{
+                    contentText: {
+                      fontSize: '14px',
+                      lineHeight: '0.5',
+                    }
+                  }}
+                />
+              ) : (
+                <pre style={{fontSize: '14px'}}>
+                  {JSON.stringify(afterState.cachedValue.state, undefined, 2)}
+                </pre>
+              )
+            }
+          </div>
+        </div>
       </div>
-      <div className="flex flex-col align-bottom">
-        <div className={`flex ${hasDiff ? '' : 'opacity-50'}`}>
-          <p>Diff View</p>
-          <Switch
-            onChange={(checked) => hasDiff && onChangePreferShowDiff(checked)}
-            checked={showDiff}
-            checkedIcon={false}
-            uncheckedIcon={false}
-            onColor="#D56DFB"
-            className="flex pl-2"
-          />
-        </div>
-        <div className="max-h-96 overflow-x-auto">
-          {
-            showDiff ? (
-              <ReactDiffViewer
-                oldValue={beforeState.cachedValue.state as object}
-                newValue={afterState.cachedValue.state as object}
-                splitView={false}
-                showDiffOnly={true}
-                hideLineNumbers={true}
-                useDarkTheme={true}
-                compareMethod={DiffMethod.JSON}
-                styles={{
-                  contentText: {
-                    fontSize: '14px',
-                    lineHeight: '0.5',
-                  }
-                }}
-              />
-            ) : (
-              <pre style={{fontSize: '14px'}}>
-                {JSON.stringify(afterState.cachedValue.state, undefined, 2)}
-              </pre>
-            )
-          }
-        </div>
+      <div className="flex flex-row justify-center">
+        <button 
+          onClick={() => {
+            onChangeSelectedInteractionIndex(interactionIndex - 1)
+          }}
+          disabled={interactionIndex < 1}
+        > &lt;
+        </button>
+        <input
+          value={interactionIndex}
+          onChange={(e) => {
+            if (e.currentTarget.valueAsNumber > 0 || e.currentTarget.valueAsNumber < interactionCount) {
+              onChangeSelectedInteractionIndex(e.currentTarget.valueAsNumber)
+            }
+          }}
+          className="w-16 text-center"
+        />
+        <button 
+          onClick={() => {
+            onChangeSelectedInteractionIndex(interactionIndex + 1)
+          }}
+          disabled={interactionIndex >= interactionCount - 1}
+        > &gt;
+        </button>
       </div>
     </div>
   )

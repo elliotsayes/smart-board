@@ -144,12 +144,18 @@ const Dashboard = (props: Props) => {
                 beforeState={contractDataProp.stateHistory![current.context.selectedInteractionIndex!]}
                 afterState={contractDataProp.stateHistory![current.context.selectedInteractionIndex! + 1]}
                 preferShowDiff={current.context.viewportInteractionShowDiff}
+                onChangeSelectedInteractionIndex={
+                  (selectedInteractionIndex: number) => send({
+                    type: 'List Interaction Selection',
+                    data: { selectedInteractionIndex },
+                  })
+                }
                 onChangePreferShowDiff={
                   (viewportInteractionShowDiff: boolean) => send({
                     type: 'Set Interaction Diff',
                     data: { viewportInteractionShowDiff },
                   })
-              }
+                }
               />
             )
           }

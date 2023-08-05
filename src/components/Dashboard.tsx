@@ -9,6 +9,7 @@ import { Timeline, TimelineItem } from "vis-timeline"
 import InteractionDetails from "./InteractionDetails"
 import DashboardTabs from "./DashboardTabs"
 import StateOverview from "./StateOverview"
+import InteractionListView from "./InteractionListView"
 
 interface Props {
   contractData: Partial<ContractDataFull>
@@ -38,6 +39,19 @@ const Dashboard = (props: Props) => {
   //   })
   // }, [contractDataProp, send])
 
+  const interactionHistoryPassFilter = useMemo(() =>
+    contractDataProp.interactionHistory?.map(
+      (interaction) => {
+        const isInrange = current.context.filter.timeRange === undefined || (
+          interaction.block.timestamp >= current.context.filter.timeRange!.start &&
+          interaction.block.timestamp <= current.context.filter.timeRange!.end
+        )
+        return isInrange
+      }
+    ) ?? [], 
+    [contractDataProp.interactionHistory, current.context.filter],
+  )
+
   const timelineItems: TimelineItem[] = useMemo(() => 
     contractDataProp.interactionHistory?.map(
       (interaction, index) => ({
@@ -45,9 +59,17 @@ const Dashboard = (props: Props) => {
         content: '',
         start: interaction.block.timestamp * 1000,
         type: 'point',
+        selectable: interactionHistoryPassFilter[index],
       })
     ) ?? [],
-    [contractDataProp],
+    [contractDataProp.interactionHistory],
+  )
+
+  const listItems = useMemo(() =>
+    contractDataProp.interactionHistory?.filter(
+      (_, index) => interactionHistoryPassFilter[index]
+    ) ?? [],
+    [contractDataProp.interactionHistory, interactionHistoryPassFilter],
   )
 
   const onSelectTimeline = useCallback((selectedInteractionIndex?: number) => {
@@ -133,6 +155,23 @@ const Dashboard = (props: Props) => {
           }
         </DashboardBox>
       </DashboardTabs>
+      <DashboardBox
+        loading={contractDataProp.stateHistory === undefined}
+      >
+        <InteractionListView
+          items={listItems}
+          selectedInteractionIndex={current.context.selectedInteractionIndex}
+          onSelect={(selectedInteractionIndex) => {
+            send({
+              type: 'List Interaction Selection',
+              data: { selectedInteractionIndex },
+            })
+            send({
+              type: "Interaction Tab",
+            })
+          }}
+        />
+      </DashboardBox>
       <DashboardBox
         loading={contractDataProp.interactionHistory === undefined}
         padding={false}

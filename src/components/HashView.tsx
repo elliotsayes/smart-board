@@ -15,7 +15,7 @@ interface Props {
   warpSonar?: 'contract' | 'source' | 'interaction' | 'creator';
 }
 
-const HashView = ({hash, copy, viewblock, warpSonar}: Props) => {
+const HashView = ({hash, copy = true, viewblock, warpSonar}: Props) => {
   const shortHash = shortenHash(hash);
 
   const [copied, setCopied] = useState(false);
@@ -32,7 +32,7 @@ const HashView = ({hash, copy, viewblock, warpSonar}: Props) => {
       </code>
       <div className="pl-2 flex flex-row">
       {
-        (copy != false) && (
+        copy && (
           <div className="relative w-6">
             <button
               onClick={() => {

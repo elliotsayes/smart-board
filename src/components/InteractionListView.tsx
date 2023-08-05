@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ContractInteraction } from "../types/contract"
 import { useMemo, useRef, useState } from "react"
 import {
@@ -19,7 +18,7 @@ interface Props {
   onSelect: (selectedInteractionIndex: number) => void;
 }
 
-const InteractionListView = ({items, selectedInteractionIndex, onSelect}: Props) => {
+const InteractionListView = ({items, /*selectedInteractionIndex,*/ onSelect}: Props) => {
   const columns = useMemo<ColumnDef<ContractInteraction>[]>(
     () => [
       {
@@ -60,7 +59,7 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect}: Props)
     []
   )
 
-  const [data, setData] = useState(() => items)
+  const [data, /*setData*/] = useState(() => items)
 
   const table = useReactTable({
     data,

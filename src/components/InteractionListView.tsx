@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ContractInteraction } from "../types/contract"
 import { useMemo, useRef, useState } from "react"
 import {
@@ -32,26 +33,26 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect}: Props)
         cell: (info) => <span>{Intl.DateTimeFormat(undefined, {
           dateStyle: 'short',
           timeStyle: 'short',
-        }).format(info.getValue() * 1000)}</span>,
+        }).format((info.getValue() as number) * 1000)}</span>,
       },
       {
         accessorKey: 'block.height',
         header: 'Block#',
-        cell: (info) => <HashView hash={info.getValue().toString() ?? ''} />,
+        cell: (info) => <HashView hash={(info.getValue() as string).toString() ?? ''} />,
       },
       {
         accessorKey: 'id',
         header: 'ID',
         size: 60,
-        cell: (info) => <HashView hash={info.getValue().toString() ?? ''} />,
+        cell: (info) => <HashView hash={(info.getValue() as string).toString() ?? ''} />,
       },
       {
         accessorKey: 'owner.address',
         header: 'Owner',
         cell: (info) => (
           <div className="flex">
-            <Identicon address={info.getValue().toString()} size={2} />
-            <HashView hash={info.getValue().toString() ?? ''} />
+            <Identicon address={(info.getValue() as string).toString()} size={2} />
+            <HashView hash={(info.getValue() as string).toString() ?? ''} />
           </div>
         ),
       },

@@ -16,17 +16,22 @@ interface Props {
 }
 
 const HashView = ({hash, copy = true, viewblock, warpSonar}: Props) => {
-  const shortHash = shortenHash(hash);
+  const shortened = hash.length > 10;
+  const shortHash = shortened ? shortenHash(hash) : hash;
 
   const [copied, setCopied] = useState(false);
 
   return (
     <div className="flex flex-row items-baseline">
-      <Tooltip id="hash" className="font-mono" delayShow={250} />
+      {
+        (!shortened) && <Tooltip id="hash" className="font-mono" delayShow={250} />
+      }
       <code
         className="bg-gray-200/10 pt-1 px-2 rounded-md"
-        data-tooltip-id="hash"
-        data-tooltip-content={hash}
+        {...(shortened && {
+          "data-tooltip-id": "hash",
+          "data-tooltip-content": hash,
+        })}
       >
         {shortHash}
       </code>

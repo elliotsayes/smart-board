@@ -75,7 +75,7 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
                   }}
                 />
               ) : (
-                <pre style={{fontSize: '14px'}}>
+                <pre style={{fontSize: '14px'}} className="w-96">
                   {JSON.stringify(afterState.cachedValue.state, undefined, 2)}
                 </pre>
               )

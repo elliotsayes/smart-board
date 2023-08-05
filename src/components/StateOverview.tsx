@@ -10,7 +10,7 @@ const StateOverview = ({initialState, latestState}: Props) => {
     <div className="flex">
       <div className="flex flex-grow flex-col">
         <h1>Initial State</h1>
-        <pre className="text-sm max-h-72 overflow-auto">
+        <pre className="text-sm max-h-72 w-96 overflow-clip">
           {JSON.stringify(initialState.cachedValue.state, undefined, 2)}
         </pre>
       </div>
@@ -18,7 +18,7 @@ const StateOverview = ({initialState, latestState}: Props) => {
         <h1>Latest State</h1>
         {
           latestState !== undefined ? (
-            <pre className="text-sm max-h-72 overflow-auto">
+            <pre className="text-sm max-h-72 w-96 overflow-auto">
               {JSON.stringify(latestState.cachedValue.state, undefined, 2)}
             </pre>
           ) : (

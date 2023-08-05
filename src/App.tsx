@@ -1,4 +1,4 @@
-const __DEV__ = false// import.meta.env.DEV
+const __DEV__ = import.meta.env.DEV
 
 import { inspect } from '@xstate/inspect'
 if (__DEV__) {

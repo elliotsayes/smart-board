@@ -1,6 +1,7 @@
 import { ContractInteraction, ContractState } from "../types/contract";
 import HashView from "./HashView";
 import * as Diff from 'diff';
+import { useRef } from "react";
 import ReactDiffViewer, { DiffMethod } from 'react-diff-viewer-continued';
 import Switch from "react-switch";
 
@@ -34,6 +35,8 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
   const hasDiff = diff.filter(d => d.added || d.removed).length > 0
   const showDiff = preferShowDiff && hasDiff;
   
+  const inputRef = useRef<HTMLInputElement>(null);
+
   return (
     <div className="flex flex-col">
       <div className="flex flex-row">
@@ -93,10 +96,13 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
         </button>
         <input
           key={interactionIndex}
+          ref={inputRef}
           defaultValue={interactionIndex}
-          onChange={(e) => {
-            if (e.currentTarget.valueAsNumber > 0 || e.currentTarget.valueAsNumber < interactionCount) {
-              onChangeSelectedInteractionIndex(e.currentTarget.valueAsNumber)
+          onKeyDown={(event) => {
+            if (event.key === 'Enter') {
+              const numberText = inputRef.current?.value;
+              const number = parseInt(numberText ?? '');
+              if (number) onChangeSelectedInteractionIndex(number)
             }
           }}
           className="w-16 text-center"

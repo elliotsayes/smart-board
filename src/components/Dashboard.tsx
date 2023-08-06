@@ -39,21 +39,19 @@ const Dashboard = (props: Props) => {
   //   })
   // }, [contractDataProp, send])
 
-  const interactionHistoryPassFilter = useMemo(() => {
-      const timeRangeStartSeconds = (current.context.filter.timeRange?.start ?? 0) / 1000
-      const timeRangeEndSeconds = (current.context.filter.timeRange?.end ?? 0) / 1000
-      return contractDataProp.interactionHistory?.map(
-        (interaction) => {
-          const isInrange = current.context.filter.timeRange === undefined || (
-            interaction.block.timestamp >= timeRangeStartSeconds &&
-            interaction.block.timestamp <= timeRangeEndSeconds
-          )
-          return isInrange
-        }
-      ) ?? []
-    },
-    [contractDataProp.interactionHistory, current.context.filter.timeRange],
-  )
+  // const interactionHistoryPassFilter = useMemo(() => {
+  //     return contractDataProp.interactionHistory?.map(
+  //       (interaction) => {
+  //         const isInrange = current.context.filter.timeRange === undefined || (
+  //           interaction.block.timestamp >= current.context.filter.timeRange?.start &&
+  //           interaction.block.timestamp <= current.context.filter.timeRange?.end
+  //         )
+  //         return isInrange
+  //       }
+  //     ) ?? []
+  //   },
+  //   [contractDataProp.interactionHistory, current.context.filter],
+  // )
 
   const timelineItems: TimelineItem[] = useMemo(() => 
     contractDataProp.interactionHistory?.map(
@@ -62,18 +60,15 @@ const Dashboard = (props: Props) => {
         content: '',
         start: interaction.block.timestamp * 1000,
         type: 'point',
-        selectable: interactionHistoryPassFilter[index],
+        // selectable: interactionHistoryPassFilter[index],
       })
     ) ?? [],
     [contractDataProp.interactionHistory],
   )
 
-  const listItems = useMemo(() =>
-    contractDataProp.interactionHistory?.filter(
-      (_, index) => interactionHistoryPassFilter[index]
-    ) ?? [],
-    [contractDataProp.interactionHistory, interactionHistoryPassFilter],
-  )
+  // useEffect(() => {
+  //   timeline?.setItems(timelineItems)
+  // }, [timeline, timelineItems])
 
   const onSelectTimeline = useCallback((selectedInteractionIndex?: number) => {
     send({
@@ -92,8 +87,8 @@ const Dashboard = (props: Props) => {
       type: 'Filter Time Range',
       data: {
         timeRange: {
-          start: range[0],
-          end: range[1],
+          start: range[0] / 1000,
+          end: range[1] / 1000,
         }
       }
     })
@@ -168,7 +163,7 @@ const Dashboard = (props: Props) => {
         loading={contractDataProp.stateHistory === undefined}
       >
         <InteractionListView
-          items={listItems}
+          items={contractDataProp.interactionHistory!}
           selectedInteractionIndex={current.context.selectedInteractionIndex}
           onSelect={(selectedInteractionIndex) => {
             send({

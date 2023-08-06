@@ -39,17 +39,20 @@ const Dashboard = (props: Props) => {
   //   })
   // }, [contractDataProp, send])
 
-  const interactionHistoryPassFilter = useMemo(() =>
-    contractDataProp.interactionHistory?.map(
-      (interaction) => {
-        const isInrange = current.context.filter.timeRange === undefined || (
-          interaction.block.timestamp >= current.context.filter.timeRange!.start &&
-          interaction.block.timestamp <= current.context.filter.timeRange!.end
-        )
-        return isInrange
-      }
-    ) ?? [], 
-    [contractDataProp.interactionHistory, current.context.filter],
+  const interactionHistoryPassFilter = useMemo(() => {
+      const timeRangeStartSeconds = (current.context.filter.timeRange?.start ?? 0) / 1000
+      const timeRangeEndSeconds = (current.context.filter.timeRange?.end ?? 0) / 1000
+      return contractDataProp.interactionHistory?.map(
+        (interaction) => {
+          const isInrange = current.context.filter.timeRange === undefined || (
+            interaction.block.timestamp >= timeRangeStartSeconds &&
+            interaction.block.timestamp <= timeRangeEndSeconds
+          )
+          return isInrange
+        }
+      ) ?? []
+    },
+    [contractDataProp.interactionHistory, current.context.filter.timeRange],
   )
 
   const timelineItems: TimelineItem[] = useMemo(() => 

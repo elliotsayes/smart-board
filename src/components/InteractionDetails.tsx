@@ -92,7 +92,8 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
         > &lt;
         </button>
         <input
-          value={interactionIndex}
+          key={interactionIndex}
+          defaultValue={interactionIndex}
           onChange={(e) => {
             if (e.currentTarget.valueAsNumber > 0 || e.currentTarget.valueAsNumber < interactionCount) {
               onChangeSelectedInteractionIndex(e.currentTarget.valueAsNumber)

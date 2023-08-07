@@ -2,10 +2,10 @@ import { useCallback, useMemo, useState } from "react"
 import { ContractDataFull } from "../types/contract"
 import { useMachine } from "@xstate/react"
 import { dashboardMachine } from "../machines/dashboard"
-import TimelinePicker from "./TimelinePicker"
+import TimelinePicker, { TimelineControls } from "./TimelinePicker"
 import DashboardBox from "./DashboardBox"
 import ContractHeader from "./ContractHeader"
-import { Timeline, TimelineItem } from "vis-timeline"
+import { TimelineItem } from "vis-timeline"
 import InteractionDetails from "./InteractionDetails"
 import DashboardTabs from "./DashboardTabs"
 import StateOverview from "./StateOverview"
@@ -18,7 +18,7 @@ interface Props {
 }
 
 const Dashboard = ({ contractData: contractDataProp, onNewContract }: Props) => {
-  const [timeline, setTimeline] = useState<Timeline>();
+  const [timelineControls, setTimelineControls] = useState<TimelineControls>();
 
   const [current, send] = useMachine(
     () => dashboardMachine(),
@@ -26,7 +26,7 @@ const Dashboard = ({ contractData: contractDataProp, onNewContract }: Props) => 
       devTools: import.meta.env.DEV,
       actions: {
         selectTimelineInteraction: (_, event) => {
-          timeline?.setSelection(event.data.selectedInteractionIndex)
+          timelineControls?.setSelection(event.data.selectedInteractionIndex)
         },
       }
     },
@@ -192,7 +192,7 @@ const Dashboard = ({ contractData: contractDataProp, onNewContract }: Props) => 
       >
         <TimelinePicker
           items={timelineItems}
-          onTimeline={setTimeline}
+          onTimelineControls={setTimelineControls}
           onSelect={onSelectTimeline}
           onRangeChanged={onRangeChanged}
         />

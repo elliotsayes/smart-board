@@ -8,16 +8,21 @@ import './TimelinePicker.css'
 
 const MAX_ITEMS = 500;
 
+export type TimelineControls = {
+  setSelection: (item?: number) => void,
+  fit: () => void,
+}
+
 interface Props {
   items: TimelineItem[],
   // line?: Date,
-  onTimeline?: (timeline: Timeline) => void,
+  onTimelineControls?: (timelineControls: TimelineControls) => void,
   onSelect?: (item?: number) => void,
   onRangeChanged?: (range: [number, number]) => void,
 }
 
 const TimelinePicker = (props: Props) => {
-  const { items, onTimeline, onSelect, onRangeChanged } = props;
+  const { items, onTimelineControls, onSelect, onRangeChanged } = props;
 
   const options: TimelineOptions = useMemo(() => {
     const nowMs = Date.now()
@@ -51,6 +56,7 @@ const TimelinePicker = (props: Props) => {
       moment: function (date: Moment.MomentInput) {
         return Moment(date).utc();
       },
+      selectable: true,
     }
   }, [items]);
 
@@ -91,7 +97,7 @@ const TimelinePicker = (props: Props) => {
       end: DateType,
       byUser: boolean,
     }
-    const trimRange = (properties: RangeChangedProperties) => {
+    const trimRange = (properties: RangeChangedProperties, newSelection?: number) => {
       // console.log('trimming range', properties)
       const { start: rangeStart, end: rangeEnd } = properties;
 
@@ -104,7 +110,7 @@ const TimelinePicker = (props: Props) => {
       });
       const inRangeCount = inRangeItems.length;
 
-      const selection = timeline.getSelection()[0] as IdType | undefined;
+      const selection = newSelection ?? timeline.getSelection()[0] as IdType | undefined;
       let renderItems: TimelineItem[];
       if (inRangeCount > MAX_ITEMS) {
         const inRangeRatio = inRangeCount / MAX_ITEMS
@@ -129,7 +135,18 @@ const TimelinePicker = (props: Props) => {
     setupRef.current = true;
     loadRef.current = false;
 
-    onTimeline?.(timeline)
+    onTimelineControls?.({
+      setSelection: (selection?: number) => {
+        // Do not trim range due to performance issues
+        timeline.setSelection(selection ? [selection] : [])
+        // const window = timeline.getWindow()
+        // trimRange({
+        //   ...window,
+        //   byUser: false,
+        // }, selection)
+      },
+      fit: () => timeline.fit(),
+    })
 
     return () => {
       console.log('destroying')
@@ -138,7 +155,7 @@ const TimelinePicker = (props: Props) => {
       timeline.destroy()
       setupRef.current = false
     }
-  }, [items, itemsSampled, options, onTimeline, onSelect, onRangeChanged])
+  }, [items, itemsSampled, options, onTimelineControls, onSelect, onRangeChanged])
 
   return (
     <div className="w-full animate-fade-in relative">

@@ -110,7 +110,7 @@ const InteractionListView = ({items, /*selectedInteractionIndex,*/ onSelect}: Pr
                             className: header.column.getCanSort()
                               ? 'cursor-pointer select-none'
                               : '',
-                            onClick: header.column.getToggleSortingHandler(),
+                            // onClick: header.column.getToggleSortingHandler(),
                           }}
                         >
                           {flexRender(

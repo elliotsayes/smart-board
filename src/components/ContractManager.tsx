@@ -28,8 +28,11 @@ interface Props {
 
 const ContractManager = ({ initialContractId }: Props) => {
   const [current, send] = useMachine(
-    () => contractManagerMachine(initialContractId), 
+    () => contractManagerMachine(initialContractId),
     { 
+      // services: {
+      //   loadContract: loadContractObservableFromWorker,
+      // },
       devTools: import.meta.env.DEV,
     },
   );

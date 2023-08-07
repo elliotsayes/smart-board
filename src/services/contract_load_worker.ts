@@ -2,7 +2,6 @@ import { WarpFactory } from "warp-contracts";
 import { loadContractData } from "./contract_load";
 import { WorkerResponse } from "../types/worker";
 import { ContractDataFull } from "../types/contract";
-import "warp-isomorphic";
 
 self.onmessage = function (e: MessageEvent) {
   (async () => {

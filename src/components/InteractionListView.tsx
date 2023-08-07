@@ -100,7 +100,7 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
             return <span>Loading...</span>
           }
         },
-        // size: 80,
+        size: 120,
       }
     ],
     []

@@ -30,7 +30,9 @@ const Dashboard = ({ contractData: contractDataProp, onNewContract }: Props) => 
           timelineControls?.setSelection(event.data.selectedInteractionIndex)
         },
         jumpListInteraction: (_, event) => {
-          event.data.selectedInteractionIndex && listControls?.scrollToIndex(event.data.selectedInteractionIndex)
+          if (event.data.selectedInteractionIndex != undefined) {
+            listControls?.scrollToIndex(event.data.selectedInteractionIndex)
+          }
         }
       }
     },

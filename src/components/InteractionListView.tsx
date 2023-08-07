@@ -142,7 +142,8 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
         const itemId = items[index].id
         const filteredRowIndex = rows.findIndex((row) => row.original.id === itemId)
         if (filteredRowIndex !== -1) {
-          scrollToIndex(Math.max(filteredRowIndex - 2, 0), {
+          const targetIndex = Math.max(filteredRowIndex - 2, 0)
+          scrollToIndex(targetIndex, {
             align: 'end',
           })
         }

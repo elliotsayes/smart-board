@@ -94,14 +94,14 @@ const Dashboard = ({ contractData: contractDataProp, onNewContract }: Props) => 
     })
   }, [send])
 
-  const contextLite = {
-    ...current.context,
-    contractData: undefined,
-  }
+  // const contextLite = {
+  //   ...current.context,
+  //   contractData: undefined,
+  // }
 
   return (
     <div className="flex flex-col gap-4">
-      <p>{JSON.stringify(contextLite)}</p>
+      {/* <p>{JSON.stringify(contextLite)}</p> */}
       <div className="flex flex-row gap-4">
         <DashboardBox
           loading={contractDataProp.meta === undefined}

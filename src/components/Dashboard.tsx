@@ -117,7 +117,12 @@ const Dashboard = ({ contractData: contractDataProp, onNewContract }: Props) => 
         <DashboardBox>
           <ContractSelector 
             initialValue={contractDataProp.meta?.txId ?? ''} 
-            onSelect={(newContractId) => onNewContract(newContractId)}
+            onSelect={(newContractId) => {
+              if (newContractId === '' || newContractId === contractDataProp.meta?.txId) {
+                return
+              }
+              onNewContract(newContractId)
+            }}
           />
         </DashboardBox>
       </div>
@@ -143,7 +148,7 @@ const Dashboard = ({ contractData: contractDataProp, onNewContract }: Props) => 
           />
         </DashboardBox>
         <DashboardBox
-          loading={contractDataProp.interactionHistory === undefined || contractDataProp.stateHistory === undefined}
+          loading={contractDataProp.interactionHistory === undefined}
         >
           {
             current.context.selectedInteractionIndex === undefined ? (

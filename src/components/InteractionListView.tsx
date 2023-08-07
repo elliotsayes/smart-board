@@ -218,7 +218,7 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
           </tbody>
         </table>
       </div>
-      <div>{table.getRowModel().rows.length} Rows</div>
+      <div>{table.getRowModel().rows.length}/{data.length} Interactions</div>
     </div>
   )
 }

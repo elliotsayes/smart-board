@@ -161,7 +161,7 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
       : 0
 
   return (
-    <div className="pl-2 relative">
+    <div className="relative">
       <div ref={tableContainerRef} className="h-[300px] overflow-y-scroll">
         <table className="border-collapse table-fixed w-full">
           <thead className="sticky top-0 m-0 bg-gray-800/90 z-20">
@@ -184,6 +184,7 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
                               //   : '',
                               // onClick: header.column.getToggleSortingHandler(),
                             }}
+                            className="pl-2"
                           >
                             {flexRender(
                               header.column.columnDef.header,
@@ -222,11 +223,11 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
                 <tr
                   key={row.id} 
                   onClick={() => onSelect?.(row.index)}
-                  className={`cursor-pointer ${selectedInteractionIndex === row.index ? 'bg-purple-400' : 'hover:bg-gray-200/20'}`}
+                  className={`cursor-pointer ${selectedInteractionIndex === row.index ? 'bg-gradient-to-r from-[#D56DFBBB] to-[#0085FFBB]' : 'hover:bg-gray-200/20'}`}
                 >
                   {row.getVisibleCells().map(cell => {
                     return (
-                      <td key={cell.id} className="pr-2">
+                      <td key={cell.id} className="px-2">
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()

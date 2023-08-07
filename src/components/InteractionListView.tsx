@@ -92,8 +92,8 @@ const InteractionListView = ({items, /*selectedInteractionIndex,*/ onSelect}: Pr
   return (
     <div className="p-2">
       <div className="h-2" />
-      <div ref={tableContainerRef} className="h-[500px] max-w-lg overflow-auto">
-        <table className=" border-collapse table-fixed w-[100%]">
+      <div ref={tableContainerRef} className="h-[500px] overflow-auto">
+        <table className="border-collapse table-fixed w-[100%]">
           <thead className="sticky top-0 m-0">
             {table.getHeaderGroups().map(headerGroup => (
               <tr key={headerGroup.id}>

@@ -6,6 +6,7 @@ import {
   ContractInteractionResult,
   ContractInteractionHistory,
 } from "../types/contract";
+import eql from "deep-eql";
 
 export const loadContractData = (
   warp: Warp,
@@ -113,9 +114,10 @@ export const loadContractData = (
             if (!afterState.cachedValue.validity[interaction.id]) {
               return ContractInteractionResult.Error;
             }
-            const same =
-              JSON.stringify(beforeState.cachedValue.state) ===
-              JSON.stringify(afterState.cachedValue.state);
+            const same = eql(
+              beforeState.cachedValue.state,
+              afterState.cachedValue.state
+            );
             if (!same) {
               return ContractInteractionResult.Update;
             } else {

@@ -14,6 +14,9 @@ dependencies:
   '@xstate/react':
     specifier: ^3.2.2
     version: 3.2.2(@types/react@18.2.15)(react@18.2.0)(xstate@4.38.2)
+  deep-eql:
+    specifier: ^4.1.3
+    version: 4.1.3
   diff:
     specifier: 5.1.0
     version: 5.1.0
@@ -97,6 +100,9 @@ devDependencies:
   '@svgr/plugin-jsx':
     specifier: ^8.0.1
     version: 8.0.1(@svgr/core@8.0.0)
+  '@types/deep-eql':
+    specifier: ^4.0.0
+    version: 4.0.0
   '@types/diff':
     specifier: ^5.0.3
     version: 5.0.3
@@ -3530,6 +3536,10 @@ packages:
       '@types/node': 20.4.5
     dev: true
 
+  /@types/deep-eql@4.0.0:
+    resolution: {integrity: sha512-UkfTYLA64vGUyR4ez8ybIC01wtilS/ydOqKL1fSHOvnX1sVm1sI5btr7Q+bqpdaPGD+QNhOgBXq1HGjO+99e1A==}
+    dev: true
+
   /@types/detect-port@1.3.3:
     resolution: {integrity: sha512-bV/jQlAJ/nPY3XqSatkGpu+nGzou+uSwrH1cROhn+jBFg47yaNH+blW4C7p9KhopC7QxCv/6M86s37k8dMk0Yg==}
     dev: true
@@ -5220,7 +5230,6 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       type-detect: 4.0.8
-    dev: true
 
   /deep-equal@2.2.2:
     resolution: {integrity: sha512-xjVyBf0w5vH0I42jdAZzOKVldmPgSulmiyPRywoyq7HXC9qdgo17kxJE+rdnif5Tz6+pIrpJI8dCpMNLIGkUiA==}
@@ -9202,7 +9211,6 @@ packages:
   /type-detect@4.0.8:
     resolution: {integrity: sha512-0fr/mIH1dlO+x7TlcMy+bIDqKPsw/70tVyeHW787goQjhmqaZe10uwLujubK9q9Lg6Fiho1KUKDYz0Z7k7g5/g==}
     engines: {node: '>=4'}
-    dev: true
 
   /type-fest@0.16.0:
     resolution: {integrity: sha512-eaBzG6MxNzEn9kiwvtre90cXaNLkmadMWa1zQMs3XORCXNbsH/OewwbxC5ia9dCxIxnTAsSxXJaa/p5y8DlvJg==}

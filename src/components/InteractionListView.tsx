@@ -194,8 +194,8 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
               return (
                 <tr
                   key={row.id} 
-                  onClick={() => onSelect?.(virtualRow.index)}
-                  className={`cursor-pointer ${selectedInteractionIndex === virtualRow.index ? 'bg-purple-400' : 'hover:bg-gray-200/20'}`}
+                  onClick={() => onSelect?.(row.index)}
+                  className={`cursor-pointer ${selectedInteractionIndex === row.index ? 'bg-purple-400' : 'hover:bg-gray-200/20'}`}
                 >
                   {row.getVisibleCells().map(cell => {
                     return (

@@ -138,8 +138,8 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
       : 0
 
   return (
-    <div className="px-2">
-      <div ref={tableContainerRef} className="h-[300px] overflow-auto">
+    <div className="pl-2 relative">
+      <div ref={tableContainerRef} className="h-[300px] overflow-auto ">
         <table className="border-collapse table-fixed w-[100%]">
           <thead className="sticky top-0 m-0 bg-gray-800/90 z-20">
             {table.getHeaderGroups().map(headerGroup => (
@@ -216,10 +216,16 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
                 <td style={{ height: `${paddingBottom}px` }} />
               </tr>
             )}
+            {/* Room for the bottom bit */}
+            <tr>
+              <td className="h-8" />
+            </tr>
           </tbody>
         </table>
       </div>
-      <div>{table.getRowModel().rows.length}/{data.length} Interactions</div>
+      <div className="absolute bottom-0 left-0 px-2 py-1 bg-gray-800/60 text-lg text-gray-100/80 rounded-t-xl">
+        {table.getRowModel().rows.length}/{data.length} Interactions
+      </div>
     </div>
   )
 }
@@ -231,58 +237,15 @@ function Filter({
   column: Column<any, unknown>
   table: Table<any>
 }) {
-  const firstValue = table
-    .getPreFilteredRowModel()
-    .flatRows[0]?.getValue(column.id)
-
   const columnFilterValue = column.getFilterValue()
 
   const sortedUniqueValues = useMemo(
-    () =>
-      typeof firstValue === 'number'
-        ? []
-        : Array.from(column.getFacetedUniqueValues().keys()).sort(),
+    () => Array.from(column.getFacetedUniqueValues().keys()).sort(),
     [column.getFacetedUniqueValues()]
   )
 
-  return typeof firstValue === 'number' ? (
-    <div>
-      <div className="flex space-x-2">
-        <DebouncedInput
-          type="number"
-          min={Number(column.getFacetedMinMaxValues()?.[0] ?? '')}
-          max={Number(column.getFacetedMinMaxValues()?.[1] ?? '')}
-          value={(columnFilterValue as [number, number])?.[0] ?? ''}
-          onChange={value =>
-            column.setFilterValue((old: [number, number]) => [value, old?.[1]])
-          }
-          placeholder={`Min ${
-            column.getFacetedMinMaxValues()?.[0]
-              ? `(${column.getFacetedMinMaxValues()?.[0]})`
-              : ''
-          }`}
-          className="w-24 border shadow rounded"
-        />
-        <DebouncedInput
-          type="number"
-          min={Number(column.getFacetedMinMaxValues()?.[0] ?? '')}
-          max={Number(column.getFacetedMinMaxValues()?.[1] ?? '')}
-          value={(columnFilterValue as [number, number])?.[1] ?? ''}
-          onChange={value =>
-            column.setFilterValue((old: [number, number]) => [old?.[0], value])
-          }
-          placeholder={`Max ${
-            column.getFacetedMinMaxValues()?.[1]
-              ? `(${column.getFacetedMinMaxValues()?.[1]})`
-              : ''
-          }`}
-          className="w-24 border shadow rounded"
-        />
-      </div>
-      <div className="h-1" />
-    </div>
-  ) : (
-    <>
+  return (
+    <div className="pr-2">
       <datalist id={column.id + 'list'}>
         {sortedUniqueValues.slice(0, 5000).map((value: any) => (
           <option value={value} key={value} />
@@ -293,11 +256,11 @@ function Filter({
         value={(columnFilterValue ?? '') as string}
         onChange={value => column.setFilterValue(value)}
         placeholder={`Search... (${column.getFacetedUniqueValues().size})`}
-        className="w-36 border shadow rounded"
+        className="w-full border shadow rounded"
         list={column.id + 'list'}
       />
       <div className="h-1" />
-    </>
+    </div>
   )
 }
 

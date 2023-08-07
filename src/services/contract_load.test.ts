@@ -6,9 +6,22 @@ import * as fs from "node:fs";
 test(
   "loads example contract, state matches",
   async () => {
-    const warp = WarpFactory.forMainnet();
     const contractId = "-8A6RexFkpfWwuyVO98wzSFZh0d6VJuI-buTJvlwOJQ";
-    const contractDataStream = loadContractData(warp, contractId);
+
+    const warp1 = WarpFactory.forMainnet();
+    const contract = warp1.contract(contractId);
+    const contractState = await contract.readState();
+
+    fs.writeFileSync(
+      "./contract_load.latestState.readState.json.log",
+      JSON.stringify(contractState.cachedValue.state, null, 2)
+    );
+
+    await warp1.close();
+    fs.rmSync("./cache", { recursive: true, force: true });
+
+    const warp2 = WarpFactory.forMainnet();
+    const contractDataStream = loadContractData(warp2, contractId);
     const contractDataStreamReader = contractDataStream.getReader();
 
     let result;
@@ -30,24 +43,12 @@ test(
       JSON.stringify(lastResult?.value.latestState?.cachedValue.state, null, 2)
     );
 
-    await warp.close();
+    await warp2.close();
     fs.rmSync("./cache", { recursive: true, force: true });
-
-    const warp2 = WarpFactory.forMainnet();
-    const contract = warp2.contract(contractId);
-    const contractState = await contract.readState();
-
-    fs.writeFileSync(
-      "./contract_load.latestState.readState.json.log",
-      JSON.stringify(contractState.cachedValue.state, null, 2)
-    );
 
     expect(lastResult?.value.latestState?.cachedValue.state).toEqual(
       contractState.cachedValue.state
     );
-
-    await warp2.close();
-    fs.rmSync("./cache", { recursive: true, force: true });
   },
   {
     timeout: 30000,

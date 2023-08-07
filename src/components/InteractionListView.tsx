@@ -46,24 +46,26 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
         id: 'timestamp',
         accessorKey: 'block.timestamp',
         header: 'Timestamp (UTC)',
-        cell: (info) => <span>{Intl.DateTimeFormat('default', {
+        cell: (info) => <span className="text-sm">{Intl.DateTimeFormat('default', {
           dateStyle: 'short',
           timeStyle: 'medium',
         }).format((info.getValue() as number) * 1000)}</span>,
-        // size: 80,
+        size: 160,
+        // minSize: 120,
       },
-      {
-        id: 'blockHeight',
-        accessorKey: 'block.height',
-        header: 'Block#',
-        cell: (info) => <HashView hash={(info.getValue() as string).toString() ?? ''} />,
-        // size: 80,
-      },
+      // {
+      //   id: 'blockHeight',
+      //   accessorKey: 'block.height',
+      //   header: 'Block#',
+      //   cell: (info) => <HashView hash={(info.getValue() as string).toString() ?? ''} />,
+      //   // size: 80,
+      // },
       {
         id: 'transactionId',
         accessorKey: 'id',
         header: 'ID',
         cell: (info) => <HashView hash={(info.getValue() as string).toString() ?? ''} />,
+        size: 165,
       },
       {
         id: 'ownerAddress',
@@ -75,6 +77,7 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
             <HashView hash={(info.getValue() as string).toString() ?? ''} />
           </div>
         ),
+        size: 185,
       },
       {
         id: 'functionName',

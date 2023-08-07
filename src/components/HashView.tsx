@@ -27,7 +27,7 @@ const HashView = ({hash, copy = true, viewblock, warpSonar}: Props) => {
         (!doShorten) && <Tooltip id="hash" className="font-mono z-30" delayShow={250} />
       }
       <code
-        className="bg-gray-200/10 pt-1 px-2 rounded-md flex flex-row flex-wrap break-all"
+        className="bg-gray-200/10 pt-1 px-2 rounded-md flex flex-row"
         {...(doShorten && {
           "data-tooltip-id": "hash",
           "data-tooltip-content": hash,

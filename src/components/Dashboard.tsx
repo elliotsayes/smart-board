@@ -176,7 +176,7 @@ const Dashboard = ({ contractData: contractDataProp, onNewContract }: Props) => 
         padding={false}
       >
         <InteractionListView
-          items={contractDataProp.interactionCacheHistory ?? contractDataProp.interactionHistory!}
+          items={contractDataProp.interactionWithResultHistory ?? contractDataProp.interactionHistory!}
           selectedInteractionIndex={current.context.selectedInteractionIndex}
           onSelect={(selectedInteractionIndex) => {
             send({

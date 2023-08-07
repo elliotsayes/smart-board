@@ -105,7 +105,7 @@ export const loadContractData = (
       // TODO: Remove once this is in a webworker
       await new Promise((resolve) => setTimeout(resolve, 100));
 
-      const interactionCacheHistory: ContractInteractionWithResultHistory =
+      const interactionWithResultHistory: ContractInteractionWithResultHistory =
         interactionHistory.map((interaction, i) => {
           const beforeState = stateHistory[i];
           const afterState = stateHistory[i + 1];
@@ -130,7 +130,7 @@ export const loadContractData = (
         });
       contractData = {
         ...contractData,
-        interactionCacheHistory,
+        interactionWithResultHistory,
       };
       controller.enqueue(contractData);
 

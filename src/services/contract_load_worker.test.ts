@@ -37,7 +37,7 @@ test(
     expect(contractData.latestState).toBeDefined();
     expect(contractData.interactionHistory).toBeDefined();
     expect(contractData.stateHistory).toBeDefined();
-    expect(contractData.interactionCacheHistory).toBeDefined();
+    expect(contractData.interactionWithResultHistory).toBeDefined();
   },
   {
     timeout: 10000,

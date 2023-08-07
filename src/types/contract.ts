@@ -42,5 +42,5 @@ export type ContractDataFull = {
   latestState: ContractState;
   interactionHistory: ContractInteractionHistory;
   stateHistory: ContractStateHistory;
-  interactionCacheHistory: ContractInteractionWithResultHistory;
+  interactionWithResultHistory: ContractInteractionWithResultHistory;
 };

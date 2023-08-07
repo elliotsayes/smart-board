@@ -16,7 +16,10 @@ export type ContractState = SortKeyCacheResult<EvalStateResult<unknown>>;
 
 export type ContractStateHistory = ContractState[];
 
-export type ContractInteraction = GQLNodeInterface;
+export type ContractInteraction = GQLNodeInterface & {
+  inputString?: string;
+  functionName?: string;
+};
 
 export type ContractInteractionHistory = ContractInteraction[];
 
@@ -26,12 +29,12 @@ export enum ContractInteractionResult {
   Error = "error",
 }
 
-export type ContractInteractionCache = ContractInteraction & {
-  functionName?: string;
+export type ContractInteractionWithResult = ContractInteraction & {
   result: ContractInteractionResult;
 };
 
-export type ContractInteractionCacheHistory = ContractInteractionCache[];
+export type ContractInteractionWithResultHistory =
+  ContractInteractionWithResult[];
 
 export type ContractDataFull = {
   meta: ContractMeta;
@@ -39,5 +42,5 @@ export type ContractDataFull = {
   latestState: ContractState;
   interactionHistory: ContractInteractionHistory;
   stateHistory: ContractStateHistory;
-  interactionCacheHistory: ContractInteractionCacheHistory;
+  interactionCacheHistory: ContractInteractionWithResultHistory;
 };

@@ -3,8 +3,9 @@ import { transactionTimestamp } from "./transaction_timestamp";
 import * as Diff from "diff";
 import {
   ContractDataFull,
-  ContractInteractionCacheHistory,
+  ContractInteractionWithResultHistory,
   ContractInteractionResult,
+  ContractInteractionHistory,
 } from "../types/contract";
 
 export const loadContractData = (
@@ -56,9 +57,29 @@ export const loadContractData = (
       };
 
       const sortedInteractions = await warp.interactionsLoader.load(contractId);
+      const interactionHistory: ContractInteractionHistory =
+        sortedInteractions.map((interaction) => {
+          const inputString = interaction.tags.find(
+            (tag) => tag.name == "Input"
+          )?.value;
+          const functionName =
+            inputString &&
+            (() => {
+              try {
+                return JSON.parse(inputString)["function"] as string;
+              } catch {
+                return undefined;
+              }
+            })();
+          return {
+            ...interaction,
+            inputString,
+            functionName,
+          };
+        });
       contractData = {
         ...contractData,
-        interactionHistory: sortedInteractions,
+        interactionHistory,
       };
       controller.enqueue(contractData);
 
@@ -81,21 +102,12 @@ export const loadContractData = (
       };
       controller.enqueue(contractData);
 
-      const interactionCacheHistory: ContractInteractionCacheHistory =
-        sortedInteractions.map((interaction, i) => {
-          const inputString = interaction.tags.find(
-            (tag) => tag.name == "Input"
-          )?.value;
-          const functionName =
-            inputString &&
-            (() => {
-              try {
-                return JSON.parse(inputString)["function"] as string;
-              } catch {
-                return undefined;
-              }
-            })();
+      // Wait 100ms for react to render
+      // TODO: Remove once this is in a webworker
+      await new Promise((resolve) => setTimeout(resolve, 100));
 
+      const interactionCacheHistory: ContractInteractionWithResultHistory =
+        interactionHistory.map((interaction, i) => {
           const beforeState = stateHistory[i];
           const afterState = stateHistory[i + 1];
           const result = (() => {
@@ -115,7 +127,6 @@ export const loadContractData = (
 
           return {
             ...interaction,
-            functionName,
             result,
           };
         });

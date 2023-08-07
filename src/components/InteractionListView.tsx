@@ -1,8 +1,8 @@
-import { ContractInteraction, ContractInteractionCacheHistory, ContractInteractionResult } from "../types/contract"
+import { ContractInteraction, ContractInteractionWithResultHistory, ContractInteractionHistory, ContractInteractionResult } from "../types/contract"
 import { useEffect, useMemo, useRef, useState } from "react"
 import {
   Column,
-  Table,
+  // Table,
   ColumnDef,
   flexRender,
   getCoreRowModel,
@@ -17,7 +17,7 @@ import HashView from "./HashView";
 import Identicon from "./Identicon";
 
 interface Props {
-  items: ContractInteractionCacheHistory;
+  items: ContractInteractionHistory | ContractInteractionWithResultHistory;
   selectedInteractionIndex?: number;
   onSelect?: (selectedInteractionIndex: number) => void;
   timeRangeFilter?: {
@@ -100,7 +100,7 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
 
   const showColumnFilterIds = ['ownerAddress', 'functionName', 'result'];
 
-  const [data, /*setData*/] = useState(() => items)
+  const data = items;
 
   const table = useReactTable({
     data,

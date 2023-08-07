@@ -173,7 +173,10 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
                           </div>
                           {(showColumnFilterIds.findIndex(x => x == header.column.id) != -1) ? (
                             <div>
-                              <Filter column={header.column} table={table} />
+                              <Filter
+                                column={header.column} 
+                                // table={table}
+                              />
                             </div>
                           ) : null}
                         </>
@@ -232,10 +235,10 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
 
 function Filter({
   column,
-  table,
+  // table,
 }: {
   column: Column<any, unknown>
-  table: Table<any>
+  // table: Table<any>
 }) {
   const columnFilterValue = column.getFilterValue()
 

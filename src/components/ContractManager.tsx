@@ -46,8 +46,10 @@ const ContractManager = ({ initialContractId }: Props) => {
   return (
     <>
       <Dashboard
+        key={current.context.selectedContractId}
         contractData={current.context.contractData}
-        onNewContract={onNewContract}      />
+        onNewContract={onNewContract}
+      />
     </>
   )
 }

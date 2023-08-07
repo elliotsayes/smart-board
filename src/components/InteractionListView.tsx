@@ -7,6 +7,7 @@ import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
+  getFacetedUniqueValues,
   Row,
   useReactTable,
   ColumnFiltersState,
@@ -104,6 +105,7 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
     debugTable: true,
   })
   

@@ -68,6 +68,7 @@ export const Default: Story = {
         srcTxId: "123",
         src: "123",
         contractType: "js",
+        timestamp: 0,
       },
       interactionHistory: generateFakeInteractions(2),
     },

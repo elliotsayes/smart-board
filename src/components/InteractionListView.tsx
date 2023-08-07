@@ -1,12 +1,15 @@
 import { ContractInteraction } from "../types/contract"
-import { useMemo, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import {
+  Column,
+  Table,
   ColumnDef,
   flexRender,
   getCoreRowModel,
-  getSortedRowModel,
+  getFilteredRowModel,
   Row,
   useReactTable,
+  ColumnFiltersState,
 } from '@tanstack/react-table'
 import { useVirtual } from 'react-virtual'
 import HashView from "./HashView";
@@ -19,14 +22,17 @@ interface Props {
 }
 
 const InteractionListView = ({items, /*selectedInteractionIndex,*/ onSelect}: Props) => {
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+
   const columns = useMemo<ColumnDef<ContractInteraction>[]>(
     () => [
       {
+        id: 'sequence',
         accessorFn: (_, i) => i,
         header: '#',
-        size: 30,
       },
       {
+        id: 'timestamp',
         accessorKey: 'block.timestamp',
         header: 'Time',
         cell: (info) => <span>{Intl.DateTimeFormat(undefined, {
@@ -35,17 +41,19 @@ const InteractionListView = ({items, /*selectedInteractionIndex,*/ onSelect}: Pr
         }).format((info.getValue() as number) * 1000)}</span>,
       },
       {
+        id: 'blockHeight',
         accessorKey: 'block.height',
         header: 'Block#',
         cell: (info) => <HashView hash={(info.getValue() as string).toString() ?? ''} />,
       },
       {
+        id: 'transactionId',
         accessorKey: 'id',
         header: 'ID',
-        size: 60,
         cell: (info) => <HashView hash={(info.getValue() as string).toString() ?? ''} />,
       },
       {
+        id: 'ownerAddress',
         accessorKey: 'owner.address',
         header: 'Owner',
         cell: (info) => (
@@ -59,19 +67,29 @@ const InteractionListView = ({items, /*selectedInteractionIndex,*/ onSelect}: Pr
     []
   )
 
+  const filteredColumnNames = ['ownerAddress'];
+
   const [data, /*setData*/] = useState(() => items)
 
   const table = useReactTable({
     data,
     columns,
     state: {
-      // sorting,
+      columnFilters
     },
-    // onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     debugTable: true,
   })
+  
+  useEffect(() => {
+    if (table.getState().columnFilters[0]?.id === 'fullName') {
+      if (table.getState().sorting[0]?.id !== 'fullName') {
+        table.setSorting([{ id: 'fullName', desc: false }])
+      }
+    }
+  }, [table.getState().columnFilters[0]?.id])
 
   const tableContainerRef = useRef<HTMLDivElement>(null)
 
@@ -105,23 +123,30 @@ const InteractionListView = ({items, /*selectedInteractionIndex,*/ onSelect}: Pr
                       style={{ width: header.getSize() }}
                     >
                       {header.isPlaceholder ? null : (
-                        <div
-                          {...{
-                            className: header.column.getCanSort()
-                              ? 'cursor-pointer select-none'
-                              : '',
-                            // onClick: header.column.getToggleSortingHandler(),
-                          }}
-                        >
-                          {flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                          {{
-                            asc: ' 🔼',
-                            desc: ' 🔽',
-                          }[header.column.getIsSorted() as string] ?? null}
-                        </div>
+                        <>
+                          <div
+                            {...{
+                              className: header.column.getCanSort()
+                                ? 'cursor-pointer select-none'
+                                : '',
+                              // onClick: header.column.getToggleSortingHandler(),
+                            }}
+                          >
+                            {flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                            {{
+                              asc: ' 🔼',
+                              desc: ' 🔽',
+                            }[header.column.getIsSorted() as string] ?? null}
+                          </div>
+                          {(filteredColumnNames.findIndex(x => x == header.column.id) != -1) ? (
+                            <div>
+                              <Filter column={header.column} table={table} />
+                            </div>
+                          ) : null}
+                        </>
                       )}
                     </th>
                   )
@@ -164,5 +189,113 @@ const InteractionListView = ({items, /*selectedInteractionIndex,*/ onSelect}: Pr
     </div>
   )
 }
+
+function Filter({
+  column,
+  table,
+}: {
+  column: Column<any, unknown>
+  table: Table<any>
+}) {
+  const firstValue = table
+    .getPreFilteredRowModel()
+    .flatRows[0]?.getValue(column.id)
+
+  const columnFilterValue = column.getFilterValue()
+
+  const sortedUniqueValues = useMemo(
+    () =>
+      typeof firstValue === 'number'
+        ? []
+        : Array.from(column.getFacetedUniqueValues().keys()).sort(),
+    [column.getFacetedUniqueValues()]
+  )
+
+  return typeof firstValue === 'number' ? (
+    <div>
+      <div className="flex space-x-2">
+        <DebouncedInput
+          type="number"
+          min={Number(column.getFacetedMinMaxValues()?.[0] ?? '')}
+          max={Number(column.getFacetedMinMaxValues()?.[1] ?? '')}
+          value={(columnFilterValue as [number, number])?.[0] ?? ''}
+          onChange={value =>
+            column.setFilterValue((old: [number, number]) => [value, old?.[1]])
+          }
+          placeholder={`Min ${
+            column.getFacetedMinMaxValues()?.[0]
+              ? `(${column.getFacetedMinMaxValues()?.[0]})`
+              : ''
+          }`}
+          className="w-24 border shadow rounded"
+        />
+        <DebouncedInput
+          type="number"
+          min={Number(column.getFacetedMinMaxValues()?.[0] ?? '')}
+          max={Number(column.getFacetedMinMaxValues()?.[1] ?? '')}
+          value={(columnFilterValue as [number, number])?.[1] ?? ''}
+          onChange={value =>
+            column.setFilterValue((old: [number, number]) => [old?.[0], value])
+          }
+          placeholder={`Max ${
+            column.getFacetedMinMaxValues()?.[1]
+              ? `(${column.getFacetedMinMaxValues()?.[1]})`
+              : ''
+          }`}
+          className="w-24 border shadow rounded"
+        />
+      </div>
+      <div className="h-1" />
+    </div>
+  ) : (
+    <>
+      <datalist id={column.id + 'list'}>
+        {sortedUniqueValues.slice(0, 5000).map((value: any) => (
+          <option value={value} key={value} />
+        ))}
+      </datalist>
+      <DebouncedInput
+        type="text"
+        value={(columnFilterValue ?? '') as string}
+        onChange={value => column.setFilterValue(value)}
+        placeholder={`Search... (${column.getFacetedUniqueValues().size})`}
+        className="w-36 border shadow rounded"
+        list={column.id + 'list'}
+      />
+      <div className="h-1" />
+    </>
+  )
+}
+
+// A debounced input react component
+function DebouncedInput({
+  value: initialValue,
+  onChange,
+  debounce = 500,
+  ...props
+}: {
+  value: string | number
+  onChange: (value: string | number) => void
+  debounce?: number
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'>) {
+  const [value, setValue] = useState(initialValue)
+
+  useEffect(() => {
+    setValue(initialValue)
+  }, [initialValue])
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      onChange(value)
+    }, debounce)
+
+    return () => clearTimeout(timeout)
+  }, [value])
+
+  return (
+    <input {...props} value={value} onChange={e => setValue(e.target.value)} />
+  )
+}
+
 
 export default InteractionListView

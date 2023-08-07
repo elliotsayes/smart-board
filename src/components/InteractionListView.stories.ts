@@ -23,7 +23,7 @@ type Story = StoryObj<typeof meta>;
 
 const exampleInteractions = (n: number) =>
   Array.from({ length: n }, () => ({
-    id: Math.random().toString(36).substring(36),
+    id: Math.random().toString(36).substring(7),
     fee: {
       winston: "47763720",
       ar: "",

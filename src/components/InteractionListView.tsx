@@ -65,7 +65,7 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
         accessorKey: 'owner.address',
         header: 'Owner',
         cell: (info) => (
-          <div className="flex">
+          <div className="flex items-center gap-1">
             <Identicon address={(info.getValue() as string).toString()} size={2} />
             <HashView hash={(info.getValue() as string).toString() ?? ''} />
           </div>
@@ -218,7 +218,7 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
             )}
             {/* Room for the bottom bit */}
             <tr>
-              <td className="h-8" />
+              <td className="h-10" />
             </tr>
           </tbody>
         </table>

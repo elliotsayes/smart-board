@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { shortenHash } from "../utils/crypto";
+import { hashParts } from "../utils/crypto";
 import { Tooltip } from 'react-tooltip'
 import HeroiconsClipboardDocument from '~icons/heroicons/clipboard-document'
 import HeroiconsClipboardDocumentCheck from '~icons/heroicons/clipboard-document-check-solid'
@@ -16,24 +16,35 @@ interface Props {
 }
 
 const HashView = ({hash, copy = true, viewblock, warpSonar}: Props) => {
-  const shortened = hash.length > 10;
-  const shortHash = shortened ? shortenHash(hash) : hash;
+  const doShorten = hash.length > 10;
+  const parts = doShorten ? hashParts(hash) : [hash];
 
   const [copied, setCopied] = useState(false);
 
   return (
-    <div className="flex flex-row items-baseline">
+    <div className="flex flex-row items-center">
       {
-        (!shortened) && <Tooltip id="hash" className="font-mono" delayShow={250} />
+        (!doShorten) && <Tooltip id="hash" className="font-mono z-30" delayShow={250} />
       }
       <code
-        className="bg-gray-200/10 pt-1 px-2 rounded-md"
-        {...(shortened && {
+        className="bg-gray-200/10 pt-1 px-2 rounded-md flex flex-row flex-wrap break-all"
+        {...(doShorten && {
           "data-tooltip-id": "hash",
           "data-tooltip-content": hash,
         })}
       >
-        {shortHash}
+        {parts.map((part, index) => (
+          <>
+            <span key={`${index}_text`}>
+              {part}
+            </span>
+            {index < parts.length - 1 && (
+              <span className="opacity-50">
+                ...
+              </span>
+            )}
+          </>
+        ))}
       </code>
       <div className="pl-2 flex flex-row">
       {
@@ -50,7 +61,7 @@ const HashView = ({hash, copy = true, viewblock, warpSonar}: Props) => {
               data-tooltip-id="copy"
               data-tooltip-content={copied ? "Copied!" : "Copy"}
             >
-              <Tooltip id="copy" className="translate-x-2 -translate-y-4" />
+              <Tooltip id="copy" className="translate-x-2 -translate-y-4 z-30" />
               <HeroiconsClipboardDocumentCheck className={`text-[#D56DFB] absolute top-0 left-0 transition-opacity ${copied ? "opacity-100 duration-200" : "opacity-0 duration-1000"}`} />
               <HeroiconsClipboardDocument className={`group-hover:text-[#D56DFB] absolute top-0 left-0 transition-opacity ${copied ? "opacity-0 duration-200" : "opacity-100 duration-1000"}`} />
             </button>
@@ -67,7 +78,7 @@ const HashView = ({hash, copy = true, viewblock, warpSonar}: Props) => {
               data-tooltip-id="viewblock"
               data-tooltip-content={`View ${viewblock} on Viewblock`}
             >
-              <Tooltip id="viewblock" className="translate-x-2" />
+              <Tooltip id="viewblock" className="translate-x-2 z-30" />
               <HeroiconsCubeSolid className={`text-[#D56DFB] absolute top-0 left-0 transition-all group-hover:opacity-100 opacity-0 duration-1000"}`} />
               <HeroiconsCube className={`absolute top-0 left-0 transition-all group-hover:opacity-0 opacity-100 duration-1000"`} />
             </a>
@@ -84,7 +95,7 @@ const HashView = ({hash, copy = true, viewblock, warpSonar}: Props) => {
               data-tooltip-id="warpSonar"
               data-tooltip-content={`View ${warpSonar} on Warp Sonar`}
             >
-              <Tooltip id="warpSonar" className="translate-x-2" />
+              <Tooltip id="warpSonar" className="translate-x-2 z-30" />
               <HeroiconsDocumentTextSolid className={`text-[#D56DFB] absolute top-0 left-0 transition-all group-hover:opacity-100 opacity-0 duration-1000"}`} />
               <HeroiconsDocumentText className={`absolute top-0 left-0 transition-all group-hover:opacity-0 opacity-100 duration-1000"`} />
             </a>

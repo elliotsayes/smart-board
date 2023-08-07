@@ -1,4 +1,5 @@
 import { DefaultEvaluationOptions, Warp } from "warp-contracts";
+import { transactionTimestamp } from "./transaction_timestamp";
 import * as Diff from "diff";
 import {
   ContractDataFull,
@@ -16,10 +17,17 @@ export const loadContractData = (
 
       const contract = warp.contract(contractId);
 
-      const contractDefinition = await warp.definitionLoader.load(contractId);
+      const [contractDefinition, timestamp] = await Promise.all([
+        warp.definitionLoader.load(contractId),
+        transactionTimestamp(contractId),
+      ]);
+      const contractMeta = {
+        ...contractDefinition,
+        timestamp,
+      };
       contractData = {
         // ...contractData,
-        meta: contractDefinition,
+        meta: contractMeta,
       };
       controller.enqueue(contractData);
 

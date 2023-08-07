@@ -8,7 +8,9 @@ import {
 export type ContractMeta = Pick<
   ContractDefinition<unknown>,
   "owner" | "txId" | "srcTxId" | "contractType" | "src"
->;
+> & {
+  timestamp: number;
+};
 
 export type ContractState = SortKeyCacheResult<EvalStateResult<unknown>>;
 

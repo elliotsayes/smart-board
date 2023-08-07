@@ -51,7 +51,8 @@ const HashView = ({hash, copy = true, viewblock, warpSonar}: Props) => {
         copy && (
           <div className="relative w-6">
             <button
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 navigator.clipboard.writeText(hash);
                 // Set to copied for 1 second. This will change tooltip text & icon
                 setCopied(true);

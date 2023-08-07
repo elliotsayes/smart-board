@@ -18,16 +18,24 @@ export type ContractInteraction = GQLNodeInterface;
 
 export type ContractInteractionHistory = ContractInteraction[];
 
+export enum ContractResult {
+  Update = "update",
+  NoUpdate = "noupdate",
+  Error = "error",
+}
+
+export type ContractInteractionCache = {
+  functionName?: string;
+  result: ContractResult;
+};
+
+export type ContractInteractionCacheHistory = ContractInteractionCache[];
+
 export type ContractDataFull = {
   meta: ContractMeta;
   initialState: ContractState;
   latestState: ContractState;
   interactionHistory: ContractInteractionHistory;
   stateHistory: ContractStateHistory;
+  interactionCacheHistory: ContractInteractionCacheHistory;
 };
-
-export enum ContractResult {
-  Update = "update",
-  NoUpdate = "noupdate",
-  Error = "error",
-}

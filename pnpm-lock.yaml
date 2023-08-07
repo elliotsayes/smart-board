@@ -9264,8 +9264,8 @@ packages:
     dev: true
     optional: true
 
-  /undici@5.22.1:
-    resolution: {integrity: sha512-Ji2IJhFXZY0x/0tVBXeQwgPlLWw13GVzpsWPQ3rV50IFMMof2I55PZZxtm4P6iNq+L5znYN9nSTAq0ZyE6lSJw==}
+  /undici@5.23.0:
+    resolution: {integrity: sha512-1D7w+fvRsqlQ9GscLBwcAJinqcZGHUKjbOmXdlE/v8BvEGXjeWAax+341q44EuTcHXXnfyKNbKRq4Lg7OzhMmg==}
     engines: {node: '>=14.0'}
     dependencies:
       busboy: 1.6.0
@@ -9667,7 +9667,7 @@ packages:
     resolution: {integrity: sha512-E+9+brlrnZoNpNvpz8foIZiCk9fIVukRBZYEy/yefM+oAG+zNgDPb/xNaZyUJWC8rSZxE1DqrhRl0JxjtLVltA==}
     dependencies:
       buffer: 6.0.3
-      undici: 5.22.1
+      undici: 5.23.0
     dev: false
 
   /warp-isomorphic@1.0.4:
@@ -9675,7 +9675,7 @@ packages:
     engines: {node: '>=16.8.0'}
     dependencies:
       buffer: 6.0.3
-      undici: 5.22.1
+      undici: 5.23.0
     dev: false
 
   /warp-wasm-json-toolkit@1.0.2:

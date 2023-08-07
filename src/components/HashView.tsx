@@ -35,7 +35,7 @@ const HashView = ({hash, copy = true, viewblock, warpSonar}: Props) => {
       >
         {parts.map((part, index) => (
           <>
-            <span key={`${index}_text`}>
+            <span key={`${index}_text`} className="whitespace-nowrap">
               {part}
             </span>
             {index < parts.length - 1 && (

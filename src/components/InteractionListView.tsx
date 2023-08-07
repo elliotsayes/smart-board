@@ -46,7 +46,7 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
         id: 'timestamp',
         accessorKey: 'block.timestamp',
         header: 'Timestamp (UTC)',
-        cell: (info) => <span className="text-sm">{Intl.DateTimeFormat('default', {
+        cell: (info) => <span className="text-sm whitespace-nowrap overflow-clip">{Intl.DateTimeFormat('default', {
           dateStyle: 'short',
           timeStyle: 'medium',
         }).format((info.getValue() as number) * 1000)}</span>,
@@ -83,6 +83,7 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
         id: 'functionName',
         accessorKey: 'functionName',
         header: 'Function',
+        cell: (info) => <div className="whitespace-nowrap overflow-clip text-ellipsis">{(info.getValue() as string).toString()}</div>,
       },
       {
         id: 'result',
@@ -91,11 +92,11 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
         cell: (info) => {
           const value = info.getValue() as ContractInteractionResult | undefined
           if (value === ContractInteractionResult.Error) {
-            return <span><span className="text-red-500">ｘ</span> {value.toString()}</span>
+            return <span className="whitespace-nowrap"><span className="text-red-500">ｘ</span> {value.toString()}</span>
           } else if (value === ContractInteractionResult.Update) {
-            return <span><span className="text-green-500">✔</span> {value.toString()}</span>
+            return <span className="whitespace-nowrap"><span className="text-green-500">✔</span> {value.toString()}</span>
           } else if (value === ContractInteractionResult.NoUpdate) {
-            return <span><span className="text-yellow-500">‒</span> {value.toString()}</span>
+            return <span className="whitespace-nowrap"><span className="text-yellow-500">‒</span> {value.toString()}</span>
           } else {
             return <span>Loading...</span>
           }

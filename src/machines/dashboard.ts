@@ -37,15 +37,21 @@ type Event =
       };
     }
   | {
-      type: "Timeline Interaction Selection";
+      type: "Interaction View Interaction Selection";
       data: {
-        selectedInteractionIndex?: number;
+        selectedInteractionIndex: number;
       };
     }
   | {
       type: "List Interaction Selection";
       data: {
         selectedInteractionIndex: number;
+      };
+    }
+  | {
+      type: "Timeline Interaction Selection";
+      data: {
+        selectedInteractionIndex?: number;
       };
     }
   | {
@@ -61,7 +67,7 @@ type Event =
 export const dashboardMachine = () =>
   createMachine(
     {
-      /** @xstate-layout N4IgpgJg5mDOIC5QQIawBYCMD2KBOEAdAJIB2AlgC7koA2AxANoAMAuoqAA7axXnakOIAB6IALAE5CANgCMAdgAcYgKwqxs2dJXyJAGhABPRACZmKwrOYBmJc0WKV1rRIC+rg6gw58RACJoWLgEhABq5GAA7tx4lIQAypQolGAABOFR9GQpeCgAxtQCqQAqKJgs7Egg3LyFglWiCPLyJoRi0mYmzYrM8mJiBsYIqtKEEg7SztrSzePW7p6BPiEB3sFEGdHYsSSkOfl16RGR9InJaaXlbEI1fAJCjbqt6tLTkiYf9oOI0hqEKrJrCYxNZXvIAX0FiAvEFfIRVrCQpsYnFsmBcgV+KQjpl4mBKKk0RjDn5yAAzMkVG48O71UCNTQqKRiZgSayKPqKV4zWTfBAqOSEZjScaAz7C+TzDzQpbreGyuEBJIkCC0MD0ACqnFQKVSAGEBJRiaklSgqVVbnUHqZhWNJDY5GKJCZrCo+QDFJYnBJtKDFLJVPIoTDlv4FSEAGLkWg5FVq+hRmPokrkAC2aQASihSDBzVwaVaGohNLILLJxiDXaozBy+WzrDJlMwTBIlCphTpg+Gw2s4cU02BaORSGA4+r++mhyPCXt0Qcsak8WrMQI89UC1jrQgzLJCKD2sxmxyVIoJLyjIguWJ-swxF0JOoJOYVCYu72Vt3CBPB8PR8RVeqAAy5CwASRLzkUS5gCupBrpam5Ftu5aWBI4ynkyaizNYfJWEChAmDM2itr8Hwnm+iI9hRhDAaBY70DRYGzsSC5QTBcEbvciEzNeHylhoJgvvYJjnkMqGeu0YjNGosjHqh5GhvK75EAxdHflOaTgTBi6DtBdTsbUCH0j8zR7i+-SshokwmHyjiev6UwOMKDhkVCpDYBAcBCCG6zUgZnFGQgAC0rTyJoZ4CQRkgtCe7qjACIJmMKVhRbI8lymQfB0L5tJbmIig4f0aWKt22WFgFqj4Y5HKSa6zZ9HyJj+oQXIAuo7J3q2rZFR+SlhMcKKlYZIjiM6ljyMKzYSKoQLWReCCglI7YtgK1i2E4rzdZRCnItscRnLqmyDf5w38iyY0TS200fO6MmELoSXCahkrlptilUTtOyaYch0WhxdInae8j-K8HJslyXKzUMHp3U+kxOc4h6pdK3nFb1ppHf9jStm0XRAj0p6yF06h8gtplCa2NjqITKivQiCmmmOGNbgGFh3pKjX2OF4IDHNIzNaC7Y+nekh8bTn6JjkTOIVYzYyE41idayTwiYgzRA861ggh0kpsgGYu9RL6KM79fmY8W5jMHLq2K51wk2dobSspoHSEw4Cj61Ram-lLAVspV+N9JKS31XNatCjJTI+lYVg08jn503KXsjsb+am8zfyNQHNXBzzokOzMigfKhT6rcwSOLGjn4MT7J1OJbJ5KKF-QLVyfLNLuQKchMuiurHFdUQncIqf+ao140Oieg3HIBlr4zSHWIJjJMcySqC8gbe4rhAA */
+      /** @xstate-layout N4IgpgJg5mDOIC5QQIawBYCMD2KBOEAdAJIB2AlgC7koA2AxANoAMAuoqAA7axXnakOIAB6IALAE5CANgCMAdgAcYgKwqxs2dJXyJAGhABPRACZmKwrOYBmJc0WKV1rRIC+rg6gw58RACJoWLgEhABq5GAA7tx4lIQAypQolGAABOFR9GQpeCgAxtQCqQAqKJgs7Egg3LyFglWiCPLyJoRi0mYmzYrM8mJiBsYIqtKEEg7SztrSzePW7p6BPiEB3sFEGdHYsSSkOfl16RGR9InJaaXlbEI1fAJCjbqt6tLTkiYf9oOI0hqEKrJrCYxNZXvIAX0FiAvEFfIRVrCQpsYnFsmBcgV+KQjpl4mBKKk0RjDn5yAAzMkVG48O71UCNTQAwhdCSg6TMWQmWxab7DaxiQg2cySTkA6wSZpQmHLfxLdbw5IoEgQWhgegAVU4qBSqQAwgJKMTUgEklSqrc6g9TMxRhJJDY5ICTBIuSpeQDFJYnBJtKDFLJVPIpXK4QiZYQAGLkWg5ZWq+hRmPokrkAC2aQASihSDAzVwaZaGohNNZrIRSyoHBLARIJfojIhxlJFB95KWHCpXr9g2tQyGQsU02BaORSGA42rB+mR2PCXt0Qcsak8arMQI89UC1irQgPrJLFZpr9flZ2ryJcx-sCTACbcCemIe4jZb2QgAZciwVEqtUfr9z-Y12xFcwCAjcLW3IsmmYAVrBbSYAxUZhnVrc9pCkDpFDZcwSw0J9wzDeVkW2VF52JJdNiyMjFyKTYAIXIDl2HUC6nArd7igqw7X+ZCxGUSR4JMXk5FabQW2BTQTHQ9p3A8EBSGwCA4CEaV1mpWpIPpRAAFopC5WtNGUeRpB6cV3VGAEQS5SR1CQhx8PlMg+DodTaR3PjeQDR85NUvtXwgVzCy0hA4MIYzmHsf0VC5WQfVkXkbykcwJFkBxxW9VlpAcvznzCY4UUCzSRHEF1LHkG1kLtJwPl5fkLP6RQTPCqSJHUbKVn7DZ8pIhIkh1TZCo44L1EvBQKudVQgSEhsEA9MKJBtTlYolZw3B8zqFX8vKohRXZAMOAbzXYulioQRQJX+V5FF0OCTI6d1Uvmm1rBtLCrA5dqX1yk0UEGk7GgusQuiBHpzs5cEBhm0EpGsOzYtS8rdG0T7Nu+xUJz+ndELaYGTFBlKunUXkRkILDtGYH0gZFNr1q2wi4UTHJMc45DL10ewRqUStAV5LCBTvWQVB9PGWzbFH6ZCRn0Qxo6NKG07D09dnHDEXpHH9axzxMfd1CUMxnH5FtvMWOmNqnYdRzAZngsasL2UiwWYri3mpLC9oIocc6+ay2m0a282Z3HYgf2thX+Ttj2oqd6RzwDZkpnOm8xHK5PxY2v9KFDxpOzZvi4pPFLfhd+QZA0c7xQ5VKKbTraM5l-M5f+n57Dd865ALrRIaGFKLHBnQgdeHDZNcIA */
       id: "dashboard",
       predictableActionArguments: true,
       tsTypes: {} as import("./dashboard.typegen").Typegen0,
@@ -104,6 +110,16 @@ export const dashboardMachine = () =>
                       target: "Interaction View",
                       internal: true,
                       actions: "assignInteractionDiff",
+                    },
+
+                    "Interaction View Interaction Selection": {
+                      target: "Interaction View",
+                      internal: true,
+                      actions: [
+                        "assignSelectedInteraction",
+                        "jumpListInteraction",
+                        "selectTimelineInteraction",
+                      ],
                     },
                   },
                 },
@@ -151,13 +167,10 @@ export const dashboardMachine = () =>
                     "Timeline Interaction Selection": {
                       target: "Idle",
                       internal: true,
-                      actions: "assignSelectedInteraction",
-                    },
-
-                    "List Interaction Selection": {
-                      target: "Idle",
-                      internal: true,
-                      actions: "selectTimelineInteraction",
+                      actions: [
+                        "assignSelectedInteraction",
+                        "jumpListInteraction",
+                      ],
                     },
                   },
                 },
@@ -173,13 +186,10 @@ export const dashboardMachine = () =>
                     "List Interaction Selection": {
                       target: "Idle",
                       internal: true,
-                      actions: "assignSelectedInteraction",
-                    },
-
-                    "Timeline Interaction Selection": {
-                      target: "Idle",
-                      internal: true,
-                      actions: "jumpListInteraction",
+                      actions: [
+                        "assignSelectedInteraction",
+                        "selectTimelineInteraction",
+                      ],
                     },
                   },
                 },

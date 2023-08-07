@@ -21,7 +21,7 @@ interface Props {
   onSelect?: (selectedInteractionIndex: number) => void;
 }
 
-const InteractionListView = ({items, /*selectedInteractionIndex,*/ onSelect}: Props) => {
+const InteractionListView = ({items, selectedInteractionIndex, onSelect}: Props) => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
   const columns = useMemo<ColumnDef<ContractInteraction>[]>(
@@ -185,7 +185,7 @@ const InteractionListView = ({items, /*selectedInteractionIndex,*/ onSelect}: Pr
                 <tr
                   key={row.id} 
                   onClick={() => onSelect?.(virtualRow.index)}
-                  className="hover:bg-gray-200/20 cursor-pointer"
+                  className={`cursor-pointer ${selectedInteractionIndex === row.index ? 'bg-purple-400' : 'hover:bg-gray-200/20'}`}
                 >
                   {row.getVisibleCells().map(cell => {
                     return (

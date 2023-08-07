@@ -34,7 +34,7 @@ type Events =
 export const contractManagerMachine = (initialContractId?: string) =>
   createMachine(
     {
-      /** @xstate-layout N4IgpgJg5mDOIC5QGMD2A7ALgJwIbMwGUwAbMA1bAOgEl0BLTe3EgYgG0AGAXUVAAdUsRvQx8QAD0QBaACwA2KvIDs82bIBMADjXLlnDQFYANCACeMjQE4qVgMwBGeRpedDnBw9V2Avj9NoWHgExGQU1HQiLBwOvEgggsJMYvFSCM5Usg5ahlYOdoYOHoZZphYITlpUWkZ68loeGgVWGn4BGDj4RKTkmJRUAMIdwZgABKG9kKwASmD8JPhgo0NBXVxxAkIiKaBp9oq5VlacVlp2bs6yZTKGGlSGylaydvJ2yoaG8hdtIIGdIT1woNhl1xoDMJBaAwmNF1uJEtt0OI0u9ZLYXlp7EYHLIrLlrghcbZ8pwVMoXIZHDkfn8RhMgSt-mN6RCIFQADKoXAQejoKDLEEEUYAEVwmFwrAgGDAVF5ADdUABrGW0ros-qMkZgsKsjlcnl8gWrIWi8UIeWoZBi0TodZw+II5JI1KIckOTKuFraM75K7mRCyW5UZR2HRfc4OB5GGmC7o6jWx7WTNmc7m8-ma0GmiVgbDYfrzMUAM0oAFsqKqAfHqJmhSzIamDRnE9nzegFVanXaePCtk7kYhPEVMnY8WcsucFPICQpOJktG6vEY7LIPDHjXHegmN0mCA39emjUyRWLcFQAAr55BwYR81jZ0YAQTluHoCwARmR7ZskjaBwgtExKgClDThHmULQFBDAlsUyTgPEA94TmUBwWnXJl1QiCAyFYFlRgAMXobBYDGWtMG-BI+z-F0EDsRwlFJdwQz0BwXEDGDA1seQcUAr4Q3kKx0LpcFt2PesUwPQ0yJPcV71PUZG0gCjHWo3ZEHsQxqiOQoNHgtQ7A0ZQZ0KKgmgaThzlHewLL8fwQHQVAIDgcRK03cJe1-HZJBkJ4lFUdRtF0fQjAJaQXGUe4mNUE5AM4VdDCEtURIiaFmBIDzEX-ID3AaAonHqVc3FC+xqg0ZxdNy31DC0RKqy3GtE3EjL+xo14Di+XJagaIwTH9BBpBxOdGKKZw3myJparcvoGp3cSoSidKHSoryUUpYDULi+QBNufzQpxKgDFkaLngg8k3kmzDgVm8F9zTKSW1PZrVO89JIPuDqWgebqPgJTxFC9RxZC0SMag0Z4LuSq6xJuiS7ubHdswvK8b3TJ6VtdAz3rcT6IIMH6+usGx9E0N5NDOckErs1zLukubpMbAVS3mMAITR501PSKwIqsbiGhxY4ngMglbndMqsmeNwsmqiHqyhrU6cTBn8NfEgAFdsDANn-yKLmqHycKWmaAwNGF8l7lOFxIzybjfCp2NLpobDNaWzz2ZegaidHZwincF4LPyDiDg0fIcgUYP1GUWRbJ8IA */
+      /** @xstate-layout N4IgpgJg5mDOIC5QGMD2A7ALgJwIbMwGUwAbMA1bAOgEl0BLTe3EgYgG0AGAXUVAAdUsRvQx8QAD0QBaACwA2KvIDs82bIBMADjXLlnDQFYANCACeMjQE4qVgMwBGeRpedDnBw9V2Avj9NoWHgExGQU1HQiLBwOvEgggsJMYvFSCM5Usg5ahlYOdoYOHoZZphYITlpUWkZ68loeGgVWGn4BGDj4RKTkmJRUAMIdwZgABKG9kKwASmD8JPhgo0NBXVxxAkIiKaBp9rJUhlpFWvoang6FZTLyhtU6yuqyVlpZyhrybSCBnSE94YNhl1xv9MJBaAwmNF1uJEtt0OI0soSrY7PV7EYHM9ctcEM9bPlOCp3kZHDkvj8RhMAStfmNqWCIFQADKoXAQejoKDLIEEUYAEVwmFwrAgGDAVE5ADdUABrCWUroM-q0kYgsKMllsjlcnmrPmC4UIaWoZBC0TodYw+Jw5II1KId4OTKuFraLSOOyyXGyQwaKjKOw6eScOzFd6GCm87oalXR9WTJms9mc7mq4GGkVgbDYfrzIUAM0oAFsqIq-rHqOm+QzwcmdWn45njegZWa7VaeLCtnbEYgLpxMnYrEcvYSFPIfSHMqdzl5SbIPFH9THenGVwmCHXtam9XSBUKRZnRvXINbNkkLX2EPY7lorCOHBpOETZHYNMofYUqE0GqHQw+Ya+P43zRsqVbxrWSY7rq1ZjJmVAAAq5sgcDCFyrDHgAglKuD0AsABGZDngkPZXg6CBaPeVAFEGnDKFYyivCodi4pimQvtkpzuIxDgtMudLgbQEBkKwDKjAAYvQ2CwGMcEkba5G7IgdiOEoRLuIGehPhovpsb6tjyFiVEhoG8hWH4IHoKgEBwOI5aruE3aXjskgyFYBwqGomg6LIegGCY5iWIu1RHJ4djKHxXicLIAlUqC-SRFCJDOfC17Ue4DQFE49SLm4uLSPY1QfK4WX5L6WhxUqCUQRuUGpb2FHyGihwhrktQNEYgXlNIlx2DR7yaHknCnPYNRVRWa61fuUEQlEKU2mRrlIoY-WOFYMXyOZfqqN6QUIL1BwGH5IZvkx7wRRNjl9NNaqzfWu5wQewoNUpbnpK8rVuC0hhMQF3X9k4tguF6qmvMiv2RiBDlCU990wY2G4Ichppoamr3LY675fe1v2dYYAMINYNj6JoEU+RFRhXbDkGguCT31jyxbzGAYIY-aynpIxhnZB4zycB5764n6zofFkb5uFkRzUzVgJ1XTTIM9qkl4SQACu2BgOz15FNz+QuAxTS5AYGjC+8hwvC4lx5EZwHtCuQk0CJWuLS5HPvb1JPDs4RTuGiob5Ppigi0GJQ++ojyWT4QA */
       id: "contractSelector",
 
       predictableActionArguments: true,
@@ -110,7 +110,7 @@ export const contractManagerMachine = (initialContractId?: string) =>
           on: {
             "Replace Contract": {
               target: ".Initial",
-              actions: "assignReplacementContract",
+              actions: ["assignReplacementContract", "clearContractData"],
               description: `When a new Contract ID has been selected`,
               cond: "isContractReplacable",
             },
@@ -147,6 +147,9 @@ export const contractManagerMachine = (initialContractId?: string) =>
             ...context.contractData,
             ...event.data,
           }),
+        }),
+        clearContractData: assign({
+          contractData: {},
         }),
       },
       guards: {

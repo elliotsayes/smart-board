@@ -10,14 +10,14 @@ import InteractionDetails from "./InteractionDetails"
 import DashboardTabs from "./DashboardTabs"
 import StateOverview from "./StateOverview"
 import InteractionListView from "./InteractionListView"
+import ContractSelector from "./ContractSelector"
 
 interface Props {
   contractData: Partial<ContractDataFull>
+  onNewContract: (newContractId: string) => void
 }
 
-const Dashboard = (props: Props) => {
-  const { contractData: contractDataProp } = props;
-
+const Dashboard = ({ contractData: contractDataProp, onNewContract }: Props) => {
   const [timeline, setTimeline] = useState<Timeline>();
 
   const [current, send] = useMachine(
@@ -102,11 +102,19 @@ const Dashboard = (props: Props) => {
   return (
     <div className="flex flex-col gap-4">
       <p>{JSON.stringify(contextLite)}</p>
-      <DashboardBox
-        loading={contractDataProp.meta === undefined}
-      >
-        <ContractHeader {...contractDataProp.meta!} />
-      </DashboardBox>
+      <div className="flex flex-row gap-4">
+        <DashboardBox
+          loading={contractDataProp.meta === undefined}
+        >
+          <ContractHeader {...contractDataProp.meta!} />
+        </DashboardBox>
+        <DashboardBox>
+          <ContractSelector 
+            initialValue={contractDataProp.meta?.txId ?? ''} 
+            onSelect={(newContractId) => onNewContract(newContractId)}
+          />
+        </DashboardBox>
+      </div>
       <DashboardTabs 
         tabIndex={current.context.viewportTab}
         titles={['State Overview', 'Interaction Details']}

@@ -1,6 +1,7 @@
 import { useMachine } from "@xstate/react";
 import { contractManagerMachine } from "../machines/contract_manager";
 import Dashboard from "./Dashboard";
+import { useCallback } from "react";
 
 // import { fromWorker } from 'observable-webworker';
 // import { of } from 'rxjs';
@@ -26,16 +27,27 @@ interface Props {
 }
 
 const ContractManager = ({ initialContractId }: Props) => {
-  const [current] = useMachine(
+  const [current, send] = useMachine(
     () => contractManagerMachine(initialContractId), 
     { 
       devTools: import.meta.env.DEV,
     },
   );
 
+  const onNewContract = useCallback((newContractId: string) => {
+    send({
+      type: "Replace Contract",
+      data: {
+        replacementContractId: newContractId
+      }
+    })
+  }, [send])
+
   return (
     <>
-      <Dashboard contractData={current.context.contractData} />
+      <Dashboard
+        contractData={current.context.contractData}
+        onNewContract={onNewContract}      />
     </>
   )
 }

@@ -16,6 +16,10 @@ import { useVirtual } from 'react-virtual'
 import HashView from "./HashView";
 import Identicon from "./Identicon";
 
+export type ListControls = {
+  scrollToIndex: (index: number) => void;
+}
+
 interface Props {
   items: ContractInteractionHistory | ContractInteractionWithResultHistory;
   selectedInteractionIndex?: number;
@@ -24,9 +28,10 @@ interface Props {
     start: number;
     end: number;
   }
+  onListControls: (controls: ListControls) => void;
 }
 
-const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRangeFilter}: Props) => {
+const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRangeFilter, onListControls}: Props) => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
   const columns = useMemo<ColumnDef<ContractInteraction>[]>(
@@ -129,7 +134,21 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
     size: rows.length,
     overscan: 10,
   })
-  const { virtualItems: virtualRows, totalSize } = rowVirtualizer
+  const { virtualItems: virtualRows, totalSize, scrollToIndex } = rowVirtualizer
+  
+  useEffect(() => {
+    onListControls({
+      scrollToIndex: (index) => {
+        const itemId = items[index].id
+        const filteredRowIndex = rows.findIndex((row) => row.original.id === itemId)
+        if (filteredRowIndex !== -1) {
+          scrollToIndex(Math.max(filteredRowIndex - 2, 0), {
+            align: 'end',
+          })
+        }
+      },
+    })
+  }, [items, rows, onListControls, scrollToIndex])
 
   const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0
   const paddingBottom =

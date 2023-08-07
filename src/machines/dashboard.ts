@@ -61,7 +61,7 @@ type Event =
 export const dashboardMachine = () =>
   createMachine(
     {
-      /** @xstate-layout N4IgpgJg5mDOIC5QQIawBYCMD2KBOEAdAJIB2AlgC7koA2AxANoAMAuoqAA7axXnakOIAB6IALAE5CANgCMAdgAcYgKwqxs2dJXyJAGhABPRACZmKwrOYBmJc0WKV1rRIC+rg6gw58RACJoWLgEhABq5GAA7tx4lIQAypQolGAABOFR9GQpeCgAxtQCqQAqKJgs7Egg3LyFglWiCPLyJoRi0mYmzYrM8mJiBsYIqtKEEg7SztrSzePW7p6BPiEB3sFEGdHYsSSkOfl16RGR9InJaaXlbEI1fAJCjbqt6tLTkiYf9oOI0hqEKrJrCYxNZXvIAX0FiAvEFfIRVrCQpsYnFsmBcgV+KQjpl4mBKKk0RjDn5yAAzMkVG48O71UCNTQqKRiZgSayKPqKV4zWTfBAqOSEZjScaAz7C+TzDzQpbreGyuEBJIkCC0MD0ACqnFQKVSAGEBJRiaklSgqVVbnUHqZhWNJDY5GKJCZrCo+QDFJYnBJtKDFLJVPIoTDlv4FSEAGLkWg5FVq+hRmPokrkAC2aQASihSDBzVwaVaGohNLILLJxiDXaozBy+WzrDJlMwTBIlCphTpg+Gw2s4cU02BaORSGA4+r++mhyPCXt0Qcsak8WrMQI89UC1jrQgzLJCKDVM7tFZrBIBkZEI5PapNHIPmJmmou72Vt3CBPB8PR8RVeqADLkWACSJeciiXMAV1INdLU3Itt3LSwJHGRQJCZNRZmsPlj1aEwZm0Vtfg+FRFCfREe1Iwh-0Asd6EooDZ2JBcwIgqCN3uWDpB6IUK1kBwJGYDQULrHDCF0EVrHvHQWkkdxpVIbAIDgIQQ3Walahg+lEAAWlaeRNAkWQTBUHDJBaIj3VGAFKzkVsPl+NxpWUuEyD4OhVNpLcxEUTD+hI0N5WfCA3MLDThgsEwHHsPpJXbLozyGcLdy5D0zFBU9VF8uUET85FtkoIL1JEcRnUseRhWbU8nA+PlUv+cr7A4jkRW0DLFVfHKdjOXVNnytiQvUZgSrKltVCBEx3R4kS+NvctW2cezFgC-zyPa1F6JA7FuotVi6UKhBkPkf5Xg5NkuS5Mbz35CbdGFaxhUUZxmGYWQWpfRbTR6nbGlbNouiBHpkIM8E4sQGrXXsVR7tbHiXrIvzTTHD6twDCwxF+8L7H0rp1D5EZCHu7RWQIyRSzEGGlr8xMckR2CrGbGQnBPa7W2dXkLuaA7nXEoyNCe+xnoc18srlSn0QRra1N63arHbenrEZvjmZMVmhiStpWRvJXwv9IMBbe193ynMBqZCtlCC1yL7zB2K+WaAafTUSK2TZXoyaFvsB0NsX8wlz7iz+c2OUtmK+jrbQZCUD5EL4uWntd19aON3anFGdp73tRQUukG3lDxqxUce-jJgDOPFtor31x9rciLENpfj6PiM4dPkOWwn0AxbFpfi0GTXCAA */
+      /** @xstate-layout N4IgpgJg5mDOIC5QQIawBYCMD2KBOEAdAJIB2AlgC7koA2AxANoAMAuoqAA7axXnakOIAB6IALAE5CANgCMAdgAcYgKwqxs2dJXyJAGhABPRACZmKwrOYBmJc0WKV1rRIC+rg6gw58RACJoWLgEhABq5GAA7tx4lIQAypQolGAABOFR9GQpeCgAxtQCqQAqKJgs7Egg3LyFglWiCPLyJoRi0mYmzYrM8mJiBsYIqtKEEg7SztrSzePW7p6BPiEB3sFEGdHYsSSkOfl16RGR9InJaaXlbEI1fAJCjbqt6tLTkiYf9oOI0hqEKrJrCYxNZXvIAX0FiAvEFfIRVrCQpsYnFsmBcgV+KQjpl4mBKKk0RjDn5yAAzMkVG48O71UCNTQqKRiZgSayKPqKV4zWTfBAqOSEZjScaAz7C+TzDzQpbreGyuEBJIkCC0MD0ACqnFQKVSAGEBJRiaklSgqVVbnUHqZhWNJDY5GKJCZrCo+QDFJYnBJtKDFLJVPIoTDlv4FSEAGLkWg5FVq+hRmPokrkAC2aQASihSDBzVwaVaGohNLILLJxiDXaozBy+WzrDJlMwTBIlCphTpg+Gw2s4cU02BaORSGA4+r++mhyPCXt0Qcsak8WrMQI89UC1jrQgzLJCKD2sxmxyVIoJLyjIguWJ-swxF0JOoJOYVCYu72Vt3CBPB8PR8RVeqAAy5CwASRLzkUS5gCupBrpam5Ftu5aWBI4ynkyaizNYfJWEChAmDM2itr8Hwnm+iI9hRhDAaBY70DRYGzsSC5QTBcEbvciEzNeHylhoJgvvYJjnkMqGeu0YjNGosjHqh5GhvK75EAxdHflOaTgTBi6DtBdTsbUCH0j8zR7i+-SshokwmHyjiev6UwOMKDhkVCpDYBAcBCCG6zUgZnFGQgAC0rTyJoZ4CQRkgtCe7qjACIJmMKVhRbI8lymQfB0L5tJbmIig4f0aWKt22WFgFqj4Y5HKSa6zZ9HyJj+oQXIAuo7J3q2rZFR+SlhMcKKlYZIjiM6ljyMKzYSKoQLWReCCglI7YtgK1i2E4rzdZRCnItscRnLqmyDf5w38iyY0TS200fO6MmELoSXCahkrlptilUTtOyaYch0WhxdInae8j-K8HJslyXKzUMHp3U+kxOc4h6pdK3nFb1ppHf9jStm0XRAj0p6yF06h8gtplCa2NjqITKivQiCmmmOGNbgGFh3pKjX2OF4IDHNIzNaC7Y+nekh8bTn6JjkTOIVYzYyE41idayTwiYgzRA861ggh0kpsgGYu9RL6KM79fmY8W5jMHLq2K51wk2dobSspoHSEw4Cj61Ram-lLAVspV+N9JKS31XNatCjJTI+lYVg08jn503KXsjsb+am8zfyNQHNXBzzokOzMigfKhT6rcwSOLGjn4MT7J1OJbJ5KKF-QLVyfLNLuQKchMuiurHFdUQncIqf+ao140Oieg3HIBlr4zSHWIJjJMcySqC8gbe4rhAA */
       id: "dashboard",
       predictableActionArguments: true,
       tsTypes: {} as import("./dashboard.typegen").Typegen0,
@@ -174,6 +174,12 @@ export const dashboardMachine = () =>
                       target: "Idle",
                       internal: true,
                       actions: "assignSelectedInteraction",
+                    },
+
+                    "Timeline Interaction Selection": {
+                      target: "Idle",
+                      internal: true,
+                      actions: "jumpListInteraction",
                     },
                   },
                 },

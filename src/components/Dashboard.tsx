@@ -9,7 +9,7 @@ import { TimelineItem } from "vis-timeline"
 import InteractionDetails from "./InteractionDetails"
 import DashboardTabs from "./DashboardTabs"
 import StateOverview from "./StateOverview"
-import InteractionListView from "./InteractionListView"
+import InteractionListView, { ListControls } from "./InteractionListView"
 import ContractSelector from "./ContractSelector"
 
 interface Props {
@@ -19,6 +19,7 @@ interface Props {
 
 const Dashboard = ({ contractData: contractDataProp, onNewContract }: Props) => {
   const [timelineControls, setTimelineControls] = useState<TimelineControls>();
+  const [listControls, setListControls] = useState<ListControls>();
 
   const [current, send] = useMachine(
     () => dashboardMachine(),
@@ -28,6 +29,9 @@ const Dashboard = ({ contractData: contractDataProp, onNewContract }: Props) => 
         selectTimelineInteraction: (_, event) => {
           timelineControls?.setSelection(event.data.selectedInteractionIndex)
         },
+        jumpListInteraction: (_, event) => {
+          event.data.selectedInteractionIndex && listControls?.scrollToIndex(event.data.selectedInteractionIndex)
+        }
       }
     },
   );
@@ -184,6 +188,7 @@ const Dashboard = ({ contractData: contractDataProp, onNewContract }: Props) => 
             })
           }}
           timeRangeFilter={current.context.filter.timeRange}
+          onListControls={setListControls}
         />
       </DashboardBox>
       <DashboardBox

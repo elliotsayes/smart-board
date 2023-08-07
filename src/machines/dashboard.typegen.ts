@@ -8,7 +8,7 @@ export interface Typegen0 {
   };
   invokeSrcNameMap: {};
   missingImplementations: {
-    actions: "selectTimelineInteraction";
+    actions: "jumpListInteraction" | "selectTimelineInteraction";
     delays: never;
     guards: never;
     services: never;
@@ -22,6 +22,7 @@ export interface Typegen0 {
       | "Timeline Interaction Selection";
     assignViewportTab0: "" | "State Tab";
     assignViewportTab1: "Interaction Tab" | "Set Interaction Diff";
+    jumpListInteraction: "Timeline Interaction Selection";
     selectTimelineInteraction: "List Interaction Selection";
   };
   eventsCausingDelays: {};

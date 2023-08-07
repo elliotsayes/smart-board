@@ -19,9 +19,13 @@ interface Props {
   items: ContractInteractionCacheHistory;
   selectedInteractionIndex?: number;
   onSelect?: (selectedInteractionIndex: number) => void;
+  timeRangeFilter?: {
+    start: number;
+    end: number;
+  }
 }
 
-const InteractionListView = ({items, selectedInteractionIndex, onSelect}: Props) => {
+const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRangeFilter}: Props) => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
   const columns = useMemo<ColumnDef<ContractInteraction>[]>(
@@ -87,7 +91,7 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect}: Props)
     []
   )
 
-  const filteredColumnNames = ['ownerAddress', 'functionName', 'result'];
+  const showColumnFilterIds = ['ownerAddress', 'functionName', 'result'];
 
   const [data, /*setData*/] = useState(() => items)
 
@@ -110,6 +114,13 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect}: Props)
       }
     }
   }, [table.getState().columnFilters[0]?.id])
+
+  useEffect(() => {
+    console.log(timeRangeFilter)
+    if (timeRangeFilter) {
+      table.getColumn('timestamp')?.setFilterValue(() => [timeRangeFilter.start, timeRangeFilter.end])
+    }
+  }, [table, timeRangeFilter]);
 
   const tableContainerRef = useRef<HTMLDivElement>(null)
 
@@ -160,7 +171,7 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect}: Props)
                               desc: ' 🔽',
                             }[header.column.getIsSorted() as string] ?? null}
                           </div>
-                          {(filteredColumnNames.findIndex(x => x == header.column.id) != -1) ? (
+                          {(showColumnFilterIds.findIndex(x => x == header.column.id) != -1) ? (
                             <div>
                               <Filter column={header.column} table={table} />
                             </div>

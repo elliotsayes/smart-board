@@ -183,6 +183,7 @@ const Dashboard = ({ contractData: contractDataProp, onNewContract }: Props) => 
               type: "Interaction Tab",
             })
           }}
+          timeRangeFilter={current.context.filter.timeRange}
         />
       </DashboardBox>
       <DashboardBox

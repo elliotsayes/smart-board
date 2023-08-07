@@ -169,6 +169,7 @@ const Dashboard = ({ contractData: contractDataProp, onNewContract }: Props) => 
       </DashboardTabs>
       <DashboardBox
         loading={contractDataProp.interactionCacheHistory === undefined}
+        padding={false}
       >
         <InteractionListView
           items={contractDataProp.interactionCacheHistory!}

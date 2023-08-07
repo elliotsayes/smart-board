@@ -128,11 +128,10 @@ const InteractionListView = ({items, /*selectedInteractionIndex,*/ onSelect}: Pr
       : 0
 
   return (
-    <div className="p-2">
-      <div className="h-2" />
-      <div ref={tableContainerRef} className="h-[500px] overflow-auto">
+    <div className="px-2">
+      <div ref={tableContainerRef} className="h-[300px] overflow-auto">
         <table className="border-collapse table-fixed w-[100%]">
-          <thead className="sticky top-0 m-0 bg-gray-800/90">
+          <thead className="sticky top-0 m-0 bg-gray-800/90 z-20">
             {table.getHeaderGroups().map(headerGroup => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map(header => {
@@ -183,7 +182,11 @@ const InteractionListView = ({items, /*selectedInteractionIndex,*/ onSelect}: Pr
             {virtualRows.map(virtualRow => {
               const row = rows[virtualRow.index] as Row<ContractInteraction>
               return (
-                <tr key={row.id} onClick={() => onSelect?.(virtualRow.index)}>
+                <tr
+                  key={row.id} 
+                  onClick={() => onSelect?.(virtualRow.index)}
+                  className="hover:bg-gray-200/20 cursor-pointer"
+                >
                   {row.getVisibleCells().map(cell => {
                     return (
                       <td key={cell.id}>

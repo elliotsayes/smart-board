@@ -1,6 +1,5 @@
 import { DefaultEvaluationOptions, Warp } from "warp-contracts";
 import { transactionTimestamp } from "./transaction_timestamp";
-import * as Diff from "diff";
 import {
   ContractDataFull,
   ContractInteractionWithResultHistory,
@@ -114,11 +113,10 @@ export const loadContractData = (
             if (!afterState.cachedValue.validity[interaction.id]) {
               return ContractInteractionResult.Error;
             }
-            const diff = Diff.diffJson(
-              beforeState.cachedValue.state as object,
-              afterState.cachedValue.state as object
-            );
-            if (diff.filter((d) => d.added || d.removed).length > 0) {
+            const same =
+              JSON.stringify(beforeState.cachedValue.state) ===
+              JSON.stringify(afterState.cachedValue.state);
+            if (!same) {
               return ContractInteractionResult.Update;
             } else {
               return ContractInteractionResult.NoUpdate;

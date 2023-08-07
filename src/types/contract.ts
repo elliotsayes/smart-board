@@ -21,7 +21,7 @@ export type ContractInteraction = GQLNodeInterface;
 export type ContractInteractionHistory = ContractInteraction[];
 
 export enum ContractInteractionResult {
-  Update = "changed",
+  Update = "has change",
   NoUpdate = "no change",
   Error = "error",
 }

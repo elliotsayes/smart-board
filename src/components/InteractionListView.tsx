@@ -78,13 +78,15 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
         accessorKey: 'result',
         header: 'Result',
         cell: (info) => {
-          const value = info.getValue() as ContractInteractionResult
+          const value = info.getValue() as ContractInteractionResult | undefined
           if (value === ContractInteractionResult.Error) {
-            return <span><span className="text-red-500">ｘ</span> error</span>
+            return <span><span className="text-red-500">ｘ</span> {value.toString()}</span>
           } else if (value === ContractInteractionResult.Update) {
-            return <span><span className="text-green-500">✔</span> changed</span>
+            return <span><span className="text-green-500">✔</span> {value.toString()}</span>
+          } else if (value === ContractInteractionResult.NoUpdate) {
+            return <span><span className="text-yellow-500">‒</span> {value.toString()}</span>
           } else {
-            return <span><span className="text-yellow-500">‒</span> no change</span>
+            return <span>Loading...</span>
           }
         }
       }

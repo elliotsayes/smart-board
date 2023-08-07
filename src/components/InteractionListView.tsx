@@ -116,7 +116,6 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
   }, [table.getState().columnFilters[0]?.id])
 
   useEffect(() => {
-    console.log(timeRangeFilter)
     if (timeRangeFilter) {
       table.getColumn('timestamp')?.setFilterValue(() => [timeRangeFilter.start, timeRangeFilter.end])
     }

@@ -18,15 +18,15 @@ export type ContractInteraction = GQLNodeInterface;
 
 export type ContractInteractionHistory = ContractInteraction[];
 
-export enum ContractResult {
-  Update = "update",
-  NoUpdate = "noupdate",
+export enum ContractInteractionResult {
+  Update = "changed",
+  NoUpdate = "no change",
   Error = "error",
 }
 
-export type ContractInteractionCache = {
+export type ContractInteractionCache = ContractInteraction & {
   functionName?: string;
-  result: ContractResult;
+  result: ContractInteractionResult;
 };
 
 export type ContractInteractionCacheHistory = ContractInteractionCache[];

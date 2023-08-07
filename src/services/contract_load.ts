@@ -1,6 +1,10 @@
 import { DefaultEvaluationOptions, Warp } from "warp-contracts";
 import * as Diff from "diff";
-import { ContractDataFull, ContractResult } from "../types/contract";
+import {
+  ContractDataFull,
+  ContractInteractionCacheHistory,
+  ContractInteractionResult,
+} from "../types/contract";
 
 export const loadContractData = (
   warp: Warp,
@@ -69,8 +73,8 @@ export const loadContractData = (
       };
       controller.enqueue(contractData);
 
-      const interactionCacheHistory = sortedInteractions.map(
-        (interaction, i) => {
+      const interactionCacheHistory: ContractInteractionCacheHistory =
+        sortedInteractions.map((interaction, i) => {
           const inputString = interaction.tags.find(
             (tag) => tag.name == "Input"
           )?.value;
@@ -88,25 +92,25 @@ export const loadContractData = (
           const afterState = stateHistory[i + 1];
           const result = (() => {
             if (!afterState.cachedValue.validity[interaction.id]) {
-              return ContractResult.Error;
+              return ContractInteractionResult.Error;
             }
             const diff = Diff.diffJson(
               beforeState.cachedValue.state as object,
               afterState.cachedValue.state as object
             );
             if (diff.filter((d) => d.added || d.removed).length > 0) {
-              return ContractResult.Update;
+              return ContractInteractionResult.Update;
             } else {
-              return ContractResult.NoUpdate;
+              return ContractInteractionResult.NoUpdate;
             }
           })();
 
           return {
+            ...interaction,
             functionName,
             result,
           };
-        }
-      );
+        });
       contractData = {
         ...contractData,
         interactionCacheHistory,

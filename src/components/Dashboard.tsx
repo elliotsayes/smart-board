@@ -160,10 +160,10 @@ const Dashboard = (props: Props) => {
         </DashboardBox>
       </DashboardTabs>
       <DashboardBox
-        loading={contractDataProp.stateHistory === undefined}
+        loading={contractDataProp.interactionCacheHistory === undefined}
       >
         <InteractionListView
-          items={contractDataProp.interactionHistory!}
+          items={contractDataProp.interactionCacheHistory!}
           selectedInteractionIndex={current.context.selectedInteractionIndex}
           onSelect={(selectedInteractionIndex) => {
             send({

@@ -1,5 +1,5 @@
 import { assign, createMachine } from "xstate";
-import { ContractDataFull, ContractResult } from "../types/contract";
+import { ContractDataFull, ContractInteractionResult } from "../types/contract";
 
 type Context = {
   contractData: Partial<ContractDataFull>;
@@ -8,7 +8,7 @@ type Context = {
   selectedInteractionIndex?: number;
   filter: {
     functions?: Set<string>;
-    results?: Set<ContractResult>;
+    results?: Set<ContractInteractionResult>;
     walletAddresses?: Set<string>;
     timeRange?: {
       start: number;

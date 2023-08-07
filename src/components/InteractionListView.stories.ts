@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
 import InteractionListView from "./InteractionListView";
+import { ContractInteractionResult } from "../types/contract";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
@@ -116,6 +117,13 @@ const exampleInteractions = (n: number) =>
       size: 0,
       type: "",
     },
+    functionName: "setName",
+    result:
+      Math.random() > 0.5
+        ? ContractInteractionResult.Update
+        : Math.random() > 0.5
+        ? ContractInteractionResult.Error
+        : ContractInteractionResult.NoUpdate,
   }));
 
 export const SingleInteraction: Story = {

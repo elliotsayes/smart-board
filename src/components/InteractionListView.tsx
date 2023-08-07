@@ -1,4 +1,4 @@
-import { ContractInteraction } from "../types/contract"
+import { ContractInteraction, ContractInteractionCacheHistory, ContractInteractionResult } from "../types/contract"
 import { useEffect, useMemo, useRef, useState } from "react"
 import {
   Column,
@@ -16,7 +16,7 @@ import HashView from "./HashView";
 import Identicon from "./Identicon";
 
 interface Props {
-  items: ContractInteraction[];
+  items: ContractInteractionCacheHistory;
   selectedInteractionIndex?: number;
   onSelect?: (selectedInteractionIndex: number) => void;
 }
@@ -63,11 +63,31 @@ const InteractionListView = ({items, /*selectedInteractionIndex,*/ onSelect}: Pr
           </div>
         ),
       },
+      {
+        id: 'functionName',
+        accessorKey: 'functionName',
+        header: 'Function',
+      },
+      {
+        id: 'result',
+        accessorKey: 'result',
+        header: 'Result',
+        cell: (info) => {
+          const value = info.getValue() as ContractInteractionResult
+          if (value === ContractInteractionResult.Error) {
+            return <span><span className="text-red-500">ｘ</span> error</span>
+          } else if (value === ContractInteractionResult.Update) {
+            return <span><span className="text-green-500">✔</span> changed</span>
+          } else {
+            return <span><span className="text-yellow-500">‒</span> no change</span>
+          }
+        }
+      }
     ],
     []
   )
 
-  const filteredColumnNames = ['ownerAddress'];
+  const filteredColumnNames = ['ownerAddress', 'functionName', 'result'];
 
   const [data, /*setData*/] = useState(() => items)
 
@@ -112,7 +132,7 @@ const InteractionListView = ({items, /*selectedInteractionIndex,*/ onSelect}: Pr
       <div className="h-2" />
       <div ref={tableContainerRef} className="h-[500px] overflow-auto">
         <table className="border-collapse table-fixed w-[100%]">
-          <thead className="sticky top-0 m-0">
+          <thead className="sticky top-0 m-0 bg-gray-800/90">
             {table.getHeaderGroups().map(headerGroup => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map(header => {
@@ -126,9 +146,9 @@ const InteractionListView = ({items, /*selectedInteractionIndex,*/ onSelect}: Pr
                         <>
                           <div
                             {...{
-                              className: header.column.getCanSort()
-                                ? 'cursor-pointer select-none'
-                                : '',
+                              // className: header.column.getCanSort()
+                              //   ? 'cursor-pointer select-none'
+                              //   : '',
                               // onClick: header.column.getToggleSortingHandler(),
                             }}
                           >

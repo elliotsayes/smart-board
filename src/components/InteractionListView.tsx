@@ -15,7 +15,7 @@ import Identicon from "./Identicon";
 interface Props {
   items: ContractInteraction[];
   selectedInteractionIndex?: number;
-  onSelect: (selectedInteractionIndex: number) => void;
+  onSelect?: (selectedInteractionIndex: number) => void;
 }
 
 const InteractionListView = ({items, /*selectedInteractionIndex,*/ onSelect}: Props) => {
@@ -138,7 +138,7 @@ const InteractionListView = ({items, /*selectedInteractionIndex,*/ onSelect}: Pr
             {virtualRows.map(virtualRow => {
               const row = rows[virtualRow.index] as Row<ContractInteraction>
               return (
-                <tr key={row.id} onClick={() => onSelect(virtualRow.index)}>
+                <tr key={row.id} onClick={() => onSelect?.(virtualRow.index)}>
                   {row.getVisibleCells().map(cell => {
                     return (
                       <td key={cell.id}>

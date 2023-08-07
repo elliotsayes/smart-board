@@ -139,8 +139,8 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
 
   return (
     <div className="pl-2 relative">
-      <div ref={tableContainerRef} className="h-[300px] overflow-auto ">
-        <table className="border-collapse table-fixed w-[100%]">
+      <div ref={tableContainerRef} className="h-[300px] overflow-y-scroll">
+        <table className="border-collapse table-fixed w-full">
           <thead className="sticky top-0 m-0 bg-gray-800/90 z-20">
             {table.getHeaderGroups().map(headerGroup => (
               <tr key={headerGroup.id}>
@@ -184,7 +184,7 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
               </tr>
             ))}
           </thead>
-          <tbody className="w-[100%]">
+          <tbody>
             {paddingTop > 0 && (
               <tr>
                 <td style={{ height: `${paddingTop}px` }} />
@@ -200,7 +200,7 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
                 >
                   {row.getVisibleCells().map(cell => {
                     return (
-                      <td key={cell.id}>
+                      <td key={cell.id} className="pr-2">
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()

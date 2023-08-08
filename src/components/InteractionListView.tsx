@@ -55,7 +55,7 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
         accessorKey: 'id',
         header: 'ID',
         cell: (info) => <HashView hash={(info.getValue() as string).toString() ?? ''} />,
-        size: 165,
+        size: 180,
       },
       {
         id: 'timestamp',

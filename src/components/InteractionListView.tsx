@@ -203,7 +203,7 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
                                 column={header.column} 
                                 // table={table}
                                 items={items}
-                                onClearTimeFilter={onClearTimeFilter}
+                                // onClearTimeFilter={onClearTimeFilter}
                               />
                             </div>
                           ) : null}
@@ -278,12 +278,12 @@ function Filter({
   column,
   // table,
   items,
-  onClearTimeFilter,
+  // onClearTimeFilter,
 }: {
   column: Column<any, unknown>
   // table: Table<any>
   items: ContractInteractionHistory
-  onClearTimeFilter?: () => void
+  // onClearTimeFilter?: () => void
 }) {
   const isTimestamp = column.id === 'timestamp'
 

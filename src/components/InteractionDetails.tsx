@@ -43,7 +43,7 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
 
   return (
     <div className="flex flex-col">
-      <div className="flex flex-row">
+      <div className="flex flex-col lg:flex-row">
         <div>
           <p>#{interactionIndex}: <HashView hash={interaction.id} viewblock="tx" warpSonar="interaction" /></p>
           <p>Block <HashView hash={interaction.block.height.toString()} viewblock="block" /></p>
@@ -63,7 +63,7 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
               className="flex pl-2"
             />
           </div>
-          <div className="max-h-96 overflow-x-auto">
+          <div className="max-h-96 overflow-auto">
             <ReactDiffViewer
               oldValue={showDiff ? beforeStateObject : afterStateObject}
               newValue={afterStateObject}

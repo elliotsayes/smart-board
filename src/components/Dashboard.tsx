@@ -106,9 +106,10 @@ const Dashboard = ({ contractData: contractDataProp, onNewContract }: Props) => 
   // }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="py-4 px-2">
+    <div className="mx-auto max-w-screen-xl flex flex-col gap-4">
       {/* <p>{JSON.stringify(contextLite)}</p> */}
-      <div className="flex flex-row gap-4">
+      <div className="flex flex-col md:flex-row gap-4">
         <DashboardBox
           loading={contractDataProp.meta === undefined}
         >
@@ -212,6 +213,7 @@ const Dashboard = ({ contractData: contractDataProp, onNewContract }: Props) => 
           onRangeChanged={onRangeChanged}
         />
       </DashboardBox>
+    </div>
     </div>
   )
 }

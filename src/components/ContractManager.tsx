@@ -77,15 +77,18 @@ const ContractManager = ({ initialContractId }: Props) => {
 
   if (current.context.selectedContractId === undefined) {
     return (
-      <div className="flex flex-col items-center align-middle bg-gray-800/80 min-h-screen">
-        <div className="my-auto w-full max-w-screen-sm px-4">
-          <DashboardBox>
-            <ContractSelector 
-              initialValue={""} 
-              onSelect={onSelectFirstContract}
-            />
-          </DashboardBox>
-          <div className="pt-2 pl-2">
+      <div className="flex flex-col items-center align-middle min-h-screen">
+        <div className="my-auto w-full max-w-screen-sm px-4 items-center">
+          <img src="/smartboard.svg" className="w-full mx-auto" />
+          <div className="py-4">
+            <DashboardBox>
+              <ContractSelector 
+                initialValue={""} 
+                onSelect={onSelectFirstContract}
+              />
+            </DashboardBox>
+          </div>
+          <div className="pl-2">
             <span>Examples: </span>
             {
               exampleContracts.map((contractInfo) => (

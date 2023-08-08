@@ -18,7 +18,7 @@ interface Props {
 }
 
 const InteractionDetails = ({interactionIndex, interactionCount, interaction, beforeState, afterState, preferShowDiff, onChangeSelectedInteractionIndex, onChangePreferShowDiff}: Props) => {
-  const { inputString, functionName } = interaction;
+  const { inputString } = interaction;
   const inputStringFormatted = (() => {
     try {
       return JSON.stringify(JSON.parse(inputString!), null, 2);

@@ -48,10 +48,8 @@ const TimelinePicker = (props: Props) => {
           hour: 'ha'
         }
       },
-      onAdd: (item) => console.log(item),
       zoomFriction: 5,
       showCurrentTime: true,
-      // TODO: Check that this is correct
       moment: function (date: Moment.MomentInput) {
         return Moment(date).utc();
       },
@@ -65,7 +63,6 @@ const TimelinePicker = (props: Props) => {
   const setupRef = useRef(false);
 
   const itemsSampled = useMemo(() => {
-    console.log('sampling items')
     const itemCount = items.length
     if (itemCount <= MAX_ITEMS) return items;
     const globalRatio = itemCount / MAX_ITEMS
@@ -74,11 +71,9 @@ const TimelinePicker = (props: Props) => {
 
   useEffect(() => {
     if (loadRef.current || setupRef.current) {
-      console.log('returning')
       return
     }
     loadRef.current = true;
-    console.log('setting up')
 
     const timeline = new Timeline(timelineDivRef.current!, itemsSampled, options)
     timeline.fit()
@@ -98,7 +93,6 @@ const TimelinePicker = (props: Props) => {
       byUser: boolean,
     }
     const trimRange = (properties: RangeChangedProperties, newSelection?: number) => {
-      // console.log('trimming range', properties)
       const { start: rangeStart, end: rangeEnd } = properties;
 
       const beforeRangeItemsSampled = itemsSampled.filter((item) => utcMs(item.start) < utcMs(rangeStart));
@@ -116,10 +110,10 @@ const TimelinePicker = (props: Props) => {
         const inRangeRatio = inRangeCount / MAX_ITEMS
         const filteredItems = inRangeItems.filter((item, i) => ((i % Math.ceil(inRangeRatio) === 0) || item.id == selection))
         renderItems = [...beforeRangeItemsSampled, ...filteredItems, ...afterRangeItemsSampled]
-        console.log('filtered items', renderItems.length, inRangeCount)
+        console.log('Timeline: showing filtered items', renderItems.length, inRangeCount)
       } else {
         renderItems = [...beforeRangeItemsSampled, ...inRangeItems, ...afterRangeItemsSampled]
-        console.log('all items', renderItems.length, inRangeCount)
+        console.log('Timeline: showing all items', renderItems.length, inRangeCount)
       }
       timeline.setItems(renderItems)
       selection && timeline.setSelection([selection]) // Workaround for losing selection
@@ -131,7 +125,6 @@ const TimelinePicker = (props: Props) => {
         utcMs(properties.end)
       ]))
 
-    console.log('setup complete')
     setupRef.current = true;
     loadRef.current = false;
 
@@ -149,7 +142,7 @@ const TimelinePicker = (props: Props) => {
     })
 
     return () => {
-      console.log('destroying')
+      timeline.off('rangechanged')
       timeline.off('rangechange')
       timeline.off('select')
       timeline.destroy()

@@ -17,7 +17,6 @@ const Dashboard = lazy(() => import("./Dashboard"));
 //     of(context.selectedContractId!),
 //   ).pipe(
 //     map((x) => {
-//       console.log(x)
 //       return {
 //         type: "Data Available",
 //         data: x,

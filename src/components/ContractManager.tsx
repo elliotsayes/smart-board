@@ -33,6 +33,10 @@ type ExampleContract = {
 
 const exampleContracts: ExampleContract[] = [
   {
+    name: "ANT-COMMUNITY",
+    address: "39lHRvtS8TDbODiIoKCHM9AXmrCgTBuYn116tGfCCEI",
+  },
+  {
     name: "$ARDRIVE",
     address: "-8A6RexFkpfWwuyVO98wzSFZh0d6VJuI-buTJvlwOJQ",
   },
@@ -89,7 +93,7 @@ const ContractManager = ({ initialContractId }: Props) => {
             </DashboardBox>
           </div>
           <div className="pl-2">
-            <span>Enter a contract id get started, or try an example: </span>
+            <p>Enter a contract id get started, or try an example: </p>
             {
               exampleContracts.map((contractInfo) => (
                 <>

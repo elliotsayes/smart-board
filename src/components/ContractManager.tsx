@@ -97,13 +97,13 @@ const ContractManager = ({ initialContractId }: Props) => {
             {
               exampleContracts.map((contractInfo) => (
                 <>
-                  <button 
+                  <a 
                     key={contractInfo.address}
-                    onClick={() => onSelectFirstContract(contractInfo.address)}
+                    href={`?contractId=${contractInfo.address}`}
                     className="pr-1 underline"
                   >
                     {contractInfo.name}
-                  </button>
+                  </a>
                 </>
               ))
             }

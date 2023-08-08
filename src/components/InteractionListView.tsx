@@ -73,7 +73,7 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
         accessorKey: 'owner.address',
         header: 'Owner',
         cell: (info) => (
-          <div className="flex justify-center">
+          <div className="flex justify-start">
             <Identicon address={(info.getValue() as string).toString()} size={2} />
             <HashView hash={(info.getValue() as string).toString() ?? ''} />
           </div>

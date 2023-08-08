@@ -142,8 +142,6 @@ const TimelinePicker = (props: Props) => {
 
   return (
     <div className="w-[100%] animate-fade-in relative p-2">
-      {/* <div className='absolute z-50 left-0 top-0 bottom-0 w-[10%] bg-gradient-to-r from-gray-900/20 bg-blend-overlay pointer-events-none' />
-      <div className='absolute z-50 right-0 top-0 bottom-0 w-[10%] bg-gradient-to-l from-gray-900/20 bg-blend-overlay pointer-events-none' /> */}
       <div ref={timelineDivRef} />
     </div>
   )

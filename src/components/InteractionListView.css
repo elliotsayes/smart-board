@@ -1,7 +1,3 @@
-/* .container {
-  max-width: 1200px;
-} */
-
 .interaction-list-table {
   text-align: center;
 }
@@ -11,5 +7,5 @@
 }
 
 .interaction-list-table tbody tr:active {
-    background-color: #D56DFB;
+    background-color: rgba(213, 109, 251, .5);
 }

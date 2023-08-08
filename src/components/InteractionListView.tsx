@@ -142,7 +142,7 @@ const InteractionListView = ({items, /*selectedInteractionIndex,*/ onSelect}: Pr
                 <tr key={row.id} onClick={() => onSelect(virtualRow.index)}>
                   {row.getVisibleCells().map(cell => {
                     return (
-                      <td key={cell.id}>
+                      <td key={cell.id} style={{ padding: `10px` }}>
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()

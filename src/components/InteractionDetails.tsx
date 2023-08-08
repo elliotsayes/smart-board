@@ -48,7 +48,7 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
 
   return (
     <div className="flex flex-col w-[100%] p-2">
-      <div className="flex flex-row justify-evenly gap-2">
+      <div className="flex flex-col lg:flex-row justify-evenly gap-2">
         <div className="rounded-lg bg-gradient-to-r from-[#D56DFB] to-[#0085FF] p-1">
           <div className="bg-black rounded-lg h-full">
             <div className="p-2">Interaction #{interactionIndex}: <HashView hash={interaction.id} viewblock="tx" warpSonar="interaction" /></div>
@@ -74,7 +74,7 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
             </div>
           </div>
         </div>
-        <div className="flex flex-col align-bottom rounded-lg bg-code-pen max-w-2xl">
+        <div className="flex flex-col align-bottom rounded-lg bg-code-pen max-w-lg">
           <div className={`flex ${hasDiff ? '' : 'opacity-50'} p-2 rounded-t-lg bg-code-pen drop-shadow-[0_2px_7px_rgb(0,0,0)]`}>
             <p>Diff View</p>
             <Switch

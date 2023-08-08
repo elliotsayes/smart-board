@@ -1,4 +1,5 @@
 import { ContractState } from "../types/contract"
+import PrismPreJson from "./PrismPreJson";
 
 interface Props {
   initialState: ContractState;
@@ -10,17 +11,17 @@ const StateOverview = ({initialState, latestState}: Props) => {
     <div className="flex">
       <div className="flex flex-grow flex-col">
         <h1>Initial State</h1>
-        <pre className="text-sm max-h-72 w-96 overflow-clip">
-          {JSON.stringify(initialState.cachedValue.state, undefined, 2)}
-        </pre>
+        <div className="text-sm max-h-72 w-96 overflow-auto">
+          <PrismPreJson str={JSON.stringify(initialState.cachedValue.state, undefined, 2)} />
+        </div>
       </div>
       <div className="flex flex-grow flex-col">
         <h1>Latest State</h1>
         {
           latestState !== undefined ? (
-            <pre className="text-sm max-h-72 w-96 overflow-auto">
-              {JSON.stringify(latestState.cachedValue.state, undefined, 2)}
-            </pre>
+            <div className="text-sm max-h-72 w-96 overflow-auto">
+              <PrismPreJson str={JSON.stringify(latestState.cachedValue.state, undefined, 2)} />
+            </div>
           ) : (
             <p>Loading...</p>
           )

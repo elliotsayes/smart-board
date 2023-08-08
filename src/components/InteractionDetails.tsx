@@ -4,6 +4,7 @@ import * as Diff from 'diff';
 import { useRef } from "react";
 import ReactDiffViewer, { DiffMethod } from 'react-diff-viewer-continued';
 import Switch from "react-switch";
+import PrismPreJson from "./PrismPreJson";
 
 interface Props {
   interactionIndex: number;
@@ -28,9 +29,12 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
     return acc;
   }, {} as Record<string, string>);
 
+  const beforeStateObject = beforeState.cachedValue.state as object;
+  const afterStateObject = afterState.cachedValue.state as object;
+
   const diff = Diff.diffJson(
-    beforeState.cachedValue.state as object,
-    afterState.cachedValue.state as object,
+    beforeStateObject,
+    afterStateObject,
   );
   const hasDiff = diff.filter(d => d.added || d.removed).length > 0
   const showDiff = preferShowDiff && hasDiff;
@@ -60,29 +64,22 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
             />
           </div>
           <div className="max-h-96 overflow-x-auto">
-            {
-              showDiff ? (
-                <ReactDiffViewer
-                  oldValue={beforeState.cachedValue.state as object}
-                  newValue={afterState.cachedValue.state as object}
-                  splitView={false}
-                  showDiffOnly={true}
-                  hideLineNumbers={true}
-                  useDarkTheme={true}
-                  compareMethod={DiffMethod.JSON}
-                  styles={{
-                    contentText: {
-                      fontSize: '14px',
-                      lineHeight: '0.5',
-                    }
-                  }}
-                />
-              ) : (
-                <pre style={{fontSize: '14px'}} className="w-96">
-                  {JSON.stringify(afterState.cachedValue.state, undefined, 2)}
-                </pre>
-              )
-            }
+            <ReactDiffViewer
+              oldValue={showDiff ? beforeStateObject : afterStateObject}
+              newValue={afterStateObject}
+              splitView={false}
+              showDiffOnly={showDiff}
+              hideLineNumbers={true}
+              useDarkTheme={true}
+              compareMethod={DiffMethod.JSON}
+              styles={{
+                contentText: {
+                  fontSize: '14px',
+                  lineHeight: '0.5',
+                }
+              }}
+              renderContent={(str) => <PrismPreJson str={str} />}
+            />
           </div>
         </div>
       </div>

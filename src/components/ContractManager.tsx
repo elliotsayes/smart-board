@@ -33,12 +33,12 @@ type ExampleContract = {
 
 const exampleContracts: ExampleContract[] = [
   {
-    name: "ArDrive Token",
-    address: "-8A6RexFkpfWwuyVO98wzSFZh0d6VJuI-buTJvlwOJQ",
-  },
-  {
     name: "ArNS Pilot",
     address: "bLAgYxAdX2Ry-nt6aH2ixgvJXbpsEYm28NgJgyqfs-U",
+  },
+  {
+    name: "$ArDrive",
+    address: "-8A6RexFkpfWwuyVO98wzSFZh0d6VJuI-buTJvlwOJQ",
   },
 ];
 
@@ -80,7 +80,7 @@ const ContractManager = ({ initialContractId }: Props) => {
       <div className="flex flex-col items-center align-middle min-h-screen">
         <div className="my-auto w-full max-w-screen-sm px-4 items-center">
           <img src="/smartboard.svg" className="w-full mx-auto" />
-          <div className="py-4">
+          <div className="pt-4 pb-2">
             <DashboardBox>
               <ContractSelector 
                 initialValue={""} 
@@ -89,14 +89,14 @@ const ContractManager = ({ initialContractId }: Props) => {
             </DashboardBox>
           </div>
           <div className="pl-2">
-            <span>Examples: </span>
+            <span>Enter a contract id get started, or try an example: </span>
             {
               exampleContracts.map((contractInfo) => (
                 <>
                   <button 
                     key={contractInfo.address}
                     onClick={() => onSelectFirstContract(contractInfo.address)}
-                    className="pl-2 text-blue-500 hover:text-blue-400 underline"
+                    className="pr-1 underline"
                   >
                     {contractInfo.name}
                   </button>

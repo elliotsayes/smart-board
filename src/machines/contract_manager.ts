@@ -34,7 +34,7 @@ type Events =
 export const contractManagerMachine = (initialContractId?: string) =>
   createMachine(
     {
-      /** @xstate-layout N4IgpgJg5mDOIC5QGMD2A7ALgJwIbMwGUwAbMA1bAOgEl0BLTe3EgYgG0AGAXUVAAdUsRvQx8QAD0QBaACwA2KvIDs82bIBMADjXLlnDQFYANCACeMjQE4qVgMwBGeRpedDnBw9V2Avj9NoWHgExGQU1HQiLBwOvEgggsJMYvFSCM5Usg5ahlYOdoYOHoZZphYITlpUWkZ68loeGgVWGn4BGDj4RKTkmJRUAMIdwZgABKG9kKwASmD8JPhgo0NBXVxxAkIiKaBp9rJUhlpFWvoang6FZTLyhtU6yuqyVlpZyhrybSCBnSE94YNhl1xv9MJBaAwmNF1uJEtt0OI0soSrY7PV7EYHM9ctcEM9bPlOCp3kZHDkvj8RhMAStfmNqWCIFQADKoXAQejoKDLIEEUYAEVwmFwrAgGDAVE5ADdUABrCWUroM-q0kYgsKMllsjlcnmrPmC4UIaWoZBC0TodYw+Jw5II1KId4OTKuFraLSOOyyXGyQwaKjKOw6eScOzFd6GCm87oalXR9WTJms9mc7mq4GGkVgbDYfrzIUAM0oAFsqIq-rHqOm+QzwcmdWn45njegZWa7VaeLCtnbEYgLpxMnYrEcvYSFPIfSHMqdzl5SbIPFH9THenGVwmCHXtam9XSBUKRZnRvXINbNkkLX2EPY7lorCOHBpOETZHYNMofYUqE0GqHQw+Ya+P43zRsqVbxrWSY7rq1ZjJmVAAAq5sgcDCFyrDHgAglKuD0AsABGZDngkPZXg6CBaPeVAFEGnDKFYyivCodi4pimQvtkpzuIxDgtMudLgbQEBkKwDKjAAYvQ2CwGMcEkba5G7IgdiOEoRLuIGehPhovpsb6tjyFiVEhoG8hWH4IHoKgEBwOI5aruE3aXjskgyFYBwqGomg6LIegGCY5iWIu1RHJ4djKHxXicLIAlUqC-SRFCJDOfC17Ue4DQFE49SLm4uLSPY1QfK4WX5L6WhxUqCUQRuUGpb2FHyGihwhrktQNEYgXlNIlx2DR7yaHknCnPYNRVRWa61fuUEQlEKU2mRrlIoY-WOFYMXyOZfqqN6QUIL1BwGH5IZvkx7wRRNjl9NNaqzfWu5wQewoNUpbnpK8rVuC0hhMQF3X9k4tguF6qmvMiv2RiBDlCU990wY2G4Ichppoamr3LY675fe1v2dYYAMINYNj6JoEU+RFRhXbDkGguCT31jyxbzGAYIY-aynpIxhnZB4zycB5764n6zofFkb5uFkRzUzVgJ1XTTIM9qkl4SQACu2BgOz15FNz+QuAxTS5AYGjC+8hwvC4lx5EZwHtCuQk0CJWuLS5HPvb1JPDs4RTuGiob5Ppigi0GJQ++ojyWT4QA */
+      /** @xstate-layout N4IgpgJg5mDOIC5QGMD2A7ALgJwIbMwGUwAbMA1bAOgEl0BLTe3EgYgG0AGAXUVAAdUsRvQx8QAD0QBaACwA2KvIDs82bIBMADjXLlnDQFYANCACeMjQE4qVgMwBGeRpedDnBw9V2Avj9NoWHgExGQU1HQiLBwOvEgggsJMYvFSCM5Usg5ahlYOdoYOHoZZphYITlpUWkZ68loeGgVWGn4BGDj4RKTkmJRUAMIdwZgABKG9kKwASmD8JPhgo0NBXVxxAkIiKaBpLTYOhlpWytaOhu7yZTJaslSGdXqetzryhm0ggZ0hPeGDw11xr9MJBaAwmNF1uJEtt0OI0soSrY7PV7EYHLIrLlrghMbZ8pwVKcjI4ch8viMJn8Vt8xlSQRAqAAZVC4CD0dBQZYAgijAAiuEwuFYEAwYCoHIAbqgANbiilden9GkjIFhBnM1nsznc1a8gVChBS1DIQWidDrKHxGHJOGpRCnByZVwtbRaRx2WQ42SGDRUZR2V6cOzFU7vfyfHnddXKqNqyaMllsjlclWAg3CsDYbD9eaCgBmlAAtlQFT8Y9Q07z6aCk9rU3GM0b0NLTbbLTxoVtbfDEJ4ipk7Fj3VkQworuZEApOJktI6vCTZB5yVGlZW4zXE1qU7rafzBcKM6M65ArZskubewh7IZqlYsQ4NJxCbI7BplN7ClQmg1g8H7yGvgRmW0a9LGep0sCtbbjqVZjBmVAAAo5sgcDCJyrBHgAgpKuD0AsABGZBngk3aXvaCBaMcVAFIGnDKCctwqHYOLopkz7ZHO7gnA4LQrhBa60BAZCsPSowAGL0NgsBjHBJE2uRuyIHYjhKIS7gBk8Lg+qxPq2PIGJUfI9EolYfgRugqAQHA4ggWuXYXjskgyFYdwqGomg6LIegGCYk4INIRg2CUVjBr6aiBu6-G0oJkQQiQDmwle1HuA0BROPUS5uDi0j2NUGjOE+aX5D6WjRZSwLgXum6JT2FHyCi9zGbktQNEYfnlNIC5UISKmGAZeSvoi5WKpV64QfGBCgnFzAJdaZFOQihh2DRvGcOOWLvmoOUYj1GjecZQ1zk0ygjeWYHjdVUFbsmsGNgetWKc56S3E1bgtA8bUXDiniKK6KkGUUyhFLIZ2gdSG7XZqt0NhNCHISaaEpo9i0Om+b0tZ9vkdYg1g2Pomh2MonlE0YYOCXBk0apTdbckW8xgCCKN2kp6QnPp2QeJinCuW+OK+k6BVZK+bhZEc5Njf8E2blLe60+JeEkAArtgYDM1eRTs-kLgMU0uQGBo-OnPcVg1Bohx5AZQHtAJks0MJavzY5LPPV1+NDs4RTuCiwb5LpigC4GJSe+oxPmT4QA */
       id: "contractSelector",
 
       predictableActionArguments: true,
@@ -110,7 +110,11 @@ export const contractManagerMachine = (initialContractId?: string) =>
           on: {
             "Replace Contract": {
               target: ".Initial",
-              actions: ["assignReplacementContract", "clearContractData"],
+              actions: [
+                "assignReplacementContract",
+                "clearContractData",
+                "updateQueryString",
+              ],
               description: `When a new Contract ID has been selected`,
               cond: "isContractReplacable",
             },
@@ -120,7 +124,7 @@ export const contractManagerMachine = (initialContractId?: string) =>
           on: {
             "Select First Contract": {
               target: "Contract Selected",
-              actions: "assignFirstContract",
+              actions: ["assignFirstContract", "updateQueryString"],
             },
           },
 
@@ -151,6 +155,13 @@ export const contractManagerMachine = (initialContractId?: string) =>
         clearContractData: assign({
           contractData: {},
         }),
+        updateQueryString: (context) => {
+          if (context.selectedContractId !== undefined) {
+            const url = new URL(window.location.toString());
+            url.searchParams.set("contractId", context.selectedContractId);
+            window.history.replaceState(null, "", url.toString());
+          }
+        },
       },
       guards: {
         hasInitialContractId: (context) =>

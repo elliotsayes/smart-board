@@ -26,6 +26,7 @@ export interface Typegen0 {
     assignPartialContractData: "Data Available";
     assignReplacementContract: "Replace Contract";
     clearContractData: "Replace Contract";
+    updateQueryString: "Replace Contract" | "Select First Contract";
   };
   eventsCausingDelays: {};
   eventsCausingGuards: {

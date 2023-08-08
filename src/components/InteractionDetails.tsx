@@ -56,7 +56,7 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
             <div className="p-2">{interactionBlockDate.toISOString()}</div>
           </div>
         </div>
-        <div className="flex flex-col flex-grow justify-evenly overflow-y-auto overscroll-y-contain">
+        <div className="flex flex-col justify-evenly max-w-lg overflow-y-auto overscroll-y-contain">
           <div className="flex flex-col align-bottom rounded-lg bg-code-pen max-w-2xl w-[100%]">
             <div className={`flex p-2 rounded-t-lg bg-code-pen drop-shadow-[0_2px_7px_rgb(0,0,0)]`}>
               Input

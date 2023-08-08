@@ -61,7 +61,7 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
           <div className="flex flex-col align-bottom rounded-lg bg-code-pen max-w-lg w-[100%]">
             <div className={`flex justify-between p-2 rounded-t-lg bg-code-pen drop-shadow-[0_2px_7px_rgb(0,0,0)]`}>
               <p>Input</p>
-              <CopyCodeButton key="input" copyText={inputString} />
+              <CopyCodeButton tooltipKey="input" copyText={inputString} />
             </div>
             <div className="overflow-x-auto p-2">
               <PrismPreJson str={inputStringFormatted ?? '<empty>'} />
@@ -70,7 +70,7 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
           <div className="flex flex-col align-bottom rounded-lg bg-code-pen max-w-md w-[100%]">
             <div className={`flex justify-between p-2 rounded-t-lg bg-code-pen drop-shadow-[0_2px_7px_rgb(0,0,0)]`}>
               <p>Additional Tags</p>
-              <CopyCodeButton key="tags" copyText={JSON.stringify(otherTagsRecord)} />
+              <CopyCodeButton tooltipKey="tags" copyText={JSON.stringify(otherTagsRecord)} />
             </div>
             <div className="overflow-x-auto p-2">
               <PrismPreJson str={JSON.stringify(otherTagsRecord, undefined, 2)} />
@@ -90,7 +90,7 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
                 className="flex pl-2"
               />
             </div>
-            <CopyCodeButton key="afterstate" copyText={JSON.stringify(afterStateObject)} />
+            <CopyCodeButton tooltipKey="afterstate" copyText={JSON.stringify(afterStateObject)} />
           </div>
           <div className="max-h-96 overflow-x-auto p-2">
             <ReactDiffViewer

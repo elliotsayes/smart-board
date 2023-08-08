@@ -13,7 +13,7 @@ const StateOverview = ({initialState, latestState}: Props) => {
       <div className="rounded-lg bg-code-pen overflow-hidden">
         <div className="flex flex-row flex-grow justify-between p-2 rounded-t-lg bg-code-pen drop-shadow-[0_2px_7px_rgb(0,0,0)]">
           <p>Initial State</p>
-          <CopyCodeButton key="initialstate" copyText={JSON.stringify(initialState.cachedValue.state)} />
+          <CopyCodeButton tooltipKey="initialstate" copyText={JSON.stringify(initialState.cachedValue.state)} />
         </div>
         <div className="text-sm max-h-72 w-96 overflow-auto p-2">
           <PrismPreJson str={JSON.stringify(initialState.cachedValue.state, undefined, 2)} />
@@ -22,7 +22,7 @@ const StateOverview = ({initialState, latestState}: Props) => {
       <div className="rounded-lg bg-code-pen">
         <div className="flex flex-row flex-grow justify-between p-2 rounded-t-lg bg-code-pen drop-shadow-[0_2px_7px_rgb(0,0,0)]">
           <p>Latest State</p>
-          <CopyCodeButton key="lateststate" copyText={JSON.stringify(latestState?.cachedValue.state)} />
+          <CopyCodeButton tooltipKey="lateststate" copyText={JSON.stringify(latestState?.cachedValue.state)} />
         </div>
         {
           latestState !== undefined ? (

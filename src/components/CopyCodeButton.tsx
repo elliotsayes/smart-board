@@ -4,11 +4,11 @@ import HeroiconsClipboardDocument from '~icons/heroicons/clipboard-document'
 import HeroiconsClipboardDocumentCheck from '~icons/heroicons/clipboard-document-check-solid'
 
 interface Props {
-  key: string;
+  tooltipKey: string;
   copyText?: string;
 }
 
-const CopyCodeButton = ({key, copyText}: Props) => {
+const CopyCodeButton = ({tooltipKey: key, copyText}: Props) => {
   const [copied, setCopied] = useState(false);
 
   return (

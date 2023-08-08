@@ -284,7 +284,7 @@ function Filter({
   if (isTimestamp) {
     const def = (
       <div className="pl-2 text-sm font-normal">
-        <span className="italic">{'<all>'}</span>
+        <span className="text-gray-200/60">{'<all>'}</span>
       </div>
     )
     if (!(columnFilterValue instanceof Array)) {
@@ -301,30 +301,36 @@ function Filter({
     const displayComponent = (() => {
       if ((duration < (60 * 60 * 24)) && (startDate.getDate() === endDate.getDate())) {
         return (
-          <span>
-            <span>{Intl.DateTimeFormat('default', {dateStyle: 'short', timeStyle: 'short'}).format(startDate)}</span>
-            <span>-</span>
-            <span>{Intl.DateTimeFormat('default', {timeStyle: 'short'}).format(endDate)}</span>
+          <span className="text-gray-200/80">
+            <span>{Intl.DateTimeFormat('default', {dateStyle: 'short'}).format(startDate)}</span>
+            <span>{' '}</span>
+            <span className=" whitespace-nowrap">
+              <span>{'('}</span>
+              <span>{Intl.DateTimeFormat('default', {timeStyle: 'short'}).format(startDate)}</span>
+              <span>-</span>
+              <span>{Intl.DateTimeFormat('default', {timeStyle: 'short'}).format(endDate)}</span>
+              <span>{')'}</span>
+            </span>
           </span>
         )
       } else {
         return (
-          <span>
+          <span className="text-gray-200/80">
             <span>{Intl.DateTimeFormat('default', {dateStyle: 'short'}).format(startDate)}</span>
-            <span>-</span>
+            <span> - </span>
             <span>{Intl.DateTimeFormat('default', {dateStyle: 'short'}).format(endDate)}</span>
           </span>
         )
       }
     })();
     return (
-      <div className="pl-2 text-xs font-normal">
+      <div className="pl-2 text-sm font-normal">
         {displayComponent}
         <button 
           onClick={() => {
             onClearTimeFilter?.()
           }}
-          className="text-xs"
+          className="pl-1 text-xs opacity-80"
         >
           ❌
         </button>

@@ -84,7 +84,7 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
         id: 'functionName',
         accessorKey: 'functionName',
         header: 'Function',
-        cell: (info) => <div className="whitespace-nowrap overflow-clip text-ellipsis">{(info.getValue() as string | undefined ?? '').toString()}</div>,
+        cell: (info) => <div className="whitespace-nowrap overflow-clip text-ellipsis font-mono">{(info.getValue() as string | undefined ?? '').toString()}</div>,
       },
       {
         id: 'result',
@@ -254,8 +254,21 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
           </tbody>
         </table>
       </div>
-      <div className="absolute bottom-0 left-0 px-2 py-1 bg-gray-800/60 text-lg text-gray-100/80 rounded-t-xl">
-        {table.getRowModel().rows.length}/{data.length} Interactions
+      <div className="absolute bottom-0 right-4 px-2 py-1 bg-gray-800/60 text-md text-gray-100/80 rounded-t-xl items-center">
+        Listing {table.getRowModel().rows.length}/{data.length} Interactions
+        {
+          table.getRowModel().rows.length < data.length && (
+            <button
+              onClick={() => {
+                table.resetColumnFilters()
+                onClearTimeFilter?.()
+              }}
+              className="px-1 text-sm border-[1px] border-gray-100/80 rounded-md mx-1"
+            >
+              Reset
+            </button>
+          )
+        }
       </div>
     </div>
   )

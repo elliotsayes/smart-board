@@ -57,7 +57,7 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
             <div className="p-2">{interactionBlockDate.toISOString()}</div>
           </div>
         </div>
-        <div className="flex flex-col justify-evenly max-w-lg overflow-y-auto overscroll-y-contain">
+        <div className="flex flex-col justify-evenly max-w-md overflow-y-auto overscroll-y-contain">
           <div className="flex flex-col align-bottom rounded-lg bg-code-pen max-w-lg w-[100%]">
             <div className={`flex justify-between p-2 rounded-t-lg bg-code-pen drop-shadow-[0_2px_7px_rgb(0,0,0)]`}>
               <p>Input</p>
@@ -67,7 +67,7 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
               <PrismPreJson str={inputStringFormatted ?? '<empty>'} />
             </div>
           </div>
-          <div className="flex flex-col align-bottom rounded-lg bg-code-pen max-w-lg w-[100%]">
+          <div className="flex flex-col align-bottom rounded-lg bg-code-pen max-w-md w-[100%]">
             <div className={`flex justify-between p-2 rounded-t-lg bg-code-pen drop-shadow-[0_2px_7px_rgb(0,0,0)]`}>
               <p>Additional Tags</p>
               <CopyCodeButton key="tags" copyText={JSON.stringify(otherTagsRecord)} />

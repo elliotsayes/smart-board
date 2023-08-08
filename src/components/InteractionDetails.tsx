@@ -18,11 +18,16 @@ interface Props {
 }
 
 const InteractionDetails = ({interactionIndex, interactionCount, interaction, beforeState, afterState, preferShowDiff, onChangeSelectedInteractionIndex, onChangePreferShowDiff}: Props) => {
-  const interactionBlockDate = new Date(interaction.block.timestamp * 1000)
+  const { inputString, functionName } = interaction;
+  const inputStringFormatted = (() => {
+    try {
+      return JSON.stringify(JSON.parse(inputString!), null, 2);
+    } catch (e) {
+      return inputString;
+    }
+  })();
   
-  const inputString = interaction.tags.find((tag) => tag.name == 'Input')?.value;
-  const inputFunction = JSON.parse(inputString ?? '{}')?.['function'] as string | undefined;
-  
+  const interactionBlockDate = new Date(interaction.block.timestamp * 1000);
   const otherTags = interaction.tags.filter((tag) => ['Input', 'App-Name', 'App-Version', 'Contract'].indexOf(tag.name) == -1);
   const otherTagsRecord = otherTags.reduce((acc, tag) => {
     acc[tag.name] = tag.value;
@@ -43,17 +48,33 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
 
   return (
     <div className="flex flex-col w-[100%]">
-      <div className="flex flex-row justify-evenly">
+      <div className="flex flex-row justify-evenly gap-2">
         <div className="rounded-lg bg-gradient-to-r from-[#D56DFB] to-[#0085FF] p-1">
           <div className="bg-black rounded-lg h-full">
-            <p className="p-2">Interaction #{interactionIndex}: <HashView hash={interaction.id} viewblock="tx" warpSonar="interaction" /></p>
-            <p className="p-2">Block <HashView hash={interaction.block.height.toString()} viewblock="block" /></p>
-            <p className="p-2">{interactionBlockDate.toISOString()}</p>
-            <p className="p-2">function: {inputFunction}</p>
-            <p className="p-2">tags: {Object.keys(otherTagsRecord).join(', ')}</p>
+            <div className="p-2">Interaction #{interactionIndex}: <HashView hash={interaction.id} viewblock="tx" warpSonar="interaction" /></div>
+            <div className="p-2">Block <HashView hash={interaction.block.height.toString()} viewblock="block" /></div>
+            <div className="p-2">{interactionBlockDate.toISOString()}</div>
           </div>
         </div>
-        <div className="flex flex-col align-bottom rounded-lg bg-code-pen max-w-2xl w-[100%]">
+        <div className="flex flex-col flex-grow justify-evenly overflow-y-auto overscroll-y-contain">
+          <div className="flex flex-col align-bottom rounded-lg bg-code-pen max-w-2xl w-[100%]">
+            <div className={`flex p-2 rounded-t-lg bg-code-pen drop-shadow-[0_2px_7px_rgb(0,0,0)]`}>
+              Input
+            </div>
+            <div className="overflow-x-auto p-2">
+              <PrismPreJson str={inputStringFormatted ?? '<empty>'} />
+            </div>
+          </div>
+          <div className="flex flex-col align-bottom rounded-lg bg-code-pen max-w-2xl w-[100%]">
+            <div className={`flex p-2 rounded-t-lg bg-code-pen drop-shadow-[0_2px_7px_rgb(0,0,0)]`}>
+              Additional Tags
+            </div>
+            <div className="overflow-x-auto p-2">
+              <PrismPreJson str={JSON.stringify(otherTagsRecord, undefined, 2)} />
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col align-bottom rounded-lg bg-code-pen max-w-2xl">
           <div className={`flex ${hasDiff ? '' : 'opacity-50'} p-2 rounded-t-lg bg-code-pen drop-shadow-[0_2px_7px_rgb(0,0,0)]`}>
             <p>Diff View</p>
             <Switch

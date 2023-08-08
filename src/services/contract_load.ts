@@ -1,5 +1,12 @@
 import { DefaultEvaluationOptions, Warp } from "warp-contracts";
-import { ContractDataFull } from "../types/contract";
+import { transactionTimestamp } from "./transaction_timestamp";
+import {
+  ContractDataFull,
+  ContractInteractionWithResultHistory,
+  ContractInteractionResult,
+  ContractInteractionHistory,
+} from "../types/contract";
+import eql from "deep-eql";
 
 export const loadContractData = (
   warp: Warp,
@@ -11,9 +18,17 @@ export const loadContractData = (
 
       const contract = warp.contract(contractId);
 
-      const contractDefinition = await warp.definitionLoader.load(contractId);
+      const [contractDefinition, timestamp] = await Promise.all([
+        warp.definitionLoader.load(contractId),
+        transactionTimestamp(contractId),
+      ]);
+      const contractMeta = {
+        ...contractDefinition,
+        timestamp,
+      };
       contractData = {
-        meta: contractDefinition,
+        // ...contractData,
+        meta: contractMeta,
       };
       controller.enqueue(contractData);
 
@@ -42,9 +57,29 @@ export const loadContractData = (
       };
 
       const sortedInteractions = await warp.interactionsLoader.load(contractId);
+      const interactionHistory: ContractInteractionHistory =
+        sortedInteractions.map((interaction) => {
+          const inputString = interaction.tags.find(
+            (tag) => tag.name == "Input"
+          )?.value;
+          const functionName =
+            inputString &&
+            (() => {
+              try {
+                return JSON.parse(inputString)["function"] as string;
+              } catch {
+                return undefined;
+              }
+            })();
+          return {
+            ...interaction,
+            inputString,
+            functionName,
+          };
+        });
       contractData = {
         ...contractData,
-        interactionHistory: sortedInteractions,
+        interactionHistory,
       };
       controller.enqueue(contractData);
 
@@ -64,6 +99,40 @@ export const loadContractData = (
         ...contractData,
         latestState: stateHistory[stateHistory.length - 1],
         stateHistory,
+      };
+      controller.enqueue(contractData);
+
+      // Wait 100ms for react to render
+      // TODO: Remove once this is in a webworker
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      const interactionWithResultHistory: ContractInteractionWithResultHistory =
+        interactionHistory.map((interaction, i) => {
+          const beforeState = stateHistory[i];
+          const afterState = stateHistory[i + 1];
+          const result = (() => {
+            if (!afterState.cachedValue.validity[interaction.id]) {
+              return ContractInteractionResult.Error;
+            }
+            const same = eql(
+              beforeState.cachedValue.state,
+              afterState.cachedValue.state
+            );
+            if (!same) {
+              return ContractInteractionResult.Update;
+            } else {
+              return ContractInteractionResult.NoUpdate;
+            }
+          })();
+
+          return {
+            ...interaction,
+            result,
+          };
+        });
+      contractData = {
+        ...contractData,
+        interactionWithResultHistory,
       };
       controller.enqueue(contractData);
 

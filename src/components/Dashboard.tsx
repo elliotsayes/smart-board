@@ -2,23 +2,24 @@ import { useCallback, useMemo, useState } from "react"
 import { ContractDataFull } from "../types/contract"
 import { useMachine } from "@xstate/react"
 import { dashboardMachine } from "../machines/dashboard"
-import TimelinePicker from "./TimelinePicker"
+import TimelinePicker, { TimelineControls } from "./TimelinePicker"
 import DashboardBox from "./DashboardBox"
 import ContractHeader from "./ContractHeader"
-import { Timeline, TimelineItem } from "vis-timeline"
+import { TimelineItem } from "vis-timeline"
 import InteractionDetails from "./InteractionDetails"
 import DashboardTabs from "./DashboardTabs"
 import StateOverview from "./StateOverview"
-import InteractionListView from "./InteractionListView"
+import InteractionListView, { ListControls } from "./InteractionListView"
+import ContractSelector from "./ContractSelector"
 
 interface Props {
   contractData: Partial<ContractDataFull>
+  onNewContract: (newContractId: string) => void
 }
 
-const Dashboard = (props: Props) => {
-  const { contractData: contractDataProp } = props;
-
-  const [timeline, setTimeline] = useState<Timeline>();
+const Dashboard = ({ contractData: contractDataProp, onNewContract }: Props) => {
+  const [timelineControls, setTimelineControls] = useState<TimelineControls>();
+  const [listControls, setListControls] = useState<ListControls>();
 
   const [current, send] = useMachine(
     () => dashboardMachine(),
@@ -26,8 +27,13 @@ const Dashboard = (props: Props) => {
       devTools: import.meta.env.DEV,
       actions: {
         selectTimelineInteraction: (_, event) => {
-          timeline?.setSelection(event.data.selectedInteractionIndex)
+          timelineControls?.setSelection(event.data.selectedInteractionIndex)
         },
+        jumpListInteraction: (_, event) => {
+          if (event.data.selectedInteractionIndex != undefined) {
+            listControls?.scrollToIndex(event.data.selectedInteractionIndex)
+          }
+        }
       }
     },
   );
@@ -94,19 +100,27 @@ const Dashboard = (props: Props) => {
     })
   }, [send])
 
-  const contextLite = {
-    ...current.context,
-    contractData: undefined,
-  }
 
   return (
     <div className="flex flex-col gap-4 max-w-[1400px] mx-auto my-0">
-      <p>{JSON.stringify(contextLite)}</p>
+      <div className="flex flex-row gap-4">
       <DashboardBox
         loading={contractDataProp.meta === undefined}
       >
         <ContractHeader {...contractDataProp.meta!} />
       </DashboardBox>
+        <DashboardBox>
+          <ContractSelector 
+            initialValue={contractDataProp.meta?.txId ?? ''} 
+            onSelect={(newContractId) => {
+              if (newContractId === '' || newContractId === contractDataProp.meta?.txId) {
+                return
+              }
+              onNewContract(newContractId)
+            }}
+          />
+        </DashboardBox>
+      </div>
       <DashboardTabs 
         tabIndex={current.context.viewportTab}
         titles={['State Overview', 'Interaction Details']}
@@ -129,7 +143,7 @@ const Dashboard = (props: Props) => {
           />
         </DashboardBox>
         <DashboardBox
-          loading={contractDataProp.interactionHistory === undefined || contractDataProp.stateHistory === undefined}
+          loading={contractDataProp.interactionHistory === undefined}
         >
           {
             current.context.selectedInteractionIndex === undefined ? (
@@ -143,10 +157,12 @@ const Dashboard = (props: Props) => {
                 afterState={contractDataProp.stateHistory![current.context.selectedInteractionIndex! + 1]}
                 preferShowDiff={current.context.viewportInteractionShowDiff}
                 onChangeSelectedInteractionIndex={
-                  (selectedInteractionIndex: number) => send({
-                    type: 'List Interaction Selection',
-                    data: { selectedInteractionIndex },
-                  })
+                  (selectedInteractionIndex: number) => {
+                    send({
+                      type: 'Interaction View Interaction Selection',
+                      data: { selectedInteractionIndex },
+                    })
+                  }
                 }
                 onChangePreferShowDiff={
                   (viewportInteractionShowDiff: boolean) => send({
@@ -160,10 +176,10 @@ const Dashboard = (props: Props) => {
         </DashboardBox>
       </DashboardTabs>
       <DashboardBox
-        loading={contractDataProp.stateHistory === undefined}
+        loading={contractDataProp.interactionHistory === undefined}
       >
         <InteractionListView
-          items={contractDataProp.interactionHistory!}
+          items={contractDataProp.interactionWithResultHistory ?? contractDataProp.interactionHistory!}
           selectedInteractionIndex={current.context.selectedInteractionIndex}
           onSelect={(selectedInteractionIndex) => {
             send({
@@ -174,15 +190,17 @@ const Dashboard = (props: Props) => {
               type: "Interaction Tab",
             })
           }}
+          timeRangeFilter={current.context.filter.timeRange}
+          onListControls={setListControls}
+          onClearTimeFilter={() => timelineControls?.fit()}
         />
       </DashboardBox>
       <DashboardBox
         loading={contractDataProp.interactionHistory === undefined}
-        padding={false}
       >
         <TimelinePicker
           items={timelineItems}
-          onTimeline={setTimeline}
+          onTimelineControls={setTimelineControls}
           onSelect={onSelectTimeline}
           onRangeChanged={onRangeChanged}
         />

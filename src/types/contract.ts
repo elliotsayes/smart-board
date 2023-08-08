@@ -8,15 +8,33 @@ import {
 export type ContractMeta = Pick<
   ContractDefinition<unknown>,
   "owner" | "txId" | "srcTxId" | "contractType" | "src"
->;
+> & {
+  timestamp: number;
+};
 
 export type ContractState = SortKeyCacheResult<EvalStateResult<unknown>>;
 
 export type ContractStateHistory = ContractState[];
 
-export type ContractInteraction = GQLNodeInterface;
+export type ContractInteraction = GQLNodeInterface & {
+  inputString?: string;
+  functionName?: string;
+};
 
 export type ContractInteractionHistory = ContractInteraction[];
+
+export enum ContractInteractionResult {
+  Update = "has change",
+  NoUpdate = "no change",
+  Error = "error",
+}
+
+export type ContractInteractionWithResult = ContractInteraction & {
+  result: ContractInteractionResult;
+};
+
+export type ContractInteractionWithResultHistory =
+  ContractInteractionWithResult[];
 
 export type ContractDataFull = {
   meta: ContractMeta;
@@ -24,10 +42,5 @@ export type ContractDataFull = {
   latestState: ContractState;
   interactionHistory: ContractInteractionHistory;
   stateHistory: ContractStateHistory;
+  interactionWithResultHistory: ContractInteractionWithResultHistory;
 };
-
-export enum ContractResult {
-  Update = "update",
-  NoUpdate = "noupdate",
-  Error = "error",
-}

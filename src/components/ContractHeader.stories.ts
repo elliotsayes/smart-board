@@ -29,5 +29,6 @@ export const Default: Story = {
     txId: "-8A6RexFkpfWwuyVO98wzSFZh0d6VJuI-buTJvlwOJQ",
     srcTxId: "ngMml4jmlxu0umpiQCsHgPX2pb_Yz6YDB8f7G6j-tpI",
     src: "export function handle(state, action) {\r\n  // TODO\r\n}",
+    timestamp: 0,
   },
 };

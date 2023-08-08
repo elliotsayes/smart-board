@@ -4,6 +4,7 @@ import * as Diff from 'diff';
 import { useRef } from "react";
 import ReactDiffViewer, { DiffMethod } from 'react-diff-viewer-continued';
 import Switch from "react-switch";
+import PrismPreJson from "./PrismPreJson";
 
 interface Props {
   interactionIndex: number;
@@ -28,9 +29,12 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
     return acc;
   }, {} as Record<string, string>);
 
+  const beforeStateObject = beforeState.cachedValue.state as object;
+  const afterStateObject = afterState.cachedValue.state as object;
+
   const diff = Diff.diffJson(
-    beforeState.cachedValue.state as object,
-    afterState.cachedValue.state as object,
+    beforeStateObject,
+    afterStateObject,
   );
   const hasDiff = diff.filter(d => d.added || d.removed).length > 0
   const showDiff = preferShowDiff && hasDiff;
@@ -61,7 +65,7 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
               className="flex pl-2"
             />
           </div>
-          <div className="max-h-96 overflow-x-auto p-2">
+          <div className="max-h-96 overflow-x-auto">
             {
               showDiff ? (
                 <ReactDiffViewer
@@ -105,7 +109,9 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
             if (event.key === 'Enter') {
               const numberText = inputRef.current?.value;
               const number = parseInt(numberText ?? '');
-              if (number) onChangeSelectedInteractionIndex(number)
+              if (!isNaN(number) && number >= 0 && number < interactionCount) {
+                onChangeSelectedInteractionIndex(number)
+              }
             }
           }}
           className="w-16 text-center text-black bg-input-field rounded-lg"

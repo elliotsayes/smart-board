@@ -1,5 +1,5 @@
 import { assign, createMachine } from "xstate";
-import { ContractDataFull, ContractResult } from "../types/contract";
+import { ContractDataFull, ContractInteractionResult } from "../types/contract";
 
 type Context = {
   contractData: Partial<ContractDataFull>;
@@ -8,7 +8,7 @@ type Context = {
   selectedInteractionIndex?: number;
   filter: {
     functions?: Set<string>;
-    results?: Set<ContractResult>;
+    results?: Set<ContractInteractionResult>;
     walletAddresses?: Set<string>;
     timeRange?: {
       start: number;
@@ -37,15 +37,21 @@ type Event =
       };
     }
   | {
-      type: "Timeline Interaction Selection";
+      type: "Interaction View Interaction Selection";
       data: {
-        selectedInteractionIndex?: number;
+        selectedInteractionIndex: number;
       };
     }
   | {
       type: "List Interaction Selection";
       data: {
         selectedInteractionIndex: number;
+      };
+    }
+  | {
+      type: "Timeline Interaction Selection";
+      data: {
+        selectedInteractionIndex?: number;
       };
     }
   | {
@@ -61,7 +67,7 @@ type Event =
 export const dashboardMachine = () =>
   createMachine(
     {
-      /** @xstate-layout N4IgpgJg5mDOIC5QQIawBYCMD2KBOEAdAJIB2AlgC7koA2AxANoAMAuoqAA7axXnakOIAB6IALAE5CANgCMAdgAcYgKwqxs2dJXyJAGhABPRACZmKwrOYBmJc0WKV1rRIC+rg6gw58RACJoWLgEhABq5GAA7tx4lIQAypQolGAABOFR9GQpeCgAxtQCqQAqKJgs7Egg3LyFglWiCPLyJoRi0mYmzYrM8mJiBsYIqtKEEg7SztrSzePW7p6BPiEB3sFEGdHYsSSkOfl16RGR9InJaaXlbEI1fAJCjbqt6tLTkiYf9oOI0hqEKrJrCYxNZXvIAX0FiAvEFfIRVrCQpsYnFsmBcgV+KQjpl4mBKKk0RjDn5yAAzMkVG48O71UCNTQqKRiZgSayKPqKV4zWTfBAqOSEZjScaAz7C+TzDzQpbreGyuEBJIkCC0MD0ACqnFQKVSAGEBJRiaklSgqVVbnUHqZhWNJDY5GKJCZrCo+QDFJYnBJtKDFLJVPIoTDlv4FSEAGLkWg5FVq+hRmPokrkAC2aQASihSDBzVwaVaGohNLILLJxiDXaozBy+WzrDJlMwTBIlCphTpg+Gw2s4cU02BaORSGA4+r++mhyPCXt0Qcsak8WrMQI89UC1jrQgzLJCKDVM7tFZrBIBkZEI5PapNHIPmJmmou72Vt3CBPB8PR8RVeqADLkWACSJeciiXMAV1INdLU3Itt3LSwJHGRQJCZNRZmsPlj1aEwZm0Vtfg+FRFCfREe1Iwh-0Asd6EooDZ2JBcwIgqCN3uWDpB6IUK1kBwJGYDQULrHDCF0EVrHvHQWkkdxpVIbAIDgIQQ3Walahg+lEAAWlaeRNAkWQTBUHDJBaIj3VGAFKzkVsPl+NxpWUuEyD4OhVNpLcxEUTD+hI0N5WfCA3MLDThgsEwHHsPpJXbLozyGcLdy5D0zFBU9VF8uUET85FtkoIL1JEcRnUseRhWbU8nA+PlUv+cr7A4jkRW0DLFVfHKdjOXVNnytiQvUZgSrKltVCBEx3R4kS+NvctW2cezFgC-zyPa1F6JA7FuotVi6UKhBkPkf5Xg5NkuS5Mbz35CbdGFaxhUUZxmGYWQWpfRbTR6nbGlbNouiBHpkIM8E4sQGrXXsVR7tbHiXrIvzTTHD6twDCwxF+8L7H0rp1D5EZCHu7RWQIyRSzEGGlr8xMckR2CrGbGQnBPa7W2dXkLuaA7nXEoyNCe+xnoc18srlSn0QRra1N63arHbenrEZvjmZMVmhiStpWRvJXwv9IMBbe193ynMBqZCtlCC1yL7zB2K+WaAafTUSK2TZXoyaFvsB0NsX8wlz7iz+c2OUtmK+jrbQZCUD5EL4uWntd19aON3anFGdp73tRQUukG3lDxqxUce-jJgDOPFtor31x9rciLENpfj6PiM4dPkOWwn0AxbFpfi0GTXCAA */
+      /** @xstate-layout N4IgpgJg5mDOIC5QQIawBYCMD2KBOEAdAJIB2AlgC7koA2AxANoAMAuoqAA7axXnakOIAB6IALAE5CANgCMAdgAcYgKwqxs2dJXyJAGhABPRACZmKwrOYBmJc0WKV1rRIC+rg6gw58RACJoWLgEhABq5GAA7tx4lIQAypQolGAABOFR9GQpeCgAxtQCqQAqKJgs7Egg3LyFglWiCPLyJoRi0mYmzYrM8mJiBsYIqtKEEg7SztrSzePW7p6BPiEB3sFEGdHYsSSkOfl16RGR9InJaaXlbEI1fAJCjbqt6tLTkiYf9oOI0hqEKrJrCYxNZXvIAX0FiAvEFfIRVrCQpsYnFsmBcgV+KQjpl4mBKKk0RjDn5yAAzMkVG48O71UCNTQAwhdCSg6TMWQmWxab7DaxiQg2cySTkA6wSZpQmHLfxLdbw5IoEgQWhgegAVU4qBSqQAwgJKMTUgEklSqrc6g9TMxRhJJDY5ICTBIuSpeQDFJYnBJtKDFLJVPIpXK4QiZYQAGLkWg5ZWq+hRmPokrkAC2aQASihSDAzVwaZaGohNNZrIRSyoHBLARIJfojIhxlJFB95KWHCpXr9g2tQyGQsU02BaORSGA42rB+mR2PCXt0Qcsak8arMQI89UC1irQgPrJLFZpr9flZ2ryJcx-sCTACbcCemIe4jZb2QgAZciwVEqtUfr9z-Y12xFcwCAjcLW3IsmmYAVrBbSYAxUZhnVrc9pCkDpFDZcwSw0J9wzDeVkW2VF52JJdNiyMjFyKTYAIXIDl2HUC6nArd7igqw7X+ZCxGUSR4JMXk5FabQW2BTQTHQ9p3A8EBSGwCA4CEaV1mpWpIPpRAAFopC5WtNGUeRpB6cV3VGAEQS5SR1CQhx8PlMg+DodTaR3PjeQDR85NUvtXwgVzCy0hA4MIYzmHsf0VC5WQfVkXkbykcwJFkBxxW9VlpAcvznzCY4UUCzSRHEF1LHkG1kLtJwPl5fkLP6RQTPCqSJHUbKVn7DZ8pIhIkh1TZCo44L1EvBQKudVQgSEhsEA9MKJBtTlYolZw3B8zqFX8vKohRXZAMOAbzXYulioQRQJX+V5FF0OCTI6d1Uvmm1rBtLCrA5dqX1yk0UEGk7GgusQuiBHpzs5cEBhm0EpGsOzYtS8rdG0T7Nu+xUJz+ndELaYGTFBlKunUXkRkILDtGYH0gZFNr1q2wi4UTHJMc45DL10ewRqUStAV5LCBTvWQVB9PGWzbFH6ZCRn0Qxo6NKG07D09dnHDEXpHH9axzxMfd1CUMxnH5FtvMWOmNqnYdRzAZngsasL2UiwWYri3mpLC9oIocc6+ay2m0a282Z3HYgf2thX+Ttj2oqd6RzwDZkpnOm8xHK5PxY2v9KFDxpOzZvi4pPFLfhd+QZA0c7xQ5VKKbTraM5l-M5f+n57Dd865ALrRIaGFKLHBnQgdeHDZNcIA */
       id: "dashboard",
       predictableActionArguments: true,
       tsTypes: {} as import("./dashboard.typegen").Typegen0,
@@ -104,6 +110,16 @@ export const dashboardMachine = () =>
                       target: "Interaction View",
                       internal: true,
                       actions: "assignInteractionDiff",
+                    },
+
+                    "Interaction View Interaction Selection": {
+                      target: "Interaction View",
+                      internal: true,
+                      actions: [
+                        "assignSelectedInteraction",
+                        "jumpListInteraction",
+                        "selectTimelineInteraction",
+                      ],
                     },
                   },
                 },
@@ -151,13 +167,10 @@ export const dashboardMachine = () =>
                     "Timeline Interaction Selection": {
                       target: "Idle",
                       internal: true,
-                      actions: "assignSelectedInteraction",
-                    },
-
-                    "List Interaction Selection": {
-                      target: "Idle",
-                      internal: true,
-                      actions: "selectTimelineInteraction",
+                      actions: [
+                        "assignSelectedInteraction",
+                        "jumpListInteraction",
+                      ],
                     },
                   },
                 },
@@ -173,7 +186,10 @@ export const dashboardMachine = () =>
                     "List Interaction Selection": {
                       target: "Idle",
                       internal: true,
-                      actions: "assignSelectedInteraction",
+                      actions: [
+                        "assignSelectedInteraction",
+                        "selectTimelineInteraction",
+                      ],
                     },
                   },
                 },

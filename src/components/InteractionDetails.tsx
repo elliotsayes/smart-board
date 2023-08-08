@@ -5,6 +5,7 @@ import { useRef } from "react";
 import ReactDiffViewer, { DiffMethod } from 'react-diff-viewer-continued';
 import Switch from "react-switch";
 import PrismPreJson from "./PrismPreJson";
+import CopyCodeButton from "./CopyCodeButton";
 
 interface Props {
   interactionIndex: number;
@@ -58,16 +59,18 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
         </div>
         <div className="flex flex-col justify-evenly max-w-lg overflow-y-auto overscroll-y-contain">
           <div className="flex flex-col align-bottom rounded-lg bg-code-pen max-w-2xl w-[100%]">
-            <div className={`flex p-2 rounded-t-lg bg-code-pen drop-shadow-[0_2px_7px_rgb(0,0,0)]`}>
-              Input
+            <div className={`flex justify-between p-2 rounded-t-lg bg-code-pen drop-shadow-[0_2px_7px_rgb(0,0,0)]`}>
+              <p>Input</p>
+              <CopyCodeButton key="input" copyText={inputString} />
             </div>
             <div className="overflow-x-auto p-2">
               <PrismPreJson str={inputStringFormatted ?? '<empty>'} />
             </div>
           </div>
           <div className="flex flex-col align-bottom rounded-lg bg-code-pen max-w-2xl w-[100%]">
-            <div className={`flex p-2 rounded-t-lg bg-code-pen drop-shadow-[0_2px_7px_rgb(0,0,0)]`}>
-              Additional Tags
+            <div className={`flex justify-between p-2 rounded-t-lg bg-code-pen drop-shadow-[0_2px_7px_rgb(0,0,0)]`}>
+              <p>Additional Tags</p>
+              <CopyCodeButton key="tags" copyText={JSON.stringify(otherTagsRecord)} />
             </div>
             <div className="overflow-x-auto p-2">
               <PrismPreJson str={JSON.stringify(otherTagsRecord, undefined, 2)} />
@@ -75,16 +78,19 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
           </div>
         </div>
         <div className="flex flex-col align-bottom rounded-lg bg-code-pen max-w-lg">
-          <div className={`flex ${hasDiff ? '' : 'opacity-50'} p-2 rounded-t-lg bg-code-pen drop-shadow-[0_2px_7px_rgb(0,0,0)]`}>
-            <p>Diff View</p>
-            <Switch
-              onChange={(checked) => hasDiff && onChangePreferShowDiff(checked)}
-              checked={showDiff}
-              checkedIcon={false}
-              uncheckedIcon={false}
-              onColor="#D56DFB"
-              className="flex pl-2"
-            />
+          <div className={`flex flex-grow justify-between p-2 rounded-t-lg bg-code-pen drop-shadow-[0_2px_7px_rgb(0,0,0)]`}>
+            <div className={`flex ${hasDiff ? '' : 'opacity-50'}`}>
+              <p>Diff View</p>
+              <Switch
+                onChange={(checked) => hasDiff && onChangePreferShowDiff(checked)}
+                checked={showDiff}
+                checkedIcon={false}
+                uncheckedIcon={false}
+                onColor="#D56DFB"
+                className="flex pl-2"
+              />
+            </div>
+            <CopyCodeButton key="afterstate" copyText={JSON.stringify(afterStateObject)} />
           </div>
           <div className="max-h-96 overflow-x-auto p-2">
             <ReactDiffViewer

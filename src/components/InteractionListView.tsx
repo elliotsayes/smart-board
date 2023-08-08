@@ -164,7 +164,7 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
 
   return (
     <div className="relative w-[100%] overscroll-x-contain">
-      <div ref={tableContainerRef} className=" overflow-y-scroll h-48 w-[100%] my-0">
+      <div ref={tableContainerRef} className=" overflow-y-scroll h-72 w-[100%] my-0">
         <table className="border-collapse table-fixed w-[100%]">
           <thead className="sticky top-0 m-0 bg-gradient-to-r from-[#D56DFB] to-[#0085FF] z-20">
             {table.getHeaderGroups().map(headerGroup => (
@@ -362,7 +362,7 @@ function Filter({
           value={(columnFilterValue ?? '') as string}
           onChange={value => column.setFilterValue(value)}
           placeholder={`Search... (${column.getFacetedUniqueValues().size})`}
-          className="w-full shadow rounded px-1 bg-gray-100/20 text-gray-100/80 placeholder:text-gray-100/60 font-semibold"
+          className="w-full shadow rounded px-1 bg-gray-100/30 text-gray-100 placeholder:text-gray-100/80 font-semibold"
           list={column.id + 'list'}
         />
         <div className="h-1" />

@@ -1,0 +1,15 @@
+.container {
+  max-width: 1200px;
+}
+
+.interaction-list-table {
+  text-align: center;
+}
+
+.interaction-list-table tbody tr:hover {
+  background-color: #2C2A2D;
+}
+
+.interaction-list-table tbody tr:active {
+    background-color: #D56DFB;
+}

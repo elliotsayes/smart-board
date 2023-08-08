@@ -11,6 +11,7 @@ import {
 import { useVirtual } from 'react-virtual'
 import HashView from "./HashView";
 import Identicon from "./Identicon";
+import './InteractionListView.css'
 
 interface Props {
   items: ContractInteraction[];
@@ -90,11 +91,11 @@ const InteractionListView = ({items, /*selectedInteractionIndex,*/ onSelect}: Pr
       : 0
 
   return (
-    <div className="p-2 max-h-48 w-[100%] overflow-y-auto overscroll-x-contain">
-      <div className="h-2" />
+    <div className="max-h-48 w-[100%] overflow-y-auto overscroll-x-contain">
+      {/* <div className="h-2" /> */}
       <div ref={tableContainerRef} className="container w-[100%]">
-        <table className="w-[100%]">
-          <thead>
+        <table className="interaction-list-table w-[100%]">
+          <thead className="bg-gradient-to-r from-[#D56DFB] to-[#0085FF]">
             {table.getHeaderGroups().map(headerGroup => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map(header => {
@@ -129,7 +130,7 @@ const InteractionListView = ({items, /*selectedInteractionIndex,*/ onSelect}: Pr
               </tr>
             ))}
           </thead>
-          <tbody className="w-[100%]">
+          <tbody className="w-[100%] cursor-pointer">
             {paddingTop > 0 && (
               <tr>
                 <td style={{ height: `${paddingTop}px` }} />

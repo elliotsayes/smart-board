@@ -17,13 +17,16 @@ export default {
       },
     },
     colors: {
-      'block': '#050008',
-      'pink': 'rgb(213, 109, 251, .5)',
+      'black': '#050008',
+      // 'pink': 'rgb(213, 109, 251, .5)',
+      'pink': '#D56DFB',
       'blue': '#0085FF',
       'purple': 'rgb(136, 140, 246, .5)',
       'green': '#00CA14',
       'red': '#FF0000',
       'list-highlight': '#2C2A2D',
+      'code-pen': '#242424',
+      'input-field': '#D9D9D9',
     }
   },
   plugins: [],

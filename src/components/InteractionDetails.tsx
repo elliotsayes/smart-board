@@ -40,15 +40,17 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
   return (
     <div className="flex flex-col">
       <div className="flex flex-row">
-        <div>
-          <p>#{interactionIndex}: <HashView hash={interaction.id} viewblock="tx" warpSonar="interaction" /></p>
-          <p>Block <HashView hash={interaction.block.height.toString()} viewblock="block" /></p>
-          <p>{interactionBlockDate.toISOString()}</p>
-          <p>function: {inputFunction}</p>
-          <p>tags: {Object.keys(otherTagsRecord).join(', ')}</p>
+        <div className="rounded-lg bg-gradient-to-r from-[#D56DFB] to-[#0085FF] p-1">
+          <div className="bg-black rounded-lg h-full">
+          <p className="p-2">Interaction #{interactionIndex}: <HashView hash={interaction.id} viewblock="tx" warpSonar="interaction" /></p>
+          <p className="p-2">Block <HashView hash={interaction.block.height.toString()} viewblock="block" /></p>
+          <p className="p-2">{interactionBlockDate.toISOString()}</p>
+          <p className="p-2">function: {inputFunction}</p>
+          <p className="p-2">tags: {Object.keys(otherTagsRecord).join(', ')}</p>
         </div>
-        <div className="flex flex-col align-bottom">
-          <div className={`flex ${hasDiff ? '' : 'opacity-50'}`}>
+        </div>
+        <div className="flex flex-col align-bottom rounded-lg bg-code-pen">
+          <div className={`flex ${hasDiff ? '' : 'opacity-50'} p-2 rounded-t-lg bg-code-pen drop-shadow-[0_2px_7px_rgb(0,0,0)]`}>
             <p>Diff View</p>
             <Switch
               onChange={(checked) => hasDiff && onChangePreferShowDiff(checked)}
@@ -59,7 +61,7 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
               className="flex pl-2"
             />
           </div>
-          <div className="max-h-96 overflow-x-auto">
+          <div className="max-h-96 overflow-x-auto p-2">
             {
               showDiff ? (
                 <ReactDiffViewer
@@ -86,13 +88,14 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
           </div>
         </div>
       </div>
-      <div className="flex flex-row justify-center">
+      <div className="flex flex-row justify-center pt-6">
         <button 
           onClick={() => {
             onChangeSelectedInteractionIndex(interactionIndex - 1)
           }}
           disabled={interactionIndex < 1}
-        > &lt;
+          className="bg-pink rounded-lg py-1 px-3 text-sm/[16px]"
+        > &lt; Previous
         </button>
         <input
           key={interactionIndex}
@@ -105,14 +108,15 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
               if (number) onChangeSelectedInteractionIndex(number)
             }
           }}
-          className="w-16 text-center"
+          className="w-16 text-center text-black bg-input-field rounded-lg"
         />
         <button 
           onClick={() => {
             onChangeSelectedInteractionIndex(interactionIndex + 1)
           }}
           disabled={interactionIndex >= interactionCount - 1}
-        > &gt;
+          className="bg-blue rounded-lg py-1 px-6 text-sm/[16px]"
+        > &gt; Next
         </button>
       </div>
     </div>

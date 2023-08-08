@@ -57,6 +57,7 @@ const TimelinePicker = (props: Props) => {
         return Moment(date).utc();
       },
       selectable: true,
+      horizontalScroll: true,
     }
   }, [items]);
 

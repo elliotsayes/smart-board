@@ -33,12 +33,12 @@ type ExampleContract = {
 
 const exampleContracts: ExampleContract[] = [
   {
-    name: "ArNS Pilot",
-    address: "bLAgYxAdX2Ry-nt6aH2ixgvJXbpsEYm28NgJgyqfs-U",
+    name: "$ARDRIVE",
+    address: "-8A6RexFkpfWwuyVO98wzSFZh0d6VJuI-buTJvlwOJQ",
   },
   {
-    name: "$ArDrive",
-    address: "-8A6RexFkpfWwuyVO98wzSFZh0d6VJuI-buTJvlwOJQ",
+    name: "ArNS Pilot",
+    address: "bLAgYxAdX2Ry-nt6aH2ixgvJXbpsEYm28NgJgyqfs-U",
   },
 ];
 

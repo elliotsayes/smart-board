@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import { useCallback, useRef } from "react"
 
 interface Props {
   initialValue: string
@@ -7,6 +7,12 @@ interface Props {
 
 const ContractSelector = ({initialValue, onSelect}: Props) => {
   const inputRef = useRef<HTMLInputElement>(null)
+
+  const onTrySubmit = useCallback(() => {
+    if (inputRef.current?.value != undefined && inputRef.current?.value != "") {
+      onSelect(inputRef.current!.value)
+    }
+  }, [onSelect])
 
   return (
     <div className="flex flex-row flex-grow align-middle gap-2 p-2">
@@ -17,13 +23,13 @@ const ContractSelector = ({initialValue, onSelect}: Props) => {
         defaultValue={initialValue}
         onKeyDown={(event) => {
           if (event.key === 'Enter') {
-            onSelect(event.currentTarget.value)
+            onTrySubmit()
           }
         }}
         className="flex flex-grow pl-2"
       />
       <button
-        onClick={() => onSelect(inputRef.current!.value)}
+        onClick={() => onTrySubmit()}
         className="border-2 border-white px-1"
       >
         →

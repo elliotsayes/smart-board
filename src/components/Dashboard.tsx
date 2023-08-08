@@ -198,6 +198,7 @@ const Dashboard = ({ contractData: contractDataProp, onNewContract }: Props) => 
           }}
           timeRangeFilter={current.context.filter.timeRange}
           onListControls={setListControls}
+          onClearTimeFilter={() => timelineControls?.fit()}
         />
       </DashboardBox>
       <DashboardBox

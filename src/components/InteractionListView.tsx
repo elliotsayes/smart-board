@@ -24,6 +24,7 @@ interface Props {
   items: ContractInteractionHistory | ContractInteractionWithResultHistory;
   selectedInteractionIndex?: number;
   onSelect?: (selectedInteractionIndex: number) => void;
+  onClearTimeFilter?: () => void;
   timeRangeFilter?: {
     start: number;
     end: number;
@@ -31,7 +32,7 @@ interface Props {
   onListControls: (controls: ListControls) => void;
 }
 
-const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRangeFilter, onListControls}: Props) => {
+const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRangeFilter, onListControls, onClearTimeFilter}: Props) => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
   const columns = useMemo<ColumnDef<ContractInteraction>[]>(
@@ -41,17 +42,6 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
         accessorFn: (_, i) => i,
         header: '#',
         size: 40,
-      },
-      {
-        id: 'timestamp',
-        accessorKey: 'block.timestamp',
-        header: 'Timestamp (UTC)',
-        cell: (info) => <span className="text-sm whitespace-nowrap overflow-clip">{Intl.DateTimeFormat('default', {
-          dateStyle: 'short',
-          timeStyle: 'medium',
-        }).format((info.getValue() as number) * 1000)}</span>,
-        size: 160,
-        // minSize: 120,
       },
       // {
       //   id: 'blockHeight',
@@ -66,6 +56,17 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
         header: 'ID',
         cell: (info) => <HashView hash={(info.getValue() as string).toString() ?? ''} />,
         size: 165,
+      },
+      {
+        id: 'timestamp',
+        accessorKey: 'block.timestamp',
+        header: 'Timestamp (UTC)',
+        cell: (info) => <span className="text-sm whitespace-nowrap overflow-clip">{Intl.DateTimeFormat('default', {
+          dateStyle: 'short',
+          timeStyle: 'medium',
+        }).format((info.getValue() as number) * 1000)}</span>,
+        size: 160,
+        // minSize: 120,
       },
       {
         id: 'ownerAddress',
@@ -107,7 +108,7 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
     []
   )
 
-  const showColumnFilterIds = ['ownerAddress', 'functionName', 'result'];
+  const showColumnFilterIds = ['timestamp', 'ownerAddress', 'functionName', 'result'];
 
   const data = items;
 
@@ -201,6 +202,8 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
                               <Filter
                                 column={header.column} 
                                 // table={table}
+                                items={items}
+                                onClearTimeFilter={onClearTimeFilter}
                               />
                             </div>
                           ) : null}
@@ -261,35 +264,92 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
 function Filter({
   column,
   // table,
+  items,
+  onClearTimeFilter,
 }: {
   column: Column<any, unknown>
   // table: Table<any>
+  items: ContractInteractionHistory
+  onClearTimeFilter?: () => void
 }) {
+  const isTimestamp = column.id === 'timestamp'
+
   const columnFilterValue = column.getFilterValue()
 
   const sortedUniqueValues = useMemo(
-    () => Array.from(column.getFacetedUniqueValues().keys()).sort(),
+    () => isTimestamp ? [] : Array.from(column.getFacetedUniqueValues().keys()).sort(),
     [column.getFacetedUniqueValues()]
   )
 
-  return (
-    <div className="pr-2">
-      <datalist id={column.id + 'list'}>
-        {sortedUniqueValues.slice(0, 5000).map((value: any) => (
-          <option value={value} key={value} />
-        ))}
-      </datalist>
-      <DebouncedInput
-        type="text"
-        value={(columnFilterValue ?? '') as string}
-        onChange={value => column.setFilterValue(value)}
-        placeholder={`Search... (${column.getFacetedUniqueValues().size})`}
-        className="w-full border shadow rounded"
-        list={column.id + 'list'}
-      />
-      <div className="h-1" />
-    </div>
-  )
+  if (isTimestamp) {
+    const def = (
+      <div className="pl-2 text-sm font-normal">
+        <span className="italic">{'<all>'}</span>
+      </div>
+    )
+    if (!(columnFilterValue instanceof Array)) {
+      return def
+    }
+    const [start, end] = columnFilterValue as number[]
+    const isOutside = start < items[0].block.timestamp && end > items[items.length - 1].block.timestamp
+    if (isOutside) {
+      return def
+    }
+    const duration = Math.round(end - start)
+    const startDate = new Date(start * 1000)
+    const endDate = new Date(end * 1000)
+    const displayComponent = (() => {
+      if ((duration < (60 * 60 * 24)) && (startDate.getDate() === endDate.getDate())) {
+        return (
+          <span>
+            <span>{Intl.DateTimeFormat('default', {dateStyle: 'short', timeStyle: 'short'}).format(startDate)}</span>
+            <span>-</span>
+            <span>{Intl.DateTimeFormat('default', {timeStyle: 'short'}).format(endDate)}</span>
+          </span>
+        )
+      } else {
+        return (
+          <span>
+            <span>{Intl.DateTimeFormat('default', {dateStyle: 'short'}).format(startDate)}</span>
+            <span>-</span>
+            <span>{Intl.DateTimeFormat('default', {dateStyle: 'short'}).format(endDate)}</span>
+          </span>
+        )
+      }
+    })();
+    return (
+      <div className="pl-2 text-xs font-normal">
+        {displayComponent}
+        <button 
+          onClick={() => {
+            onClearTimeFilter?.()
+          }}
+          className="text-xs"
+        >
+          ❌
+        </button>
+      </div>
+    )
+  } else {
+    return (
+      <div className="px-2">
+        <datalist id={column.id + 'list'}>
+          {sortedUniqueValues.slice(0, 5000).map((value: any) => (
+            <option value={value} key={value} />
+          ))}
+        </datalist>
+        <DebouncedInput
+          type="text"
+          value={(columnFilterValue ?? '') as string}
+          onChange={value => column.setFilterValue(value)}
+          placeholder={`Search... (${column.getFacetedUniqueValues().size})`}
+          className="w-full border shadow rounded"
+          list={column.id + 'list'}
+        />
+        <div className="h-1" />
+      </div>
+    )
+  } 
 }
 
 // A debounced input react component

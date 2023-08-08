@@ -84,7 +84,7 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
         id: 'functionName',
         accessorKey: 'functionName',
         header: 'Function',
-        cell: (info) => <div className="whitespace-nowrap overflow-clip text-ellipsis">{(info.getValue() as string).toString()}</div>,
+        cell: (info) => <div className="whitespace-nowrap overflow-clip text-ellipsis">{(info.getValue() as string | undefined ?? '').toString()}</div>,
       },
       {
         id: 'result',

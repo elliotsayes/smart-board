@@ -1,4 +1,9 @@
-import { DefaultEvaluationOptions, Warp } from "warp-contracts";
+import {
+  DefaultEvaluationOptions,
+  EvaluationOptions,
+  ExecutionContext,
+  Warp,
+} from "warp-contracts";
 import { transactionTimestamp } from "./transaction_timestamp";
 import {
   ContractDataFull,
@@ -32,18 +37,26 @@ export const loadContractData = (
       };
       controller.enqueue(contractData);
 
+      const evaluationOptions: EvaluationOptions = {
+        ...new DefaultEvaluationOptions(),
+        ...contractMeta.manifest?.evaluationOptions,
+        unsafeClient: "allow",
+        allowBigInt: true,
+        internalWrites: true,
+      };
+
       const handler = await warp.executorFactory.create(
         contractDefinition,
-        new DefaultEvaluationOptions(),
+        evaluationOptions,
         warp,
         contract.interactionState()
       );
-      const initialExecutionContext = {
+      const initialExecutionContext: ExecutionContext<unknown> = {
         warp,
         contract,
         contractDefinition,
         sortedInteractions: [],
-        evaluationOptions: new DefaultEvaluationOptions(),
+        evaluationOptions,
         handler,
         cachedState: undefined,
         // requestedSortKey: sorter.generateLastSortKey(519158),
@@ -83,12 +96,12 @@ export const loadContractData = (
       };
       controller.enqueue(contractData);
 
-      const currentExecutionContext = {
+      const currentExecutionContext: ExecutionContext<unknown> = {
         warp,
         contract,
         contractDefinition,
         sortedInteractions,
-        evaluationOptions: new DefaultEvaluationOptions(),
+        evaluationOptions,
         handler,
         cachedState: undefined,
       };

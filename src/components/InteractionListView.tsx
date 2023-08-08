@@ -166,7 +166,7 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
     <div className="relative">
       <div ref={tableContainerRef} className="h-[300px] overflow-y-scroll">
         <table className="border-collapse table-fixed w-full">
-          <thead className="sticky top-0 m-0 bg-gray-800/90 z-20">
+          <thead className="sticky top-0 m-0 bg-gradient-to-r from-[#D56DFBDD] to-[#0085FFDD] z-20">
             {table.getHeaderGroups().map(headerGroup => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map(header => {
@@ -227,7 +227,7 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
                 <tr
                   key={row.id} 
                   onClick={() => onSelect?.(row.index)}
-                  className={`cursor-pointer ${selectedInteractionIndex === row.index ? 'bg-gradient-to-r from-[#D56DFBBB] to-[#0085FFBB]' : 'hover:bg-gray-200/20'}`}
+                  className={`cursor-pointer ${selectedInteractionIndex === row.index ? 'bg-gradient-to-r from-[#D56DFBBB] to-[#D56DFBBB]' : 'hover:bg-gray-200/20'}`}
                 >
                   {row.getVisibleCells().map(cell => {
                     return (
@@ -297,7 +297,7 @@ function Filter({
   if (isTimestamp) {
     const def = (
       <div className="pl-2 text-sm font-normal">
-        <span className="text-gray-200/60">{'<all>'}</span>
+        <span className="text-purple-100/60">{'<all time>'}</span>
       </div>
     )
     if (!(columnFilterValue instanceof Array)) {
@@ -314,7 +314,7 @@ function Filter({
     const displayComponent = (() => {
       if ((duration < (60 * 60 * 24)) && (startDate.getDate() === endDate.getDate())) {
         return (
-          <span className="text-gray-200/80">
+          <span className="text-purple-100/80">
             <span>{Intl.DateTimeFormat('default', {dateStyle: 'short'}).format(startDate)}</span>
             <span>{' '}</span>
             <span className=" whitespace-nowrap">
@@ -328,7 +328,7 @@ function Filter({
         )
       } else {
         return (
-          <span className="text-gray-200/80">
+          <span className="text-purple-100/80">
             <span>{Intl.DateTimeFormat('default', {dateStyle: 'short'}).format(startDate)}</span>
             <span> - </span>
             <span>{Intl.DateTimeFormat('default', {dateStyle: 'short'}).format(endDate)}</span>
@@ -339,20 +339,20 @@ function Filter({
     return (
       <div className="pl-2 text-sm font-normal">
         {displayComponent}
-        <button 
+        {/* <button 
           onClick={() => {
             onClearTimeFilter?.()
           }}
           className="pl-1 text-xs opacity-80"
         >
           ❌
-        </button>
+        </button> */}
       </div>
     )
   } else {
     return (
       <div className="px-2">
-        <datalist id={column.id + 'list'}>
+        <datalist id={column.id + 'list'} className="">
           {sortedUniqueValues.slice(0, 5000).map((value: any) => (
             <option value={value} key={value} />
           ))}
@@ -362,7 +362,7 @@ function Filter({
           value={(columnFilterValue ?? '') as string}
           onChange={value => column.setFilterValue(value)}
           placeholder={`Search... (${column.getFacetedUniqueValues().size})`}
-          className="w-full border shadow rounded"
+          className="w-full shadow rounded px-1 bg-gray-100/20 text-gray-100/80 placeholder:text-gray-100/60 font-semibold"
           list={column.id + 'list'}
         />
         <div className="h-1" />

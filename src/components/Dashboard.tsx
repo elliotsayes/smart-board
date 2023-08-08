@@ -195,6 +195,7 @@ const Dashboard = ({ contractData: contractDataProp, onNewContract }: Props) => 
           onClearTimeFilter={() => timelineControls?.fit()}
         />
       </DashboardBox>
+      <div>
       <DashboardBox
         loading={contractDataProp.interactionHistory === undefined}
       >
@@ -205,6 +206,8 @@ const Dashboard = ({ contractData: contractDataProp, onNewContract }: Props) => 
           onRangeChanged={onRangeChanged}
         />
       </DashboardBox>
+      <p className="text-sm text-gray-100/80 text-right">Scroll to zoom, drag to pan & click to select</p>
+      </div>
     </div>
   )
 }

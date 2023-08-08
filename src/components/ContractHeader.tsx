@@ -6,15 +6,13 @@ type Props = ContractMeta
 
 const ContractHeader = ({owner, srcTxId, contractType}: Props) => {
   return (
-    <div className="flex flex-col sm:flex-row gap-4 align-middle p-2">
-      <div className="flex">
-        <Identicon address={owner} />
-        <div>
-          <p className="text-sm font-semibold pl-2 pb-0.5">
-            Creator
-          </p>
-          <HashView hash={owner} viewblock="address" warpSonar="creator" />
-        </div>
+    <div className="flex gap-4 align-middle overflow-y-auto">
+      <Identicon address={owner} />
+      <div>
+        <p className="text-sm font-semibold pl-2 pb-0.5">
+          Creator
+        </p>
+        <HashView hash={owner} viewblock="address" warpSonar="creator" />
       </div>
       {/* <p>TxId <HashView hash={txId} viewblock="tx" warpSonar="contract" /></p> */}
       <div>

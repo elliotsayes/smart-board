@@ -75,19 +75,30 @@ export const loadContractData = (
           const inputString = interaction.tags.find(
             (tag) => tag.name == "Input"
           )?.value;
-          const functionName =
-            inputString &&
-            (() => {
-              try {
-                return JSON.parse(inputString)["function"] as string;
-              } catch {
-                return undefined;
+          const functionName = (() => {
+            try {
+              const functionResult = JSON.parse(inputString!)["function"];
+              if (typeof functionResult == "string") {
+                return functionResult;
+              } else {
+                return "";
               }
-            })();
+            } catch {
+              return "";
+            }
+          })();
+          const timestamp =
+            typeof interaction.block.timestamp === "string"
+              ? parseInt(interaction.block.timestamp as string)
+              : interaction.block.timestamp;
           return {
             ...interaction,
             inputString,
             functionName,
+            block: {
+              ...interaction.block,
+              timestamp,
+            },
           };
         });
       contractData = {

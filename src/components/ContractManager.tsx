@@ -78,7 +78,7 @@ const ContractManager = ({ initialContractId }: Props) => {
   if (current.context.selectedContractId === undefined) {
     return (
       <div className="flex flex-col items-center align-middle bg-gray-800/80 min-h-screen">
-        <div className="my-auto w-full max-w-screen-sm">
+        <div className="my-auto w-full max-w-screen-sm px-4">
           <DashboardBox>
             <ContractSelector 
               initialValue={""} 

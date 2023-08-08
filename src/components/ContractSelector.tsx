@@ -10,7 +10,7 @@ const ContractSelector = ({initialValue, onSelect}: Props) => {
 
   return (
     <div className="flex flex-row flex-grow gap-2">
-      <h1>Contract ID:</h1>
+      <h1 className="whitespace-nowrap">Contract ID:</h1>
       <input
         ref={inputRef}
         key={initialValue}

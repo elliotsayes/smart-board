@@ -9,7 +9,7 @@ const DashboardTabs = ({tabIndex, onTabChange, titles, children}: Props) => {
   return (
     <div>
       {/* Horizontal Tab Titles */}
-      <ul className="flex gap-0.5">
+      <ul className="flex pr-4 gap-0.5">
         {
           titles.map((title, index) => (
             <li 

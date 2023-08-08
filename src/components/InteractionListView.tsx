@@ -61,11 +61,11 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
         id: 'timestamp',
         accessorKey: 'block.timestamp',
         header: 'Timestamp (UTC)',
-        cell: (info) => <span className="text-sm whitespace-nowrap overflow-clip">{Intl.DateTimeFormat('default', {
+        cell: (info) => <span className="whitespace-nowrap overflow-clip">{Intl.DateTimeFormat('default', {
           dateStyle: 'short',
           timeStyle: 'medium',
         }).format((info.getValue() as number) * 1000)}</span>,
-        size: 160,
+        size: 180,
         // minSize: 120,
       },
       {
@@ -73,7 +73,7 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
         accessorKey: 'owner.address',
         header: 'Owner',
         cell: (info) => (
-          <div className="flex items-center gap-1">
+          <div className="flex justify-center">
             <Identicon address={(info.getValue() as string).toString()} size={2} />
             <HashView hash={(info.getValue() as string).toString() ?? ''} />
           </div>
@@ -147,7 +147,7 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
         const itemId = items[index].id
         const filteredRowIndex = rows.findIndex((row) => row.original.id === itemId)
         if (filteredRowIndex !== -1) {
-          const targetIndex = Math.max(filteredRowIndex - 2, 0)
+          const targetIndex = Math.max(filteredRowIndex - 4, 0)
           scrollToIndex(targetIndex, {
             align: 'end',
           })
@@ -163,10 +163,10 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
       : 0
 
   return (
-    <div className="relative">
-      <div ref={tableContainerRef} className="h-[300px] overflow-y-scroll">
-        <table className="border-collapse table-fixed w-full">
-          <thead className="sticky top-0 m-0 bg-gradient-to-r from-[#D56DFBDD] to-[#0085FFDD] z-20">
+    <div className="relative w-[100%] overscroll-x-contain">
+      <div ref={tableContainerRef} className=" overflow-y-scroll h-48 w-[100%] my-0">
+        <table className="border-collapse table-fixed w-[100%]">
+          <thead className="sticky top-0 m-0 bg-gradient-to-r from-[#D56DFB] to-[#0085FF] z-20">
             {table.getHeaderGroups().map(headerGroup => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map(header => {
@@ -227,7 +227,7 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
                 <tr
                   key={row.id} 
                   onClick={() => onSelect?.(row.index)}
-                  className={`cursor-pointer ${selectedInteractionIndex === row.index ? 'bg-gradient-to-r from-[#D56DFBBB] to-[#D56DFBBB]' : 'hover:bg-gray-200/20'}`}
+                  className={`cursor-pointer ${selectedInteractionIndex === row.index ? 'bg-gradient-to-r from-[#d56dfb80] to-[#d56dfb80]' : 'hover:bg-[#2C2A2D]'}`}
                 >
                   {row.getVisibleCells().map(cell => {
                     return (

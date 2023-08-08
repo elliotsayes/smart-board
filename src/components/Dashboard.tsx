@@ -100,20 +100,15 @@ const Dashboard = ({ contractData: contractDataProp, onNewContract }: Props) => 
     })
   }, [send])
 
-  // const contextLite = {
-  //   ...current.context,
-  //   contractData: undefined,
-  // }
 
   return (
-    <div className="flex flex-col gap-4">
-      {/* <p>{JSON.stringify(contextLite)}</p> */}
+    <div className="flex flex-col gap-4 max-w-[1400px] mx-auto my-0">
       <div className="flex flex-row gap-4">
-        <DashboardBox
-          loading={contractDataProp.meta === undefined}
-        >
-          <ContractHeader {...contractDataProp.meta!} />
-        </DashboardBox>
+      <DashboardBox
+        loading={contractDataProp.meta === undefined}
+      >
+        <ContractHeader {...contractDataProp.meta!} />
+      </DashboardBox>
         <DashboardBox>
           <ContractSelector 
             initialValue={contractDataProp.meta?.txId ?? ''} 
@@ -182,7 +177,6 @@ const Dashboard = ({ contractData: contractDataProp, onNewContract }: Props) => 
       </DashboardTabs>
       <DashboardBox
         loading={contractDataProp.interactionHistory === undefined}
-        padding={false}
       >
         <InteractionListView
           items={contractDataProp.interactionWithResultHistory ?? contractDataProp.interactionHistory!}
@@ -203,7 +197,6 @@ const Dashboard = ({ contractData: contractDataProp, onNewContract }: Props) => 
       </DashboardBox>
       <DashboardBox
         loading={contractDataProp.interactionHistory === undefined}
-        padding={false}
       >
         <TimelinePicker
           items={timelineItems}

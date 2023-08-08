@@ -20,6 +20,7 @@
     "diff": "5.1.0",
     "moment": "2.29.4",
     "observable-webworker": "^4.0.1",
+    "query-string": "^8.1.0",
     "react": "^18.2.0",
     "react-diff-viewer-continued": "^3.2.6",
     "react-dom": "^18.2.0",

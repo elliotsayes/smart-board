@@ -123,8 +123,12 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
             if (event.key === 'Enter') {
               const numberText = inputRef.current?.value;
               const number = parseInt(numberText ?? '');
-              if (!isNaN(number) && number >= 0 && number < interactionCount) {
-                onChangeSelectedInteractionIndex(number)
+              if (!isNaN(number) && number >= 0) {
+                if (number > interactionCount) {
+                  onChangeSelectedInteractionIndex(interactionCount - 1)
+                } else {
+                  onChangeSelectedInteractionIndex(number)
+                }
               }
             }
           }}

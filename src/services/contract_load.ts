@@ -59,7 +59,6 @@ export const loadContractData = (
         evaluationOptions,
         handler,
         cachedState: undefined,
-        // requestedSortKey: sorter.generateLastSortKey(519158),
       };
       const initialState = await warp.stateEvaluator.eval(
         initialExecutionContext

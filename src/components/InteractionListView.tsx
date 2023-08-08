@@ -2,7 +2,6 @@ import { ContractInteraction, ContractInteractionWithResultHistory, ContractInte
 import { useEffect, useMemo, useRef, useState } from "react"
 import {
   Column,
-  // Table,
   ColumnDef,
   flexRender,
   getCoreRowModel,
@@ -43,13 +42,6 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
         header: '#',
         size: 40,
       },
-      // {
-      //   id: 'blockHeight',
-      //   accessorKey: 'block.height',
-      //   header: 'Block#',
-      //   cell: (info) => <HashView hash={(info.getValue() as string).toString() ?? ''} />,
-      //   // size: 80,
-      // },
       {
         id: 'transactionId',
         accessorKey: 'id',
@@ -66,7 +58,6 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
           timeStyle: 'medium',
         }).format((info.getValue() as number) * 1000)}</span>,
         size: 180,
-        // minSize: 120,
       },
       {
         id: 'ownerAddress',
@@ -276,14 +267,10 @@ const InteractionListView = ({items, selectedInteractionIndex, onSelect, timeRan
 
 function Filter({
   column,
-  // table,
   items,
-  // onClearTimeFilter,
 }: {
   column: Column<any, unknown>
-  // table: Table<any>
   items: ContractInteractionHistory
-  // onClearTimeFilter?: () => void
 }) {
   const isTimestamp = column.id === 'timestamp'
 

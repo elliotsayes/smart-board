@@ -15,7 +15,6 @@ export type TimelineControls = {
 
 interface Props {
   items: TimelineItem[],
-  // line?: Date,
   onTimelineControls?: (timelineControls: TimelineControls) => void,
   onSelect?: (item?: number) => void,
   onRangeChanged?: (range: [number, number]) => void,
@@ -138,8 +137,8 @@ const TimelinePicker = (props: Props) => {
 
     onTimelineControls?.({
       setSelection: (selection?: number) => {
-        // Do not trim range due to performance issues
         timeline.setSelection(selection ? [selection] : [])
+        // Do not trim range due to performance issues
         // const window = timeline.getWindow()
         // trimRange({
         //   ...window,

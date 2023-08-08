@@ -3,9 +3,9 @@ import { contractManagerMachine } from "../machines/contract_manager";
 import { useCallback, lazy, Suspense } from "react";
 import ContractSelector from "./ContractSelector";
 import DashboardBox from "./DashboardBox";
-// convert to dynamic import
-// import Dashboard from "./Dashboard";
 const Dashboard = lazy(() => import("./Dashboard"));
+
+// WebWorker version (blocked by https://github.com/warp-contracts/warp/issues/451)
 
 // import { fromWorker } from 'observable-webworker';
 // import { of } from 'rxjs';

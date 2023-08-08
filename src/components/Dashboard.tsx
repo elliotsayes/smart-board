@@ -38,27 +38,6 @@ const Dashboard = ({ contractData: contractDataProp, onNewContract }: Props) => 
     },
   );
 
-  // useEffect(() => {
-  //   send({
-  //     type: 'Update Contract Data',
-  //     data: { contractData: contractDataProp },
-  //   })
-  // }, [contractDataProp, send])
-
-  // const interactionHistoryPassFilter = useMemo(() => {
-  //     return contractDataProp.interactionHistory?.map(
-  //       (interaction) => {
-  //         const isInrange = current.context.filter.timeRange === undefined || (
-  //           interaction.block.timestamp >= current.context.filter.timeRange?.start &&
-  //           interaction.block.timestamp <= current.context.filter.timeRange?.end
-  //         )
-  //         return isInrange
-  //       }
-  //     ) ?? []
-  //   },
-  //   [contractDataProp.interactionHistory, current.context.filter],
-  // )
-
   const timelineItems: TimelineItem[] = useMemo(() => 
     contractDataProp.interactionHistory?.map(
       (interaction, index) => ({

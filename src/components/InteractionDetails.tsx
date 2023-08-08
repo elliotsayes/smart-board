@@ -54,7 +54,7 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
           <div className="bg-black rounded-lg h-full">
             <div className="p-2">Interaction #{interactionIndex}: <HashView hash={interaction.id} viewblock="tx" warpSonar="interaction" /></div>
             <div className="p-2">Block <HashView hash={interaction.block.height.toString()} viewblock="block" /></div>
-            <div className="p-2">{interactionBlockDate.toISOString()}</div>
+            <div className="p-2">{interactionBlockDate.toLocaleString()}</div>
           </div>
         </div>
         <div className="flex flex-col justify-evenly max-w-md overflow-y-auto overscroll-y-contain">
@@ -118,7 +118,7 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
             onChangeSelectedInteractionIndex(interactionIndex - 1)
           }}
           disabled={interactionIndex < 1}
-          className="bg-pink rounded-lg py-1 px-3 text-sm/[16px]"
+          className="bg-pink rounded-md py-1 px-3 text-sm/[16px]"
         > &lt; Previous
         </button>
         <input
@@ -138,14 +138,14 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
               }
             }
           }}
-          className="w-16 text-center text-black bg-input-field rounded-lg"
+          className="w-16 text-center text-white bg-gray-100/20 text-gray-100/80 placeholder:text-gray-100/20 rounded-md"
         />
         <button 
           onClick={() => {
             onChangeSelectedInteractionIndex(interactionIndex + 1)
           }}
           disabled={interactionIndex >= interactionCount - 1}
-          className="bg-blue rounded-lg py-1 px-6 text-sm/[16px]"
+          className="bg-blue rounded-md py-1 px-6 text-sm/[16px]"
         > Next &gt;
         </button>
       </div>

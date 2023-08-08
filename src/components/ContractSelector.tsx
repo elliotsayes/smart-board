@@ -1,5 +1,4 @@
 import { useRef } from "react"
-import HeroiconsArrowRightCircle20Solid from '~icons/heroicons/arrow-right-circle-20-solid'
 
 interface Props {
   initialValue: string
@@ -21,12 +20,13 @@ const ContractSelector = ({initialValue, onSelect}: Props) => {
             onSelect(event.currentTarget.value)
           }
         }}
-        className="flex flex-grow"
+        className="flex flex-grow pl-2"
       />
       <button
         onClick={() => onSelect(inputRef.current!.value)}
+        className="border-2 border-white px-1"
       >
-        <HeroiconsArrowRightCircle20Solid className="w-6 h-6" />
+        →
       </button>
     </div>
   )

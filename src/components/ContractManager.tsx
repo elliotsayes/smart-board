@@ -33,15 +33,15 @@ type ExampleContract = {
 
 const exampleContracts: ExampleContract[] = [
   {
-    name: "ANT-COMMUNITY (~20)",
+    name: "ANT-COMMUNITY(~20)",
     address: "39lHRvtS8TDbODiIoKCHM9AXmrCgTBuYn116tGfCCEI",
   },
   {
-    name: "$ARDRIVE (~8000)",
+    name: "$ARDRIVE(~8000)",
     address: "-8A6RexFkpfWwuyVO98wzSFZh0d6VJuI-buTJvlwOJQ",
   },
   {
-    name: "ArNS Pilot (~2000)",
+    name: "ArNS Pilot(~2000)",
     address: "bLAgYxAdX2Ry-nt6aH2ixgvJXbpsEYm28NgJgyqfs-U",
   },
 ];
@@ -100,7 +100,7 @@ const ContractManager = ({ initialContractId }: Props) => {
                   <a 
                     key={contractInfo.address}
                     href={`?contractId=${contractInfo.address}`}
-                    className="pr-1 underline"
+                    className="pr-2 underline"
                   >
                     {contractInfo.name}
                   </a>

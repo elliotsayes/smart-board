@@ -100,7 +100,7 @@ const Dashboard = (props: Props) => {
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 max-w-[1400px] mx-auto my-0">
       <p>{JSON.stringify(contextLite)}</p>
       <DashboardBox
         loading={contractDataProp.meta === undefined}

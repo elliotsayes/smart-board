@@ -22,7 +22,7 @@ const HashView = ({hash, copy = true, viewblock, warpSonar}: Props) => {
   const [copied, setCopied] = useState(false);
 
   return (
-    <div className="flex flex-row items-baseline">
+    <div className="flex flex-row items-baseline justify-center">
       {
         (!shortened) && <Tooltip id="hash" className="font-mono" delayShow={250} />
       }

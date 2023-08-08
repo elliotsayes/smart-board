@@ -38,18 +38,18 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <div className="flex flex-col">
-      <div className="flex flex-row">
+    <div className="flex flex-col w-[100%]">
+      <div className="flex flex-row justify-evenly">
         <div className="rounded-lg bg-gradient-to-r from-[#D56DFB] to-[#0085FF] p-1">
           <div className="bg-black rounded-lg h-full">
-          <p className="p-2">Interaction #{interactionIndex}: <HashView hash={interaction.id} viewblock="tx" warpSonar="interaction" /></p>
-          <p className="p-2">Block <HashView hash={interaction.block.height.toString()} viewblock="block" /></p>
-          <p className="p-2">{interactionBlockDate.toISOString()}</p>
-          <p className="p-2">function: {inputFunction}</p>
-          <p className="p-2">tags: {Object.keys(otherTagsRecord).join(', ')}</p>
+            <p className="p-2">Interaction #{interactionIndex}: <HashView hash={interaction.id} viewblock="tx" warpSonar="interaction" /></p>
+            <p className="p-2">Block <HashView hash={interaction.block.height.toString()} viewblock="block" /></p>
+            <p className="p-2">{interactionBlockDate.toISOString()}</p>
+            <p className="p-2">function: {inputFunction}</p>
+            <p className="p-2">tags: {Object.keys(otherTagsRecord).join(', ')}</p>
+          </div>
         </div>
-        </div>
-        <div className="flex flex-col align-bottom rounded-lg bg-code-pen">
+        <div className="flex flex-col align-bottom rounded-lg bg-code-pen max-w-2xl w-[100%]">
           <div className={`flex ${hasDiff ? '' : 'opacity-50'} p-2 rounded-t-lg bg-code-pen drop-shadow-[0_2px_7px_rgb(0,0,0)]`}>
             <p>Diff View</p>
             <Switch
@@ -116,7 +116,7 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
           }}
           disabled={interactionIndex >= interactionCount - 1}
           className="bg-blue rounded-lg py-1 px-6 text-sm/[16px]"
-        > &gt; Next
+        > Next &gt;
         </button>
       </div>
     </div>

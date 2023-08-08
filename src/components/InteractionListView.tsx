@@ -50,7 +50,7 @@ const InteractionListView = ({items, /*selectedInteractionIndex,*/ onSelect}: Pr
         accessorKey: 'owner.address',
         header: 'Owner',
         cell: (info) => (
-          <div className="flex">
+          <div className="flex justify-center">
             <Identicon address={(info.getValue() as string).toString()} size={2} />
             <HashView hash={(info.getValue() as string).toString() ?? ''} />
           </div>
@@ -93,7 +93,7 @@ const InteractionListView = ({items, /*selectedInteractionIndex,*/ onSelect}: Pr
   return (
     <div className="max-h-48 w-[100%] overflow-y-auto overscroll-x-contain">
       {/* <div className="h-2" /> */}
-      <div ref={tableContainerRef} className="container w-[100%]">
+      <div ref={tableContainerRef} className="container w-[100%] mx-auto my-0">
         <table className="interaction-list-table w-[100%]">
           <thead className="bg-gradient-to-r from-[#D56DFB] to-[#0085FF]">
             {table.getHeaderGroups().map(headerGroup => (

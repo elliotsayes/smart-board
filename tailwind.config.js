@@ -16,6 +16,13 @@ export default {
         },
       },
     },
+    fontSize: {
+      sm: '1rem',
+      base: '1.125rem',
+      'mid': '1.5rem',
+      'subtitle': '1.75rem',
+      'title': '2.5rem',
+    },
     colors: {
       'black': '#050008',
       // 'pink': 'rgb(213, 109, 251, .5)',

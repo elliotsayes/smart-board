@@ -1,9 +1,11 @@
 import { useMachine } from "@xstate/react";
 import { contractManagerMachine } from "../machines/contract_manager";
-import Dashboard from "./Dashboard";
-import { useCallback } from "react";
+import { useCallback, lazy, Suspense } from "react";
 import ContractSelector from "./ContractSelector";
 import DashboardBox from "./DashboardBox";
+// convert to dynamic import
+// import Dashboard from "./Dashboard";
+const Dashboard = lazy(() => import("./Dashboard"));
 
 // import { fromWorker } from 'observable-webworker';
 // import { of } from 'rxjs';
@@ -100,17 +102,26 @@ const ContractManager = ({ initialContractId }: Props) => {
             }
           </div>
         </div>
+        {/* Render hidden straight away */}
+        <Suspense fallback={null}>
+          <div hidden={true}>
+            <Dashboard 
+              contractData={{}}
+              onNewContract={() => {}} 
+            />
+          </div>
+        </Suspense>
       </div>
     )
   } else {
     return (
-      <>
+      <Suspense fallback={<div>Loading...</div>}>
         <Dashboard
           key={current.context.selectedContractId}
           contractData={current.context.contractData}
           onNewContract={onNewContract}
         />
-      </>
+      </Suspense>
     )
   }
 }

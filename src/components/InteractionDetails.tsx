@@ -42,13 +42,13 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <div className="flex flex-col w-[100%]">
+    <div className="flex flex-col w-[100%] p-2">
       <div className="flex flex-row justify-evenly">
         <div className="rounded-lg bg-gradient-to-r from-[#D56DFB] to-[#0085FF] p-1">
           <div className="bg-black rounded-lg h-full">
             <p className="p-2">Interaction #{interactionIndex}: <HashView hash={interaction.id} viewblock="tx" warpSonar="interaction" /></p>
             <p className="p-2">Block <HashView hash={interaction.block.height.toString()} viewblock="block" /></p>
-            <p className="p-2">{interactionBlockDate.toISOString()}</p>
+            <p className="p-2">{interactionBlockDate.toLocaleString()}</p>
             <p className="p-2">function: {inputFunction}</p>
             <p className="p-2">tags: {Object.keys(otherTagsRecord).join(', ')}</p>
           </div>
@@ -65,7 +65,7 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
               className="flex pl-2"
             />
           </div>
-          <div className="max-h-96 overflow-x-auto">
+          <div className="max-h-96 overflow-x-auto p-2">
             {
               showDiff ? (
                 <ReactDiffViewer
@@ -98,7 +98,7 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
             onChangeSelectedInteractionIndex(interactionIndex - 1)
           }}
           disabled={interactionIndex < 1}
-          className="bg-pink rounded-lg py-1 px-3 text-sm/[16px]"
+          className="bg-pink rounded-md py-1 px-3 text-sm/[16px]"
         > &lt; Previous
         </button>
         <input
@@ -114,14 +114,14 @@ const InteractionDetails = ({interactionIndex, interactionCount, interaction, be
               }
             }
           }}
-          className="w-16 text-center text-black bg-input-field rounded-lg"
+          className="w-16 text-center text-white bg-gray-100/20 text-gray-100/80 placeholder:text-gray-100/20 rounded-md"
         />
         <button 
           onClick={() => {
             onChangeSelectedInteractionIndex(interactionIndex + 1)
           }}
           disabled={interactionIndex >= interactionCount - 1}
-          className="bg-blue rounded-lg py-1 px-6 text-sm/[16px]"
+          className="bg-blue rounded-md py-1 px-6 text-sm/[16px]"
         > Next &gt;
         </button>
       </div>

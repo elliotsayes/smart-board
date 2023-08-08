@@ -6,7 +6,7 @@ type Props = ContractMeta
 
 const ContractHeader = ({owner, srcTxId, contractType}: Props) => {
   return (
-    <div className="flex gap-4 align-middle">
+    <div className="flex gap-4 align-middle overflow-y-auto">
       <Identicon address={owner} />
       <div>
         <p className="text-sm font-semibold pl-2 pb-0.5">

@@ -103,7 +103,7 @@ const Dashboard = ({ contractData: contractDataProp, onNewContract }: Props) => 
 
   return (
     <div className="flex flex-col gap-4 max-w-[1400px] mx-auto my-0">
-      <div className="flex flex-row gap-4">
+      <div className="flex flex-row max-[940px]:flex-col gap-4">
       <DashboardBox
         loading={contractDataProp.meta === undefined}
       >

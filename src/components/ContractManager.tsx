@@ -79,7 +79,7 @@ const ContractManager = ({ initialContractId }: Props) => {
     return (
       <div className="flex flex-col items-center align-middle min-h-screen">
         <div className="my-auto w-full max-w-screen-sm px-4 items-center">
-          <img src="/smartboard.svg" className="w-full mx-auto" />
+          <img src="./smartboard.svg" className="w-full mx-auto" />
           <div className="pt-4 pb-2">
             <DashboardBox>
               <ContractSelector 
